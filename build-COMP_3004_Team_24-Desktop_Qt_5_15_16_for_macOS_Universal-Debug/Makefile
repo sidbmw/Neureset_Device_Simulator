@@ -53,9 +53,11 @@ OBJECTS_DIR   = ./
 ####### Files
 
 SOURCES       = ../COMP_3004_Team_24/main.cpp \
-		../COMP_3004_Team_24/mainwindow.cpp moc_mainwindow.cpp
+		../COMP_3004_Team_24/mainwindow.cpp qrc_images.cpp \
+		moc_mainwindow.cpp
 OBJECTS       = main.o \
 		mainwindow.o \
+		qrc_images.o \
 		moc_mainwindow.o
 DIST          = /Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/spec_pre.prf \
 		/Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/qdevice.pri \
@@ -244,6 +246,7 @@ DIST          = /Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/spec_pre.p
 		/Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/qt_config.prf \
 		/Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/macx-clang/qmake.conf \
 		/Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/spec_post.prf \
+		../COMP_3004_Team_24/.qmake.stash \
 		/Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/exclusive_builds.prf \
 		/Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/mac/sdk.prf \
 		/Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/toolchain.prf \
@@ -485,6 +488,7 @@ Makefile: ../COMP_3004_Team_24/COMP_3004_Team_24.pro /Users/nikhilsharma/Qt/5.15
 		/Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/qt_config.prf \
 		/Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/macx-clang/qmake.conf \
 		/Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/exclusive_builds.prf \
 		/Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/mac/sdk.prf \
 		/Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/toolchain.prf \
@@ -514,6 +518,7 @@ Makefile: ../COMP_3004_Team_24/COMP_3004_Team_24.pro /Users/nikhilsharma/Qt/5.15
 		/Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/yacc.prf \
 		/Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/lex.prf \
 		../COMP_3004_Team_24/COMP_3004_Team_24.pro \
+		../COMP_3004_Team_24/images.qrc \
 		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Resources/QtWidgets.prl \
 		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtGui.framework/Resources/QtGui.prl \
 		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtCore.framework/Resources/QtCore.prl
@@ -705,6 +710,7 @@ Makefile: ../COMP_3004_Team_24/COMP_3004_Team_24.pro /Users/nikhilsharma/Qt/5.15
 /Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/qt_config.prf:
 /Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/macx-clang/qmake.conf:
 /Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/exclusive_builds.prf:
 /Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/mac/sdk.prf:
 /Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/toolchain.prf:
@@ -734,6 +740,7 @@ Makefile: ../COMP_3004_Team_24/COMP_3004_Team_24.pro /Users/nikhilsharma/Qt/5.15
 /Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/yacc.prf:
 /Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/lex.prf:
 ../COMP_3004_Team_24/COMP_3004_Team_24.pro:
+../COMP_3004_Team_24/images.qrc:
 /Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Resources/QtWidgets.prl:
 /Users/nikhilsharma/Qt/5.15.16/macos/lib/QtGui.framework/Resources/QtGui.prl:
 /Users/nikhilsharma/Qt/5.15.16/macos/lib/QtCore.framework/Resources/QtCore.prl:
@@ -766,6 +773,7 @@ dist: distdir FORCE
 distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
+	$(COPY_FILE) --parents ../COMP_3004_Team_24/images.qrc $(DISTDIR)/
 	$(COPY_FILE) --parents ../COMP_3004_Team_24/mainwindow.h $(DISTDIR)/
 	$(COPY_FILE) --parents ../COMP_3004_Team_24/main.cpp ../COMP_3004_Team_24/mainwindow.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../COMP_3004_Team_24/mainwindow.ui $(DISTDIR)/
@@ -795,8 +803,20 @@ check: first
 
 benchmark: first
 
-compiler_rcc_make_all:
+compiler_rcc_make_all: qrc_images.cpp
 compiler_rcc_clean:
+	-$(DEL_FILE) qrc_images.cpp
+qrc_images.cpp: ../COMP_3004_Team_24/images.qrc \
+		/Users/nikhilsharma/Qt/5.15.16/macos/bin/rcc \
+		../COMP_3004_Team_24/stop-solid.svg \
+		../COMP_3004_Team_24/pause-solid.svg \
+		../COMP_3004_Team_24/circle-down-solid.svg \
+		../COMP_3004_Team_24/circle-up-solid.svg \
+		../COMP_3004_Team_24/power-off-solid.svg \
+		../COMP_3004_Team_24/bars-solid.svg \
+		../COMP_3004_Team_24/play-solid.svg
+	/Users/nikhilsharma/Qt/5.15.16/macos/bin/rcc -name images ../COMP_3004_Team_24/images.qrc -o qrc_images.cpp
+
 compiler_moc_header_make_all: moc_mainwindow.cpp
 compiler_moc_header_clean:
 	-$(DEL_FILE) moc_mainwindow.cpp
@@ -825,7 +845,7 @@ compiler_yacc_impl_make_all:
 compiler_yacc_impl_clean:
 compiler_lex_make_all:
 compiler_lex_clean:
-compiler_clean: compiler_moc_header_clean compiler_uic_clean 
+compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean 
 
 ####### Compile
 
@@ -841,6 +861,9 @@ mainwindow.o: ../COMP_3004_Team_24/mainwindow.cpp ../COMP_3004_Team_24/mainwindo
 		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/qmainwindow.h \
 		ui_mainwindow.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../COMP_3004_Team_24/mainwindow.cpp
+
+qrc_images.o: qrc_images.cpp 
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o qrc_images.o qrc_images.cpp
 
 moc_mainwindow.o: moc_mainwindow.cpp 
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o moc_mainwindow.o moc_mainwindow.cpp
