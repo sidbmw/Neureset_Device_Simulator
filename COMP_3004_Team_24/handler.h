@@ -5,7 +5,7 @@ class Handler
 {
 public:
     Handler(bool system_on);
-    void setSystemOn();
+    void setSystemOn(bool set);
     bool getSystemOn();
 
 private:

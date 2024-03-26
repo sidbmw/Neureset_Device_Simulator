@@ -8,8 +8,8 @@ bool Handler::getSystemOn(){
     return system_on;
 }
 
-void Handler::setSystemOn(){
-    this->system_on=!this->system_on;
+void Handler::setSystemOn(bool set){
+    this->system_on=set;
 }
 
 

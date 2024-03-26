@@ -25,74 +25,101 @@ MainWindow::~MainWindow()
     delete control;
      delete ui;
     delete scene;
-
 }
+
 
 void MainWindow::powerButtonPressed(){
-    if(control->getSystemOn()){
-        QFrame *frame = ui->mainDisplay;
-        clearFrame(frame);
-        frame->setStyleSheet("background-color: black;"); // White background
-        frame->setFrameStyle(QFrame::Box | QFrame::Raised);
+    if (control->getSystemOn()) {
+        control->setSystemOn(false);
+        QFrame *parentFrame = ui->mainDisplay;
+        clearFrame(parentFrame);
+        QVBoxLayout *layout = new QVBoxLayout(parentFrame);
 
-        // Create message label
-        QLabel *label = new QLabel("Shutting Down");
-        label->setStyleSheet("color: #ffffff; font-size: 16px;"); // Black text
+        // Create a new widget
+        QWidget *widget = new QWidget;
+
+        // Set background color for the widget
+        widget->setStyleSheet("background-color: black;");
+
+        // Create a label for the message
+        QLabel *label = new QLabel("Shutting Down...");
+        label->setStyleSheet("color: #fff; font-size: 16px;");
         label->setAlignment(Qt::AlignCenter);
-        frame->setLayout(new QVBoxLayout(frame));
-        frame->layout()->addWidget(label);
 
-        // Fade in animation
-        QPropertyAnimation *animation = new QPropertyAnimation(frame, "opacity");
-        animation->setDuration(1000); // 1 second
-        animation->setStartValue(0);
-        animation->setEndValue(1);
-        animation->start(QAbstractAnimation::DeleteWhenStopped);
+        // Create a layout for the new widget
+        QVBoxLayout *widgetLayout = new QVBoxLayout(widget);
+        widget->setLayout(widgetLayout);
 
-        QTimer::singleShot(1000, this, [label]() {
-            label->hide();
-        });
-        qDebug()<<"System is On";
+        // Add the label to the layout of the widget
+        widgetLayout->addWidget(label);
 
-    }else{
-        control->setSystemOn();
-        QFrame *frame = ui->mainDisplay;
-        frame->setStyleSheet("background-color: black;"); // White background
-        frame->setFrameStyle(QFrame::Box | QFrame::Raised);
+        // Add the widget to the layout of the parent frame
+        layout->addWidget(widget);
 
-        // Create message label
-        QLabel *label = new QLabel("Welcome to Final Project\n\nTeam Members:\nSiddharth Natamai\nKiran Adhikari\nSydney McLeod\nKripa Adhikari\nNikhil Sharma");
-        label->setStyleSheet("color: #ffffff; font-size: 16px;"); // Black text
-        label->setAlignment(Qt::AlignCenter);
-        frame->setLayout(new QVBoxLayout(frame));
-        frame->layout()->addWidget(label);
-
-        // Fade in animation
-        QPropertyAnimation *animation = new QPropertyAnimation(frame, "opacity");
-        animation->setDuration(1000); // 1 second
-        animation->setStartValue(0);
-        animation->setEndValue(1);
-        animation->start(QAbstractAnimation::DeleteWhenStopped);
-
-        QTimer::singleShot(5000, this, [label]() {
-            label->hide();
+        // Start the timer to hide the widget after 2 seconds
+        QTimer::singleShot(2000, widget, [widget]() {
+            if (widget == nullptr) {
+                qDebug() << "Widget is null";
+                return;
+            }
+            widget->hide();
         });
 
+    } else {
+
+        control->setSystemOn(true);
+        QFrame *parentFrame = ui->mainDisplay;
+        clearFrame(parentFrame);
+        QVBoxLayout *layout = new QVBoxLayout(parentFrame);
+
+        // Create a new widget
+        QWidget *widget = new QWidget;
+
+        // Set background color for the widget
+        widget->setStyleSheet("background-color: black;");
+
+        // Create a label for the message
+       QLabel *label = new QLabel("Welcome to Final Project\n\nTeam Members:\nSiddharth Natamai\nKiran Adhikari\nSydney McLeod\nKripa Adhikari\nNikhil Sharma");
+        label->setStyleSheet("color: #fff; font-size: 16px;");
+        label->setAlignment(Qt::AlignCenter);
+
+        // Create a layout for the new widget
+        QVBoxLayout *widgetLayout = new QVBoxLayout(widget);
+        widget->setLayout(widgetLayout);
+
+        // Add the label to the layout of the widget
+        widgetLayout->addWidget(label);
+
+        // Add the widget to the layout of the parent frame
+        layout->addWidget(widget);
+
+        // Start the timer to hide the widget after 2 seconds
+        QTimer::singleShot(3000, widget, [widget]() {
+            if (widget == nullptr) {
+                qDebug() << "Widget is null";
+                return;
+            }
+            widget->hide();
+        });
     }
-
 }
-
 
 void MainWindow::clearFrame(QFrame *frame) {
+
+
     QLayout *layout = frame->layout();
+
     if (layout) {
+        // Remove the layout from the frame
+        //frame->setLayout(nullptr);
+
+        // Delete all widgets inside the layout
         while (QLayoutItem *item = layout->takeAt(0)) {
-            delete item->widget(); // Delete widget
-            delete item; // Delete layout item
+            delete item->widget();
+            delete item;
         }
-        delete layout; // Delete layout
+
+        // Delete the layout itself
+        delete layout;
     }
 }
-
-
-
