@@ -52,10 +52,12 @@ OBJECTS_DIR   = ./
 
 ####### Files
 
-SOURCES       = ../COMP_3004_Team_24/main.cpp \
+SOURCES       = ../COMP_3004_Team_24/handler.cpp \
+		../COMP_3004_Team_24/main.cpp \
 		../COMP_3004_Team_24/mainwindow.cpp qrc_images.cpp \
 		moc_mainwindow.cpp
-OBJECTS       = main.o \
+OBJECTS       = handler.o \
+		main.o \
 		mainwindow.o \
 		qrc_images.o \
 		moc_mainwindow.o
@@ -275,7 +277,9 @@ DIST          = /Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/spec_pre.p
 		/Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/exceptions.prf \
 		/Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/yacc.prf \
 		/Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/features/lex.prf \
-		../COMP_3004_Team_24/COMP_3004_Team_24.pro ../COMP_3004_Team_24/mainwindow.h ../COMP_3004_Team_24/main.cpp \
+		../COMP_3004_Team_24/COMP_3004_Team_24.pro ../COMP_3004_Team_24/handler.h \
+		../COMP_3004_Team_24/mainwindow.h ../COMP_3004_Team_24/handler.cpp \
+		../COMP_3004_Team_24/main.cpp \
 		../COMP_3004_Team_24/mainwindow.cpp
 QMAKE_TARGET  = COMP_3004_Team_24
 DESTDIR       = 
@@ -774,8 +778,8 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents ../COMP_3004_Team_24/images.qrc $(DISTDIR)/
-	$(COPY_FILE) --parents ../COMP_3004_Team_24/mainwindow.h $(DISTDIR)/
-	$(COPY_FILE) --parents ../COMP_3004_Team_24/main.cpp ../COMP_3004_Team_24/mainwindow.cpp $(DISTDIR)/
+	$(COPY_FILE) --parents ../COMP_3004_Team_24/handler.h ../COMP_3004_Team_24/mainwindow.h $(DISTDIR)/
+	$(COPY_FILE) --parents ../COMP_3004_Team_24/handler.cpp ../COMP_3004_Team_24/main.cpp ../COMP_3004_Team_24/mainwindow.cpp $(DISTDIR)/
 	$(COPY_FILE) --parents ../COMP_3004_Team_24/mainwindow.ui $(DISTDIR)/
 
 
@@ -823,6 +827,11 @@ compiler_moc_header_clean:
 moc_mainwindow.cpp: ../COMP_3004_Team_24/mainwindow.h \
 		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/QMainWindow \
 		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/qmainwindow.h \
+		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/QPushButton \
+		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/qpushbutton.h \
+		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/QGraphicsScene \
+		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/qgraphicsscene.h \
+		../COMP_3004_Team_24/handler.h \
 		/Users/nikhilsharma/Qt/5.15.16/macos/bin/moc
 	/Users/nikhilsharma/Qt/5.15.16/macos/bin/moc $(DEFINES) -D__APPLE__ -D__GNUC__=4 -D__APPLE_CC__ -D__cplusplus=199711L -D__APPLE_CC__=6000 -D__clang__ -D__clang_major__=15 -D__clang_minor__=0 -D__clang_patchlevel__=0 -D__GNUC__=4 -D__GNUC_MINOR__=2 -D__GNUC_PATCHLEVEL__=1 -I/Users/nikhilsharma/Qt/5.15.16/macos/mkspecs/macx-clang -I'/Users/nikhilsharma/Desktop/Winter 2024/Comp 3004/project/COMP_3004_Team_24' -I/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers -I/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtGui.framework/Headers -I/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtCore.framework/Headers -I. -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/c++/v1 -I/Library/Developer/CommandLineTools/usr/lib/clang/15.0.0/include -I/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include -I/Library/Developer/CommandLineTools/usr/include -F/Users/nikhilsharma/Qt/5.15.16/macos/lib ../COMP_3004_Team_24/mainwindow.h -o moc_mainwindow.cpp
 
@@ -849,9 +858,17 @@ compiler_clean: compiler_rcc_clean compiler_moc_header_clean compiler_uic_clean
 
 ####### Compile
 
+handler.o: ../COMP_3004_Team_24/handler.cpp ../COMP_3004_Team_24/handler.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o handler.o ../COMP_3004_Team_24/handler.cpp
+
 main.o: ../COMP_3004_Team_24/main.cpp ../COMP_3004_Team_24/mainwindow.h \
 		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/QMainWindow \
 		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/qmainwindow.h \
+		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/QPushButton \
+		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/qpushbutton.h \
+		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/QGraphicsScene \
+		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/qgraphicsscene.h \
+		../COMP_3004_Team_24/handler.h \
 		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/QApplication \
 		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/qapplication.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o ../COMP_3004_Team_24/main.cpp
@@ -859,7 +876,16 @@ main.o: ../COMP_3004_Team_24/main.cpp ../COMP_3004_Team_24/mainwindow.h \
 mainwindow.o: ../COMP_3004_Team_24/mainwindow.cpp ../COMP_3004_Team_24/mainwindow.h \
 		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/QMainWindow \
 		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/qmainwindow.h \
-		ui_mainwindow.h
+		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/QPushButton \
+		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/qpushbutton.h \
+		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/QGraphicsScene \
+		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/qgraphicsscene.h \
+		../COMP_3004_Team_24/handler.h \
+		ui_mainwindow.h \
+		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/QGraphicsView \
+		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/qgraphicsview.h \
+		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/QGraphicsTextItem \
+		/Users/nikhilsharma/Qt/5.15.16/macos/lib/QtWidgets.framework/Headers/qgraphicsitem.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o ../COMP_3004_Team_24/mainwindow.cpp
 
 qrc_images.o: qrc_images.cpp 
