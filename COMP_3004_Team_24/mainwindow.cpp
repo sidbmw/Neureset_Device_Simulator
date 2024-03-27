@@ -93,6 +93,7 @@ void MainWindow::powerButtonPressed(){
         // Add the widget to the layout of the parent frame
         layout->addWidget(widget);
 
+
         // Start the timer to hide the widget after 2 seconds
         QTimer::singleShot(3000, widget, [widget]() {
             if (widget == nullptr) {
@@ -110,8 +111,7 @@ void MainWindow::clearFrame(QFrame *frame) {
     QLayout *layout = frame->layout();
 
     if (layout) {
-        // Remove the layout from the frame
-        //frame->setLayout(nullptr);
+
 
         // Delete all widgets inside the layout
         while (QLayoutItem *item = layout->takeAt(0)) {
