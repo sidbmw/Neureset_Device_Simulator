@@ -2,6 +2,10 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QPushButton>
+#include <QGraphicsScene>
+#include <QFrame>
+#include "handler.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,5 +21,13 @@ public:
 
 private:
     Ui::MainWindow *ui;
+    QGraphicsScene *scene;
+    Handler *control;
+    void clearFrame(QFrame *frame);
+
+
+private slots:
+    void powerButtonPressed();
+
 };
 #endif // MAINWINDOW_H
