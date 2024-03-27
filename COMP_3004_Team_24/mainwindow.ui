@@ -249,6 +249,42 @@ border-image: url(&quot;:/images/stop-solid.svg&quot;);
       <string/>
      </property>
     </widget>
+    <widget class="QPushButton" name="newSession">
+     <property name="geometry">
+      <rect>
+       <x>430</x>
+       <y>330</y>
+       <width>100</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: #f0f0f0;
+border: 1px solid #000;
+</string>
+     </property>
+     <property name="text">
+      <string>New Session</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="sessionLog">
+     <property name="geometry">
+      <rect>
+       <x>550</x>
+       <y>330</y>
+       <width>100</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: #f0f0f0;
+border: 1px solid #000;
+</string>
+     </property>
+     <property name="text">
+      <string>Session Log</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
