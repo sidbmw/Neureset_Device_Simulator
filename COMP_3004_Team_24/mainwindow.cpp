@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     control=new Handler(false);
     connect(ui->power, SIGNAL(clicked(bool)), this, SLOT(powerButtonPressed()));
+    connect(ui->newSession, SIGNAL(clicked()), this, SLOT(startNewSession()));
 }
 
 MainWindow::~MainWindow()
