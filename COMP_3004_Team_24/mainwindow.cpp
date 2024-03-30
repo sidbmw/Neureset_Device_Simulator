@@ -14,11 +14,19 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , scene(new QGraphicsScene(this))
+
+    , menu(new QMenu(this))
+    , newSessionAction(new QAction("New Session", this))
+    , sessionLogAction(new QAction("Session Log", this))
+    , dateTimeSettingAction(new QAction("Date and Time Setting", this))
 {
     ui->setupUi(this);
     control=new Handler(false);
     connect(ui->power, SIGNAL(clicked(bool)), this, SLOT(powerButtonPressed()));
-    connect(ui->newSession, SIGNAL(clicked()), this, SLOT(startNewSession()));
+
+    connect(ui->menu, SIGNAL(clicked()), this, SLOT(menuButtonPressed()));
+    connect(sessionTimer, SIGNAL(timeout()), this, SLOT(checkContactStatus()));
+    connect(contactLostTimer, SIGNAL(timeout()), this, SLOT(contactLostTimeout()));
 }
 
 MainWindow::~MainWindow()
@@ -104,6 +112,50 @@ void MainWindow::powerButtonPressed(){
             widget->hide();
         });
     }
+}
+
+void MainWindow::menuButtonPressed() {
+    menu = new QMenu(this);
+    newSessionAction = new QAction("New Session", this);
+    sessionLogAction = new QAction("Session Log", this);
+    dateTimeSettingAction = new QAction("Date and Time Setting", this);
+
+    connect(newSessionAction, SIGNAL(triggered()), this, SLOT(newSession()));
+    connect(sessionLogAction, SIGNAL(triggered()), this, SLOT(sessionLog()));
+    connect(dateTimeSettingAction, SIGNAL(triggered()), this, SLOT(dateTimeSetting()));
+
+    menu->addAction(newSessionAction);
+    menu->addAction(sessionLogAction);
+    menu->addAction(dateTimeSettingAction);
+
+    menu->popup(ui->menu->mapToGlobal(QPoint(0, ui->menu->height())));
+}
+
+void MainWindow::newSession() { // this will be moved to session class later
+    // Creates a new session
+    qInfo("new session pressed.");
+}
+
+void MainWindow::sessionLog() { // this will be moved to session class later
+    // logger for current session
+    qInfo("insert loggin methods here");
+}
+
+void MainWindow::dateTimeSetting() { // this will be moved to date&time class later
+    // dislay date & time settings
+    qInfo("display date and time");
+}
+
+void MainWindow::checkContactStatus(){
+    // check for contact for 5 minutes
+    // if no contact after 5 min, turn off device
+    // erase current session
+}
+
+void MainWindow::contactLostTimeout(){
+    // red light flases
+    // session is paused
+    // device starts beeping until contact is reestablished
 }
 
 void MainWindow::clearFrame(QFrame *frame) {

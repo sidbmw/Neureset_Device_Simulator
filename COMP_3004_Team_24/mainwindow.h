@@ -6,6 +6,7 @@
 #include <QGraphicsScene>
 #include <QFrame>
 #include "handler.h"
+#include <QProgressBar>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -25,9 +26,26 @@ private:
     Handler *control;
     void clearFrame(QFrame *frame);
 
+    QTimer *sessionTimer;
+    QTimer *contactLostTimer;
+    QProgressBar *sessionProgressBar;
+
+    QMenu *menu;
+    QAction *newSessionAction;
+    QAction *sessionLogAction;
+    QAction *dateTimeSettingAction;
+
 
 private slots:
     void powerButtonPressed();
+
+public slots:
+    void menuButtonPressed();
+    void newSession();
+    void sessionLog();
+    void dateTimeSetting();
+    void checkContactStatus();
+    void contactLostTimeout();
 
 };
 #endif // MAINWINDOW_H
