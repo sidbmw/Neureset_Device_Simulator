@@ -1,7 +1,5 @@
 <RCC>
-    <qresource prefix="/">
-        <file>../../../../../../Downloads/check-solid.svg</file>
-    </qresource>
+    <qresource prefix="/"/>
     <qresource prefix="/images">
         <file>bars-solid.svg</file>
         <file>circle-down-solid.svg</file>

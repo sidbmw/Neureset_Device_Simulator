@@ -30,7 +30,6 @@ int Handler::menuPosDown(){
         this->menuPos ++;
     }
     return this->menuPos;
-
 }
 int Handler::menuPosUp(){
     if(this->menuPos==1){
