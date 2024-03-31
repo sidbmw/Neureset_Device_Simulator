@@ -1,5 +1,7 @@
 <RCC>
-    <qresource prefix="/"/>
+    <qresource prefix="/">
+        <file>../../../../../../Downloads/check-solid.svg</file>
+    </qresource>
     <qresource prefix="/images">
         <file>bars-solid.svg</file>
         <file>circle-down-solid.svg</file>
@@ -8,5 +10,7 @@
         <file>play-solid.svg</file>
         <file>stop-solid.svg</file>
         <file>power-off-solid.svg</file>
+        <file>check-solid.svg</file>
+        <file>circle-check-solid.svg</file>
     </qresource>
 </RCC>
