@@ -13,6 +13,7 @@ public:
     int getMenuPos();
     void setMenuOn(bool b);
     bool getMenuOn();
+    void setMenuPosToDefault();
 
 private:
     int menuPosDown();

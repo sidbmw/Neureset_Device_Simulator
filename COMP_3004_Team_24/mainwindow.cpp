@@ -64,6 +64,7 @@ void MainWindow::menuButtonPressed() {
         displayMessage("Please Turn on the Device First");
     }else{
         control->setMenuOn(true);
+        control->setMenuPosToDefault();
         QFrame *parentFrame = ui->mainDisplay;
         clearFrame(parentFrame);
 
@@ -74,8 +75,6 @@ void MainWindow::menuButtonPressed() {
         QWidget *widget = new QWidget;
         widget->setObjectName("widget");
         widget->setStyleSheet("background-color: black;");
-        // Set background color for the widget
-        //widget->setStyleSheet("background-color: black;");
 
         // Create a layout for the widget
         QVBoxLayout *widgetLayout = new QVBoxLayout(widget);

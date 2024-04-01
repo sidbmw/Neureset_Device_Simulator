@@ -41,6 +41,10 @@ int Handler::menuPosUp(){
 }
 
 
+void Handler::setMenuPosToDefault(){
+    this->menuPos=1;
+}
+
 
 int Handler::getMenuPos(){
     return this->menuPos;
