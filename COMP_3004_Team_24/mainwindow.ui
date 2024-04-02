@@ -54,6 +54,9 @@
        <height>32</height>
       </rect>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="styleSheet">
       <string notr="true">/* Apply to QPushButton */
 
@@ -126,6 +129,9 @@
        <height>32</height>
       </rect>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="styleSheet">
       <string notr="true">background-color: transparent;
 border: none;
@@ -143,10 +149,13 @@ border-image: url(&quot;:/images/power-off-solid.svg&quot;);
      <property name="geometry">
       <rect>
        <x>610</x>
-       <y>140</y>
+       <y>130</y>
        <width>31</width>
        <height>32</height>
       </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="styleSheet">
       <string notr="true">background-color: transparent;
@@ -165,10 +174,13 @@ border-image: url(&quot;:/images/circle-up-solid.svg&quot;);
      <property name="geometry">
       <rect>
        <x>610</x>
-       <y>210</y>
+       <y>180</y>
        <width>31</width>
        <height>32</height>
       </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="styleSheet">
       <string notr="true">background-color: transparent;
@@ -192,6 +204,9 @@ border-image: url(&quot;:/images/circle-down-solid.svg&quot;);
        <height>32</height>
       </rect>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="styleSheet">
       <string notr="true">background-color: transparent;
 border: none;
@@ -213,6 +228,9 @@ border-image: url(&quot;:/images/play-solid.svg&quot;);
        <width>21</width>
        <height>32</height>
       </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
      </property>
      <property name="styleSheet">
       <string notr="true">background-color: transparent;
@@ -236,6 +254,9 @@ border-image: url(&quot;:/images/pause-solid.svg&quot;);
        <height>32</height>
       </rect>
      </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
      <property name="styleSheet">
       <string notr="true">background-color: transparent;
 border: none;
@@ -249,6 +270,29 @@ border-image: url(&quot;:/images/stop-solid.svg&quot;);
       <string/>
      </property>
     </widget>
+    <widget class="QPushButton" name="ok">
+     <property name="geometry">
+      <rect>
+       <x>610</x>
+       <y>250</y>
+       <width>31</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="cursor">
+      <cursorShape>PointingHandCursor</cursorShape>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: transparent;
+border: none;
+background: none;
+background-repeat: no-repeat;
+border-image: url(&quot;:/images/circle-check-solid.svg&quot;);</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -257,7 +301,7 @@ border-image: url(&quot;:/images/stop-solid.svg&quot;);
      <x>0</x>
      <y>0</y>
      <width>799</width>
-     <height>22</height>
+     <height>24</height>
     </rect>
    </property>
   </widget>

@@ -7,6 +7,7 @@
 #include <QFrame>
 #include "handler.h"
 #include <QProgressBar>
+#include <QString>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -34,10 +35,14 @@ private:
     QAction *newSessionAction;
     QAction *sessionLogAction;
     QAction *dateTimeSettingAction;
+    void displayMessage(const QString &output);
 
 
 private slots:
     void powerButtonPressed();
+    void upSelectorPressed();
+    void downSelectorPressed();
+    void okButtonPressed();
 
 public slots:
     void menuButtonPressed();
