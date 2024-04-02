@@ -6,6 +6,7 @@ Handler::Handler(bool system_on) {
     this->menuOn=false;
 }
 
+
 void Handler::setMenuOn(bool b){
     this->menuOn=b;
 }
