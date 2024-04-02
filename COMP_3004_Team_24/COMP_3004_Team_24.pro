@@ -11,11 +11,19 @@ CONFIG += c++11
 SOURCES += \
     handler.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    device_settings.cpp \
+    eeg_interface.cpp \
+    session_log.cpp \
+    treatment_session.cpp
 
 HEADERS += \
+    device_settings.h \
     handler.h \
-    mainwindow.h
+    mainwindow.h \
+    eeg_interface.h \
+    session_log.h \
+    treatment_session.h
 
 FORMS += \
     mainwindow.ui

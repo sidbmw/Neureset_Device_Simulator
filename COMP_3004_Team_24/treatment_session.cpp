@@ -1,30 +1,49 @@
-#ifndef TREATMENT_SESSION_H
-#define TREATMENT_SESSION_H
+#include "treatment_session.h"
 
-#include "eeg_interface.h"
+TreatmentSession::TreatmentSession(EEGInterface& eegInterface) : eegInterface(eegInterface) {
 
-class TreatmentSession {
-public:
-    TreatmentSession(EEGInterface& eegInterface);
-    ~TreatmentSession();
+}
 
-    // Starts the treatment session
-    void startSession();
+TreatmentSession::~TreatmentSession() {
 
-    // Starts a new session with electrode contact check and visual feedback management
-    void startNewSession();
+}
 
-    void runTreatmentCycle();
+void TreatmentSession::startSession() {
 
-private:
-    EEGInterface& eegInterface;
-    void calculateInitialBaseline();
-    void applyTreatmentToSite(int siteIndex);
-    void calculateFinalBaseline();
-    void manageGreenLightIndicator(bool on);
-    void manageBlueLightIndicator(bool on);
-    void manageRedLightIndicator(bool on);
-    bool checkElectrodeContact();
-};
+}
 
-#endif 
+void TreatmentSession::startNewSession() {
+
+}
+
+void TreatmentSession::runTreatmentCycle() {
+
+}
+
+void TreatmentSession::calculateInitialBaseline() {
+
+}
+
+void TreatmentSession::applyTreatmentToSite(int siteIndex) {
+
+}
+
+void TreatmentSession::calculateFinalBaseline() {
+
+}
+
+void TreatmentSession::manageGreenLightIndicator(bool on) {
+
+}
+
+void TreatmentSession::manageBlueLightIndicator(bool on) {
+
+}
+
+void TreatmentSession::manageRedLightIndicator(bool on) {
+
+}
+
+bool TreatmentSession::checkElectrodeContact() {
+    return true;
+}

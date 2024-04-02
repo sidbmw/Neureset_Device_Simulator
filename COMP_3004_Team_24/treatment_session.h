@@ -8,14 +8,21 @@ public:
     TreatmentSession(EEGInterface& eegInterface);
     ~TreatmentSession();
 
-    // Start the treatment session
     void startSession();
+
+    void startNewSession();
+
+    void runTreatmentCycle();
 
 private:
     EEGInterface& eegInterface;
     void calculateInitialBaseline();
     void applyTreatmentToSite(int siteIndex);
     void calculateFinalBaseline();
+    void manageGreenLightIndicator(bool on);
+    void manageBlueLightIndicator(bool on);
+    void manageRedLightIndicator(bool on);
+    bool checkElectrodeContact();
 };
 
-#endif 
+#endif
