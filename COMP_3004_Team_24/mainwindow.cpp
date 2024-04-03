@@ -9,6 +9,8 @@
 #include <QVBoxLayout>
 #include <QTimer>
 #include <QPropertyAnimation>
+#include <QProgressBar>
+#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -44,13 +46,13 @@ MainWindow::~MainWindow()
 void MainWindow::powerButtonPressed(){
     if (control->getSystemOn()) {
         control->setSystemOn(false);
+        control->setMenuPosToDefault();
         displayMessage("Shutting Down...");
     } else {
-
         control->setSystemOn(true);
         displayMessage("Welcome to Final Project\n\nTeam Members:\nSiddharth Natamai\nKiran Adhikari\nSydney McLeod\nKripa Adhikari\nNikhil Sharma");
         QTimer::singleShot(3000, this,[this](){
-            if(this->control->getSystemOn()){
+            if(this->control->getMenuOn()==false){
                 menuButtonPressed();
             }else{
                 return;
@@ -100,8 +102,6 @@ void MainWindow::menuButtonPressed() {
         widgetLayout->addWidget(label2);
         widgetLayout->addWidget(label3);
         layout->addWidget(widget);
-
-
     }
 }
 
@@ -149,7 +149,7 @@ void MainWindow::okButtonPressed(){
         int current = control->getMenuPos();
         if(current==1){
             control->setMenuOn(false);
-            displayMessage("please add Code for New Session");
+            newSession();
         }else if( current==2){
             control->setMenuOn(false);
             displayMessage("please add Code for session logs");
@@ -159,6 +159,8 @@ void MainWindow::okButtonPressed(){
         }
     }
 }
+
+
 void MainWindow::displayMessage(const QString &output){
     QFrame *parentFrame = ui->mainDisplay;
     clearFrame(parentFrame);
@@ -197,8 +199,51 @@ void MainWindow::displayMessage(const QString &output){
 }
 
 void MainWindow::newSession() { // this will be moved to session class later
-    // Creates a new session
-    qInfo("new session pressed.");
+    QFrame *parentFrame = ui->mainDisplay;
+    clearFrame(parentFrame);
+
+    // Create a layout for the parent frame
+    QVBoxLayout *layout = new QVBoxLayout(parentFrame);
+
+    // Create a new widget
+    QWidget *widget = new QWidget;
+    widget->setObjectName("widget");
+    widget->setStyleSheet("background-color: black;");
+    QVBoxLayout *widgetLayout = new QVBoxLayout(widget);
+    widget->setLayout(widgetLayout);
+
+    QLabel *label1 = new QLabel("00:00");
+    label1->setObjectName("timerLabel");
+    label1->setStyleSheet("color: white; font-size: 16px;font-weight: bold;");
+    label1->setAlignment(Qt::AlignCenter);
+    widgetLayout->addWidget(label1);
+
+    QProgressBar *progressBar = new QProgressBar;
+    progressBar->setRange(0, 100); // Set the range of the progress bar
+    progressBar->setValue(0); // Set initial value (optional)
+    progressBar->setStyleSheet("QProgressBar { border: 1px solid white; } QProgressBar::chunk { background-color: yellow;}");
+    widgetLayout->addWidget(progressBar);
+    layout->addWidget(widget);
+
+    QTimer *timer = new QTimer(this);
+
+    // Connect timer to slot for updating progress bar
+    connect(timer, &QTimer::timeout, [=]() {
+        // Update progress bar value
+        int newValue = progressBar->value() + 1;
+        progressBar->setValue(newValue);
+
+        // Check if progress bar is full
+        if (newValue >= 100) {
+            // Stop the timer when progress bar is full
+            timer->stop();
+        }
+    });
+
+    // Set timer interval to 1000 milliseconds (1 second)
+    timer->start(1000);
+
+
 }
 
 void MainWindow::sessionLog() { // this will be moved to session class later
@@ -224,8 +269,6 @@ void MainWindow::contactLostTimeout(){
 }
 
 void MainWindow::clearFrame(QFrame *frame) {
-
-
     QLayout *layout = frame->layout();
 
     if (layout) {

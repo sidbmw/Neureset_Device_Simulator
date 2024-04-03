@@ -14,6 +14,7 @@ public:
     void setMenuOn(bool b);
     bool getMenuOn();
     void setMenuPosToDefault();
+    void setAllSettingToDefault();
 
 private:
     int menuPosDown();
