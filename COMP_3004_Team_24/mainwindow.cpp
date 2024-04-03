@@ -11,7 +11,6 @@
 #include <QPropertyAnimation>
 #include <QInputDialog>
 #include <QLineEdit>
-#include <QDateTime>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -38,6 +37,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    if (sessionTimer) { // TODO: need to loop through a list of timers once session class is implemented and has proper members/proterties to store multiple session timers
+        sessionTimer->stop();
+        delete sessionTimer;
+    }
+
     delete control;
      delete ui;
     delete scene;
@@ -213,8 +217,18 @@ void MainWindow::dateTimeSetting() {
     bool ok;
     QString dateAndTime = QInputDialog::getText(this, tr("Session Date & Time"), tr("Enter Date-Time"), QLineEdit::Normal, QDateTime::currentDateTime().toString(), &ok);
     if (ok && !dateAndTime.isEmpty()){
+        currentDateAndTime = QDateTime::fromString(dateAndTime);
         displayMessage("Date -> " + dateAndTime);
+
+        // Start incrementing timer
+        sessionTimer = new QTimer(this);
+        connect(sessionTimer, &QTimer::timeout, this, &MainWindow::updateSessionTime);
+        sessionTimer->start(1000);
     }
+}
+
+void MainWindow::updateSessionTime(){
+    currentDateAndTime = currentDateAndTime.addMSecs(1);
 }
 
 void MainWindow::checkContactStatus(){

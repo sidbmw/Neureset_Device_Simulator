@@ -8,6 +8,7 @@
 #include "handler.h"
 #include <QProgressBar>
 #include <QString>
+#include <QDateTime>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -27,6 +28,7 @@ private:
     Handler *control;
     void clearFrame(QFrame *frame);
 
+    QDateTime currentDateAndTime; // this should later be converted to a property of session class once we have a session class so we can have date&time for every session.
     QTimer *sessionTimer;
     QTimer *contactLostTimer;
     QProgressBar *sessionProgressBar;
@@ -43,6 +45,7 @@ private slots:
     void upSelectorPressed();
     void downSelectorPressed();
     void okButtonPressed();
+    void updateSessionTime();
 
 public slots:
     void menuButtonPressed();
