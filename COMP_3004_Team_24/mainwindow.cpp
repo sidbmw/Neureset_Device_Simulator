@@ -9,6 +9,9 @@
 #include <QVBoxLayout>
 #include <QTimer>
 #include <QPropertyAnimation>
+#include <QInputDialog>
+#include <QLineEdit>
+#include <QDateTime>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -206,9 +209,12 @@ void MainWindow::sessionLog() { // this will be moved to session class later
     qInfo("insert loggin methods here");
 }
 
-void MainWindow::dateTimeSetting() { // this will be moved to date&time class later
-    // dislay date & time settings
-    qInfo("display date and time");
+void MainWindow::dateTimeSetting() {
+    bool ok;
+    QString dateAndTime = QInputDialog::getText(this, tr("Session Date & Time"), tr("Enter Date-Time"), QLineEdit::Normal, QDateTime::currentDateTime().toString(), &ok);
+    if (ok && !dateAndTime.isEmpty()){
+        displayMessage("Date -> " + dateAndTime);
+    }
 }
 
 void MainWindow::checkContactStatus(){
