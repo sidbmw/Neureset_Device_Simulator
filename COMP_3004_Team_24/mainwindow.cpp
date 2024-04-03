@@ -156,6 +156,8 @@ void MainWindow::okButtonPressed(){
         }else if(current ==3 ){
             control->setMenuOn(false);
             displayMessage("please add Code for set date and time");
+            // test
+            dateTimeSetting();
         }
     }
 }
