@@ -158,7 +158,7 @@ void MainWindow::okButtonPressed(){
             displayMessage("please add Code for session logs");
         }else if(current ==3 ){
             control->setMenuOn(false);
-            displayMessage("please add Code for set date and time");
+            dateTimeSetting();
         }
     }
 }
