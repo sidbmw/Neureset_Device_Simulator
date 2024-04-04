@@ -6,6 +6,23 @@ Handler::Handler(bool system_on) {
     this->menuOn=false;
     this->inNewSession=false;
     this->totalTimeOfTimer=(2 * 60 + 21) * 1000;
+    this->isConnected=false;
+    this->pauseButton=false;
+}
+
+
+void Handler::setPauseButton(bool b){
+    this->pauseButton=b;
+}
+bool Handler::getPauseButton(){
+    return pauseButton;
+}
+
+void Handler::setIsConnected(bool b){
+    this->isConnected=b;
+}
+bool Handler::getIsConnected(){
+    return this->isConnected;
 }
 
 

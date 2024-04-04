@@ -18,6 +18,11 @@ public:
     void setInNewSession(bool n);
     bool getInNewSession();
     int getTotalTimeOfTimer();
+    void setIsConnected(bool b);
+    bool getIsConnected();
+    void setPauseButton(bool b);
+    bool getPauseButton();
+
 
 private:
     int menuPosDown();
@@ -27,6 +32,8 @@ private:
     bool menuOn;
     int menuPos; //to keep track of what option is currently selected
     int totalTimeOfTimer;
+    bool isConnected;
+    bool pauseButton;
 };
 
 #endif // HANDLER_H
