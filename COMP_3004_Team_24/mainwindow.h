@@ -27,7 +27,8 @@ private:
     Handler *control;
     void clearFrame(QFrame *frame);
 
-    QTimer *sessionTimer;
+    QTimer *progressBarTimer;
+    QTimer *labelTimer;
     QTimer *contactLostTimer;
     QProgressBar *sessionProgressBar;
 
@@ -43,6 +44,9 @@ private slots:
     void upSelectorPressed();
     void downSelectorPressed();
     void okButtonPressed();
+    void playButtonPressed();
+    void pauseButtonPressed();
+    void resetButtonPressed();
 
 public slots:
     void menuButtonPressed();

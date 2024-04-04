@@ -16,7 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , scene(new QGraphicsScene(this))
-    , sessionTimer(new QTimer(this)) 
+    , progressBarTimer(new QTimer(this))
     , contactLostTimer(new QTimer(this)) 
     , menu(new QMenu(this))
     , newSessionAction(new QAction("New Session", this))
@@ -26,19 +26,23 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     control=new Handler(false);
     connect(ui->power, SIGNAL(clicked(bool)), this, SLOT(powerButtonPressed()));
+    progressBarTimer=nullptr;
+    labelTimer=nullptr;
 
     connect(ui->menu, SIGNAL(clicked()), this, SLOT(menuButtonPressed()));
     connect(ui->upSelector,SIGNAL(clicked(bool)), this, SLOT(upSelectorPressed()));
     connect(ui->downSelector,SIGNAL(clicked(bool)),this, SLOT(downSelectorPressed()));
     connect(ui->ok,SIGNAL(clicked(bool)),this, SLOT(okButtonPressed()));
-    // connect(sessionTimer, SIGNAL(timeout()), this, SLOT(checkContactStatus()));
+    // connect(progressBarTimer, SIGNAL(timeout()), this, SLOT(checkContactStatus()));
     // connect(contactLostTimer, SIGNAL(timeout()), this, SLOT(contactLostTimeout()));
 }
 
 MainWindow::~MainWindow()
 {
+    delete progressBarTimer;
+    delete labelTimer;
+    delete ui;
     delete control;
-     delete ui;
     delete scene;
 }
 
@@ -46,13 +50,13 @@ MainWindow::~MainWindow()
 void MainWindow::powerButtonPressed(){
     if (control->getSystemOn()) {
         control->setSystemOn(false);
-        control->setMenuPosToDefault();
+        control->setAllSettingToDefault();
         displayMessage("Shutting Down...");
     } else {
         control->setSystemOn(true);
         displayMessage("Welcome to Final Project\n\nTeam Members:\nSiddharth Natamai\nKiran Adhikari\nSydney McLeod\nKripa Adhikari\nNikhil Sharma");
         QTimer::singleShot(3000, this,[this](){
-            if(this->control->getMenuOn()==false){
+            if(!control->getMenuOn() && !control->getInNewSession()){
                 menuButtonPressed();
             }else{
                 return;
@@ -65,9 +69,23 @@ void MainWindow::menuButtonPressed() {
 
     if(control->getSystemOn()==false){
         displayMessage("Please Turn on the Device First");
+    }else if(control->getMenuOn()==true){
+        return;
     }else{
+        //cleaning up any session timer if it is running
+        if(progressBarTimer!=nullptr){
+            progressBarTimer->stop();
+            progressBarTimer=nullptr;
+        }
+
+        if(labelTimer!=nullptr){
+            labelTimer->stop();
+            labelTimer=nullptr;
+        }
+
+        control->setAllSettingToDefault();
         control->setMenuOn(true);
-        control->setMenuPosToDefault();
+
         QFrame *parentFrame = ui->mainDisplay;
         clearFrame(parentFrame);
 
@@ -191,7 +209,6 @@ void MainWindow::displayMessage(const QString &output){
     // Start the timer to hide the widget after 2 seconds
     QTimer::singleShot(3000, widget, [widget]() {
         if (widget == nullptr) {
-            qDebug() << "Widget is null";
             return;
         }
         widget->hide();
@@ -201,6 +218,7 @@ void MainWindow::displayMessage(const QString &output){
 void MainWindow::newSession() { // this will be moved to session class later
     QFrame *parentFrame = ui->mainDisplay;
     clearFrame(parentFrame);
+    control->setInNewSession(true);
 
     // Create a layout for the parent frame
     QVBoxLayout *layout = new QVBoxLayout(parentFrame);
@@ -219,30 +237,68 @@ void MainWindow::newSession() { // this will be moved to session class later
     widgetLayout->addWidget(label1);
 
     QProgressBar *progressBar = new QProgressBar;
+    progressBar->setObjectName("progressBar");
     progressBar->setRange(0, 100); // Set the range of the progress bar
     progressBar->setValue(0); // Set initial value (optional)
     progressBar->setStyleSheet("QProgressBar { border: 1px solid white; } QProgressBar::chunk { background-color: yellow;}");
     widgetLayout->addWidget(progressBar);
     layout->addWidget(widget);
 
-    QTimer *timer = new QTimer(this);
 
-    // Connect timer to slot for updating progress bar
-    connect(timer, &QTimer::timeout, [=]() {
+    progressBarTimer = new QTimer(this);
+    labelTimer=new QTimer(this);
+
+    connect(progressBarTimer, &QTimer::timeout, [=]() {
         // Update progress bar value
         int newValue = progressBar->value() + 1;
         progressBar->setValue(newValue);
-
         // Check if progress bar is full
         if (newValue >= 100) {
             // Stop the timer when progress bar is full
-            timer->stop();
+            progressBarTimer->stop();
+            labelTimer->stop();
         }
     });
 
-    // Set timer interval to 1000 milliseconds (1 second)
-    timer->start(1000);
+    connect(labelTimer, &QTimer::timeout, [=](){
+        static int elapsedTime = 0;
+        ++elapsedTime;
+        int minutes = elapsedTime / 60;
+        int seconds = elapsedTime % 60;
+        QString labelText = QString("%1:%2").arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));
+        label1->setText(labelText);
+        if (elapsedTime >= 141){
+            labelTimer->stop();
+            progressBarTimer->stop();
+        }
+    });
 
+
+    // Connect buttons to slots
+    connect(ui->play, &QPushButton::clicked, this, &MainWindow::playButtonPressed);
+    connect(ui->pause, &QPushButton::clicked, this, &MainWindow::pauseButtonPressed);
+    connect(ui->reset, &QPushButton::clicked, this, &MainWindow::resetButtonPressed);
+}
+
+void MainWindow::playButtonPressed() {
+    // Start or resume the timer
+    progressBarTimer->start(control->getTotalTimeOfTimer()/100); // Start the timer with an interval of 1 second
+    labelTimer->start(1000);
+}
+
+void MainWindow::pauseButtonPressed() {
+    // Pause the timer
+    progressBarTimer->stop();
+    labelTimer->stop();
+}
+
+void MainWindow::resetButtonPressed() {
+    progressBarTimer->stop();
+    labelTimer->stop();
+    QLabel *label=ui->mainDisplay->findChild<QWidget * >("widget")->findChild<QLabel *>("timerLabel");
+    label->setText("00:00");
+    QProgressBar *progressBar =ui->mainDisplay->findChild<QWidget * >("widget")->findChild<QProgressBar *>("progressBar");
+    progressBar->setValue(0);
 
 }
 

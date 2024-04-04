@@ -245,7 +245,7 @@ border-image: url(&quot;:/images/pause-solid.svg&quot;);
       <string/>
      </property>
     </widget>
-    <widget class="QPushButton" name="stop">
+    <widget class="QPushButton" name="reset">
      <property name="geometry">
       <rect>
        <x>380</x>

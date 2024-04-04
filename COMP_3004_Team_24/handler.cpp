@@ -4,8 +4,22 @@ Handler::Handler(bool system_on) {
     this->system_on=system_on;
     this->menuPos=1;
     this->menuOn=false;
+    this->inNewSession=false;
+    this->totalTimeOfTimer=(2 * 60 + 21) * 1000;
 }
 
+
+int Handler::getTotalTimeOfTimer(){
+    return totalTimeOfTimer;
+}
+
+void Handler::setInNewSession(bool n){
+    inNewSession=n;
+
+}
+bool Handler::getInNewSession(){
+    return inNewSession;
+}
 
 void Handler::setMenuOn(bool b){
     this->menuOn=b;
@@ -44,6 +58,7 @@ int Handler::menuPosUp(){
 void Handler::setAllSettingToDefault(){
     setMenuPosToDefault();
     this->menuOn=false;
+    setInNewSession(false);
 }
 
 

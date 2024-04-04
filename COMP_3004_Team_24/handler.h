@@ -15,13 +15,18 @@ public:
     bool getMenuOn();
     void setMenuPosToDefault();
     void setAllSettingToDefault();
+    void setInNewSession(bool n);
+    bool getInNewSession();
+    int getTotalTimeOfTimer();
 
 private:
     int menuPosDown();
     int menuPosUp();
+    bool inNewSession;
     bool system_on;
     bool menuOn;
     int menuPos; //to keep track of what option is currently selected
+    int totalTimeOfTimer;
 };
 
 #endif // HANDLER_H
