@@ -27,15 +27,20 @@ private:
     Handler *control;
     void clearFrame(QFrame *frame);
 
-    QTimer *sessionTimer;
-    QTimer *contactLostTimer;
-    QProgressBar *sessionProgressBar;
+    QTimer *progressBarTimer;
+    QTimer *labelTimer;
+    QTimer *contactCheckTimer;
+    int contactLostTimer;
 
     QMenu *menu;
     QAction *newSessionAction;
     QAction *sessionLogAction;
     QAction *dateTimeSettingAction;
+
     void displayMessage(const QString &output);
+    void cleaningTimer();
+    static int elapsedTime;
+    void cleaningIndicators();
 
 
 private slots:
@@ -43,6 +48,11 @@ private slots:
     void upSelectorPressed();
     void downSelectorPressed();
     void okButtonPressed();
+    void playButtonPressed();
+    void pauseButtonPressed();
+    void resetButtonPressed();
+    void makeContact();
+    void removeContact();
 
 public slots:
     void menuButtonPressed();
