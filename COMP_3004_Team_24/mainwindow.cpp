@@ -11,6 +11,7 @@
 #include <QPropertyAnimation>
 #include <QProgressBar>
 #include <QTimer>
+#include <QDateTime>
 
 int MainWindow::elapsedTime=141;
 
@@ -123,9 +124,25 @@ void MainWindow::menuButtonPressed() {
         label3->setStyleSheet("color: #fff; font-size: 16px;");
         label3->setAlignment(Qt::AlignCenter);
 
+
+        QDateTime currentDateTime = QDateTime::currentDateTime();
+
+        // Extract date and time separately
+        QDate currentDate = currentDateTime.date();
+        QTime currentTime = currentDateTime.time();
+        QString dateTimeString = currentDate.toString("yyyy-MM-dd") + " " + currentTime.toString("hh:mm:ss");
+
+        QLabel *label4 = new QLabel(dateTimeString);
+        label4->setObjectName("dateAndTime");
+        label4->setStyleSheet("color: #fff; font-size: 8px; font-weight: bold;");
+        label4->setAlignment(Qt::AlignRight);
+
+        // Assuming you have a QVBoxLayout for your main layout
+        // Replace 'mainLayout' with your actual layout variable name
         widgetLayout->addWidget(label1);
         widgetLayout->addWidget(label2);
         widgetLayout->addWidget(label3);
+        widgetLayout->addWidget(label4,0, Qt::AlignBottom);
         layout->addWidget(widget);
     }
 }
