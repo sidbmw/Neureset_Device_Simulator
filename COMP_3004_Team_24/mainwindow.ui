@@ -293,6 +293,19 @@ border-image: url(&quot;:/images/circle-check-solid.svg&quot;);</string>
       <string/>
      </property>
     </widget>
+    <widget class="QLabel" name="dateAndTimeDisplay">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>310</y>
+       <width>171</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
+     </property>
+    </widget>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -301,7 +314,7 @@ border-image: url(&quot;:/images/circle-check-solid.svg&quot;);</string>
      <x>0</x>
      <y>0</y>
      <width>799</width>
-     <height>24</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

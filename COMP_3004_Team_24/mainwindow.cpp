@@ -31,6 +31,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->upSelector,SIGNAL(clicked(bool)), this, SLOT(upSelectorPressed()));
     connect(ui->downSelector,SIGNAL(clicked(bool)),this, SLOT(downSelectorPressed()));
     connect(ui->ok,SIGNAL(clicked(bool)),this, SLOT(okButtonPressed()));
+
+    ui->dateAndTimeDisplay->hide(); // hide date&time display until it's been set by user
+
     // connect(sessionTimer, SIGNAL(timeout()), this, SLOT(checkContactStatus()));
     // connect(contactLostTimer, SIGNAL(timeout()), this, SLOT(contactLostTimeout()));
 }
@@ -217,8 +220,11 @@ void MainWindow::dateTimeSetting() {
     bool ok;
     QString dateAndTime = QInputDialog::getText(this, tr("Session Date & Time"), tr("Enter Date-Time"), QLineEdit::Normal, QDateTime::currentDateTime().toString(), &ok);
     if (ok && !dateAndTime.isEmpty()){
-        currentDateAndTime = QDateTime::fromString(dateAndTime);
+        currentDateAndTime = QDateTime::fromString(dateAndTime, "ddd MMM d hh:mm:ss yyyy");
         displayMessage("Date -> " + dateAndTime);
+
+        ui->dateAndTimeDisplay->setText((currentDateAndTime.toString()));
+        ui->dateAndTimeDisplay->show(); // display date and time once user set's it
 
         // Start incrementing timer
         sessionTimer = new QTimer(this);
@@ -228,7 +234,8 @@ void MainWindow::dateTimeSetting() {
 }
 
 void MainWindow::updateSessionTime(){
-    currentDateAndTime = currentDateAndTime.addMSecs(1);
+    currentDateAndTime = currentDateAndTime.addSecs(1);
+    ui->dateAndTimeDisplay->setText(currentDateAndTime.toString("ddd MMM d hh:mm:ss yyyy"));
 }
 
 void MainWindow::checkContactStatus(){
