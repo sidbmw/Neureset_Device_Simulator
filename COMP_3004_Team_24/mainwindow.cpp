@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->ok,SIGNAL(clicked(bool)),this, SLOT(okButtonPressed()));
     connect(ui->contact_on,SIGNAL(clicked(bool)),this,SLOT(makeContact()));
     connect(ui->contact_off,SIGNAL(clicked(bool)),this,SLOT(removeContact()));
+    ui->dateAndTimeDisplay->hide();
 
     // connect(progressBarTimer, SIGNAL(timeout()), this, SLOT(checkContactStatus()));
     // connect(contactLostTimer, SIGNAL(timeout()), this, SLOT(contactLostTimeout()));
@@ -192,12 +193,15 @@ void MainWindow::okButtonPressed(){
         int current = control->getMenuPos();
         if(current==1){
             control->setMenuOn(false);
+            ui->dateAndTimeDisplay->hide();
             newSession();
         }else if( current==2){
             control->setMenuOn(false);
+            ui->dateAndTimeDisplay->hide();
             displayMessage("please add Code for session logs");
         }else if(current ==3 ){
             control->setMenuOn(false);
+            ui->dateAndTimeDisplay->show();
             dateTimeSetting();
         }
     }
@@ -397,7 +401,7 @@ void MainWindow::dateTimeSetting() {
     QString dateAndTime = QInputDialog::getText(this, tr("Session Date & Time"), tr("Enter Date-Time"), QLineEdit::Normal, QDateTime::currentDateTime().toString(), &ok);
     if (ok && !dateAndTime.isEmpty()){
         currentDateAndTime = QDateTime::fromString(dateAndTime, "ddd MMM d hh:mm:ss yyyy");
-        displayMessage("Date -> " + dateAndTime);
+//        displayMessage("Date -> " + dateAndTime);
 
         ui->dateAndTimeDisplay->setText((currentDateAndTime.toString()));
         ui->dateAndTimeDisplay->setStyleSheet("color: white; font-size: 6pt;");
@@ -415,7 +419,6 @@ void MainWindow::updateSessionTime(){
     ui->dateAndTimeDisplay->setText(currentDateAndTime.toString("ddd MMM d hh:mm:ss yyyy"));
     ui->dateAndTimeDisplay->raise();
     ui->dateAndTimeDisplay->update();
-    ui->dateAndTimeDisplay->show();
 }
 
 void MainWindow::checkContactStatus(){
