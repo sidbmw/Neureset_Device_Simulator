@@ -44,6 +44,19 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
+     <widget class="QLabel" name="dateAndTimeDisplay">
+      <property name="geometry">
+       <rect>
+        <x>360</x>
+        <y>190</y>
+        <width>101</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+     </widget>
     </widget>
     <widget class="QPushButton" name="menu">
      <property name="geometry">
@@ -327,7 +340,7 @@ border-image: url(&quot;:/images/circle-check-solid.svg&quot;);</string>
      <x>0</x>
      <y>0</y>
      <width>799</width>
-     <height>37</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

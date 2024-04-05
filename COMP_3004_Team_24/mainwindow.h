@@ -8,6 +8,7 @@
 #include "handler.h"
 #include <QProgressBar>
 #include <QString>
+#include <QDateTime>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,7 +27,9 @@ private:
     QGraphicsScene *scene;
     Handler *control;
     void clearFrame(QFrame *frame);
+    QDateTime currentDateAndTime;
 
+    QTimer *sessionTimer;
     QTimer *progressBarTimer;
     QTimer *labelTimer;
     QTimer *contactCheckTimer;
@@ -53,6 +56,7 @@ private slots:
     void resetButtonPressed();
     void makeContact();
     void removeContact();
+    void updateSessionTime();
 
 public slots:
     void menuButtonPressed();
