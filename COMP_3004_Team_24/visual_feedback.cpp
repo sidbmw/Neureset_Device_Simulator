@@ -1,28 +1,49 @@
-#ifndef VISUAL_FEEDBACK_H
-#define VISUAL_FEEDBACK_H
+#include "visual_feedback.h"
+#include <iostream>
 
-class VisualFeedback {
-public:
-    VisualFeedback();
-    ~VisualFeedback();
+VisualFeedback::VisualFeedback() {
+    isGreenLight = false;
+    isBlueLight = false;
+    isRedLight = false;
+    isBeeping = false;
+}
 
-    // Turns on the green light indicating treatment is being delivered
-    void turnOnGreenLight();
+VisualFeedback::~VisualFeedback() {
+}
 
-    // Turns off the green light indicating treatment has stopped
-    void turnOffGreenLight();
+void VisualFeedback::turnOnGreenLight() {
+    isGreenLight = true;
+    // Implement hardware-specific code to turn on the green light
+    std::cout << "Green light turned on" << std::endl;
+}
 
-    // Turns on the blue light indicating session start
-    void turnOnBlueLight();
+void VisualFeedback::turnOffGreenLight() {
+    isGreenLight = false;
+    // Implement hardware-specific code to turn off the green light
+    std::cout << "Green light turned off" << std::endl;
+}
 
-    // Turns on the red light indicating contact loss
-    void turnOnRedLight();
+void VisualFeedback::turnOnBlueLight() {
+    isBlueLight = true;
+    // Implement hardware-specific code to turn on the blue light
+    std::cout << "Blue light turned on" << std::endl;
+}
 
-    // Starts beeping to indicate contact loss
-    void startBeeping();
+void VisualFeedback::turnOnRedLight() {
+    isRedLight = true;
+    // Implement hardware-specific code to turn on the red light
+    std::cout << "Red light turned on" << std::endl;
+}
 
-    // Stops beeping - GG
-    void stopBeeping();
-};
+void VisualFeedback::startBeeping() {
+    isBeeping = true;
+    // Implement hardware-specific code to start the beeping sound
+    std::cout << "Beeping started" << std::endl;
+}
 
-#endif 
+void VisualFeedback::stopBeeping() {
+    isBeeping = false;
+    // Implement hardware-specific code to stop the beeping sound
+    std::cout << "Beeping stopped" << std::endl;
+}
+
