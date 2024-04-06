@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <numeric>
 #include <random>
+#include <iostream>
 
 EEGInterface::EEGInterface() {
     // Initialize mock signals for each EEG site with random values
@@ -38,5 +39,17 @@ double EEGInterface::calculateOverallBaselineFrequency() {
 }
 
 void EEGInterface::applyFrequencyToSite(int siteIndex, double newFrequency) {
-    // Apply the new frequency to the specified EEG site
+    // Check if the siteIndex is within the valid range
+    if (siteIndex >= 0 && siteIndex < eegSignals.size()) {
+        // Mock implementation: Log applying new frequency to the site
+        // In a real scenario, this would interface with EEG hardware to apply the frequency
+        std::cout << "Applying frequency " << newFrequency << " Hz to site " << siteIndex << std::endl;
+        
+        // Update the signal value for the site to simulate applying the new frequency
+        // This is a simplification and in real application, the interaction with hardware would be more complex
+        eegSignals[siteIndex] = newFrequency;
+    } else {
+        // Handle invalid siteIndex
+        std::cerr << "Invalid site index: " << siteIndex << ". Cannot apply frequency." << std::endl;
+    }
 }
