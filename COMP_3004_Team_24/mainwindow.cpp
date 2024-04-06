@@ -12,6 +12,7 @@
 #include <QProgressBar>
 #include <QTimer>
 #include <QDateTime>
+#include <QInputDialog>
 
 int MainWindow::elapsedTime=141;
 
@@ -37,6 +38,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->ok,SIGNAL(clicked(bool)),this, SLOT(okButtonPressed()));
     connect(ui->contact_on,SIGNAL(clicked(bool)),this,SLOT(makeContact()));
     connect(ui->contact_off,SIGNAL(clicked(bool)),this,SLOT(removeContact()));
+    ui->dateAndTimeDisplay->hide();
 
     // connect(progressBarTimer, SIGNAL(timeout()), this, SLOT(checkContactStatus()));
     // connect(contactLostTimer, SIGNAL(timeout()), this, SLOT(contactLostTimeout()));
@@ -125,24 +127,24 @@ void MainWindow::menuButtonPressed() {
         label3->setAlignment(Qt::AlignCenter);
 
 
-        QDateTime currentDateTime = QDateTime::currentDateTime();
+//        QDateTime currentDateTime = QDateTime::currentDateTime();
 
-        // Extract date and time separately
-        QDate currentDate = currentDateTime.date();
-        QTime currentTime = currentDateTime.time();
-        QString dateTimeString = currentDate.toString("yyyy-MM-dd") + " " + currentTime.toString("hh:mm:ss");
+//        // Extract date and time separately
+//        QDate currentDate = currentDateTime.date();
+//        QTime currentTime = currentDateTime.time();
+//        QString dateTimeString = currentDate.toString("yyyy-MM-dd") + " " + currentTime.toString("hh:mm:ss");
 
-        QLabel *label4 = new QLabel(dateTimeString);
-        label4->setObjectName("dateAndTime");
-        label4->setStyleSheet("color: #fff; font-size: 8px; font-weight: bold;");
-        label4->setAlignment(Qt::AlignRight);
+//        QLabel *label4 = new QLabel(dateTimeString);
+//        label4->setObjectName("dateAndTime");
+//        label4->setStyleSheet("color: #fff; font-size: 8px; font-weight: bold;");
+//        label4->setAlignment(Qt::AlignRight);
 
         // Assuming you have a QVBoxLayout for your main layout
         // Replace 'mainLayout' with your actual layout variable name
         widgetLayout->addWidget(label1);
         widgetLayout->addWidget(label2);
         widgetLayout->addWidget(label3);
-        widgetLayout->addWidget(label4,0, Qt::AlignBottom);
+//        widgetLayout->addWidget(label4,0, Qt::AlignBottom);
         layout->addWidget(widget);
     }
 }
@@ -191,13 +193,16 @@ void MainWindow::okButtonPressed(){
         int current = control->getMenuPos();
         if(current==1){
             control->setMenuOn(false);
+            ui->dateAndTimeDisplay->hide();
             newSession();
         }else if( current==2){
             control->setMenuOn(false);
+            ui->dateAndTimeDisplay->hide();
             displayMessage("please add Code for session logs");
         }else if(current ==3 ){
             control->setMenuOn(false);
-            displayMessage("please add Code for set date and time");
+            ui->dateAndTimeDisplay->show();
+            dateTimeSetting();
         }
     }
 }
@@ -391,9 +396,29 @@ void MainWindow::sessionLog() { // this will be moved to session class later
     qInfo("insert loggin methods here");
 }
 
-void MainWindow::dateTimeSetting() { // this will be moved to date&time class later
-    // dislay date & time settings
-    qInfo("display date and time");
+void MainWindow::dateTimeSetting() {
+    bool ok;
+    QString dateAndTime = QInputDialog::getText(this, tr("Session Date & Time"), tr("Enter Date-Time"), QLineEdit::Normal, QDateTime::currentDateTime().toString(), &ok);
+    if (ok && !dateAndTime.isEmpty()){
+        currentDateAndTime = QDateTime::fromString(dateAndTime, "ddd MMM d hh:mm:ss yyyy");
+//        displayMessage("Date -> " + dateAndTime);
+
+        ui->dateAndTimeDisplay->setText((currentDateAndTime.toString()));
+        ui->dateAndTimeDisplay->setStyleSheet("color: white; font-size: 6pt;");
+
+
+        // Start incrementing timer
+        sessionTimer = new QTimer(this);
+        connect(sessionTimer, &QTimer::timeout, this, &MainWindow::updateSessionTime);
+        sessionTimer->start(1000);
+    }
+}
+
+void MainWindow::updateSessionTime(){
+    currentDateAndTime = currentDateAndTime.addSecs(1);
+    ui->dateAndTimeDisplay->setText(currentDateAndTime.toString("ddd MMM d hh:mm:ss yyyy"));
+    ui->dateAndTimeDisplay->raise();
+    ui->dateAndTimeDisplay->update();
 }
 
 void MainWindow::checkContactStatus(){
