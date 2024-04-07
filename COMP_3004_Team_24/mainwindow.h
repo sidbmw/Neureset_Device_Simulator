@@ -8,6 +8,11 @@
 #include "handler.h"
 #include <QProgressBar>
 #include <QString>
+<<<<<<< Updated upstream
+=======
+#include <QDateTime>
+#include <QLabel>
+>>>>>>> Stashed changes
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -26,10 +31,23 @@ private:
     QGraphicsScene *scene;
     Handler *control;
     void clearFrame(QFrame *frame);
+<<<<<<< Updated upstream
 
     QTimer *sessionTimer;
     QTimer *contactLostTimer;
     QProgressBar *sessionProgressBar;
+=======
+    QDateTime currentDateAndTime;
+    QProgressBar *batteryProgressBar;
+    QLabel *lowBatteryMsg;
+
+    QTimer *sessionTimer;
+    QTimer *progressBarTimer;
+    QTimer *labelTimer;
+    QTimer *contactCheckTimer;
+    QTimer *batteryTimer;
+    int contactLostTimer;
+>>>>>>> Stashed changes
 
     QMenu *menu;
     QAction *newSessionAction;
@@ -43,6 +61,17 @@ private slots:
     void upSelectorPressed();
     void downSelectorPressed();
     void okButtonPressed();
+<<<<<<< Updated upstream
+=======
+    void playButtonPressed();
+    void pauseButtonPressed();
+    void resetButtonPressed();
+    void makeContact();
+    void removeContact();
+    void updateSessionTime();
+    void updateBatteryDisplay();
+    void clearLowBatteryMessage();
+>>>>>>> Stashed changes
 
 public slots:
     void menuButtonPressed();
@@ -51,6 +80,7 @@ public slots:
     void dateTimeSetting();
     void checkContactStatus();
     void contactLostTimeout();
+    void togglePowerSource();
 
 };
 #endif // MAINWINDOW_H

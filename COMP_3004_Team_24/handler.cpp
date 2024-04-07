@@ -59,4 +59,11 @@ void Handler::setSystemOn(bool set){
     this->system_on=set;
 }
 
+void Handler::setConnectedToPowerSource(bool connected) {
+    connectedToPowerSource = connected;
+}
+
+bool Handler::isConnectedToPowerSource() {
+    return connectedToPowerSource;
+}
 

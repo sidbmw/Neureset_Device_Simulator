@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     , newSessionAction(new QAction("New Session", this))
     , sessionLogAction(new QAction("Session Log", this))
     , dateTimeSettingAction(new QAction("Date and Time Setting", this))
+    , batteryTimer(new QTimer(this))
 {
     ui->setupUi(this);
     control=new Handler(false);
@@ -29,7 +30,25 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->upSelector,SIGNAL(clicked(bool)), this, SLOT(upSelectorPressed()));
     connect(ui->downSelector,SIGNAL(clicked(bool)),this, SLOT(downSelectorPressed()));
     connect(ui->ok,SIGNAL(clicked(bool)),this, SLOT(okButtonPressed()));
+<<<<<<< Updated upstream
     // connect(sessionTimer, SIGNAL(timeout()), this, SLOT(checkContactStatus()));
+=======
+    connect(ui->contact_on,SIGNAL(clicked(bool)),this,SLOT(makeContact()));
+    connect(ui->contact_off,SIGNAL(clicked(bool)),this,SLOT(removeContact()));
+    connect(batteryTimer, SIGNAL(timeout()), this, SLOT(updateBatteryDisplay()));
+    connect(ui->powerSourceButton, SIGNAL(clicked()), this, SLOT(togglePowerSource()));
+
+    ui->dateAndTimeDisplay->hide();
+    ui->lowBatteryMsg->hide();
+
+    //initialize battery display
+    batteryProgressBar = ui -> batteryDisplay;
+    batteryProgressBar->setRange(0, 100);
+    batteryProgressBar->setValue(100);
+    lowBatteryMsg = ui -> lowBatteryMsg;
+
+    // connect(progressBarTimer, SIGNAL(timeout()), this, SLOT(checkContactStatus()));
+>>>>>>> Stashed changes
     // connect(contactLostTimer, SIGNAL(timeout()), this, SLOT(contactLostTimeout()));
 }
 
@@ -45,9 +64,11 @@ void MainWindow::powerButtonPressed(){
     if (control->getSystemOn()) {
         control->setSystemOn(false);
         displayMessage("Shutting Down...");
+        batteryTimer->stop();
     } else {
 
         control->setSystemOn(true);
+        batteryTimer->start(3000);
         displayMessage("Welcome to Final Project\n\nTeam Members:\nSiddharth Natamai\nKiran Adhikari\nSydney McLeod\nKripa Adhikari\nNikhil Sharma");
         QTimer::singleShot(3000, this,[this](){
             if(this->control->getSystemOn()){
@@ -223,6 +244,92 @@ void MainWindow::contactLostTimeout(){
     // device starts beeping until contact is reestablished
 }
 
+<<<<<<< Updated upstream
+=======
+void MainWindow::updateBatteryDisplay() {
+    int currentValue = batteryProgressBar->value();
+
+    if (control->isConnectedToPowerSource()) {
+        // If connected to power source, increase battery level
+        if (currentValue < 100) {
+            currentValue += 5;
+            batteryProgressBar->setValue(currentValue);
+        }
+        // If battery reaches 100%, stop increasing and wait for power source button click
+        if (currentValue == 100) {
+            batteryTimer->stop();
+            return;
+        }
+    } else {
+        // If not connected to power source, decrease battery level
+        if (currentValue > 0) {
+            currentValue -= 5;
+            batteryProgressBar->setValue(currentValue);
+        }
+        // Check if battery level drops to 0%, shutdown device
+        if (currentValue == 0) {
+            powerButtonPressed();
+            return;
+        }
+    }
+
+    // Check if battery level is below 20% to display low battery message
+    if (currentValue <= 20) {
+        lowBatteryMsg->setText("Low Battery! Please connect the device to a power source.");
+        lowBatteryMsg->setStyleSheet("color: red;");
+        lowBatteryMsg->show();
+    } else {
+        lowBatteryMsg->hide();
+    }
+}
+
+void MainWindow::togglePowerSource() {
+    if (control->isConnectedToPowerSource()) {
+        control->setConnectedToPowerSource(false);
+        batteryTimer->start(3000);
+        ui->powerSourceButton->setStyleSheet("background-color: red;");
+    } else {
+        control->setConnectedToPowerSource(true);
+        batteryTimer->start(3000);
+        ui->powerSourceButton->setStyleSheet("background-color: green;");
+    }
+}
+
+void MainWindow::clearLowBatteryMessage() {
+    lowBatteryMsg->clear();
+}
+
+void MainWindow::cleaningTimer(){
+    if(progressBarTimer!=nullptr){
+        progressBarTimer->stop();
+        delete progressBarTimer;
+        progressBarTimer=nullptr;
+    }
+
+    if(labelTimer!=nullptr){
+        labelTimer->stop();
+        delete labelTimer;
+        labelTimer=nullptr;
+    }
+
+    if(contactCheckTimer!=nullptr){
+        contactCheckTimer->stop();
+        delete contactCheckTimer;
+        contactCheckTimer=nullptr;
+    }
+
+    cleaningIndicators();
+
+}
+
+void MainWindow::cleaningIndicators(){
+    ui->contactIndicator->setStyleSheet("background-color:none");
+    ui->contactLostIndicator->setStyleSheet("background-color:none");
+    ui->treatmentIndicator->setStyleSheet("background-color:none");
+
+}
+
+>>>>>>> Stashed changes
 void MainWindow::clearFrame(QFrame *frame) {
 
 
