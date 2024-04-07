@@ -426,7 +426,7 @@ void MainWindow::dateTimeSetting() {
     dateTimeEdit->setDateTime(QDateTime::currentDateTime());
 
     // Set the display format for the date and time
-    dateTimeEdit->setDisplayFormat("dd/MM/yyyy hh:mm:ss"); // Customize the format as needed
+    dateTimeEdit->setDisplayFormat("yyyy-MM-dd hh:mm:ss");
 
     widgetLayout->addWidget(dateTimeEdit);
 
@@ -437,21 +437,33 @@ void MainWindow::dateTimeSetting() {
 
     // Add the DateTimeEdit widget to the layout
     layout->addWidget(widget);
-    connect(updateButton, SIGNAL(clicked()), this, SLOT(updateDateTime()));
+    connect(updateButton, SIGNAL(clicked()), this, SLOT(displayNewDateTime()));
 }
 
-void MainWindow::updateDateTime() {
-    QDateTime dateTime = dateTimeEdit->dateTime();
-    displayMessage("New date and time:" + dateTime.toString("dd/MM/yyyy hh:mm:ss"));
-    QTimer::singleShot(3000, this,[this](){
+void MainWindow::displayNewDateTime() {
+    currentDateAndTime = dateTimeEdit->dateTime();
+    displayMessage("New date and time:" + currentDateAndTime.toString("yyyy-MM-dd hh:mm:ss"));
+
+    // stop and delete previous timer if running
+    if (sessionTimer) {
+        sessionTimer->stop();
+        delete sessionTimer;
+    }
+
+    sessionTimer = new QTimer(this);
+    connect(sessionTimer, &QTimer::timeout, this, &MainWindow::updateTimer);
+    sessionTimer->start(1000);
+
+    QTimer::singleShot(2000, this,[this](){
         control->setMenuOn(false);
         menuButtonPressed();
     });
 }
 
-void MainWindow::updateSessionTime(){
+void MainWindow::updateTimer(){
     currentDateAndTime = currentDateAndTime.addSecs(1);
-    ui->dateAndTimeDisplay->setText(currentDateAndTime.toString("ddd MMM d hh:mm:ss yyyy"));
+    ui->dateAndTimeDisplay->setText(currentDateAndTime.toString("yyyy-MM-dd hh:mm:ss"));
+    ui->dateAndTimeDisplay->setStyleSheet("color: white; font-size: 6pt;");
     ui->dateAndTimeDisplay->raise();
     ui->dateAndTimeDisplay->update();
 }
