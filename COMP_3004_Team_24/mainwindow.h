@@ -10,6 +10,7 @@
 #include <QString>
 #include <QDateTime>
 #include <QLabel>
+#include <QDateTimeEdit>
 #include "eeg_interface.h"
 #include "visual_feedback.h"
 #include "treatment_session.h"
@@ -51,6 +52,7 @@ private:
     void cleaningTimer();
     static int elapsedTime;
     void cleaningIndicators();
+    QDateTimeEdit *dateTimeEdit;
 
 
 private slots:
@@ -66,6 +68,7 @@ private slots:
     void updateSessionTime();
     void updateBatteryDisplay();
     void clearLowBatteryMessage();
+    void updateDateTime();
 
 public slots:
     void menuButtonPressed();

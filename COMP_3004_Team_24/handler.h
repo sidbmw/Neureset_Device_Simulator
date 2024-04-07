@@ -2,11 +2,13 @@
 #define HANDLER_H
 
 #include <QString>
+#include <QDate>
+
 
 class Handler
 {
 public:
-    Handler(bool system_on);
+    Handler(bool system_on,QDate date, QTime time);
     void setSystemOn(bool set);
     bool getSystemOn();
     int newMenuPos(const QString &str);
@@ -24,6 +26,10 @@ public:
     bool getPauseButton();
     void setConnectedToPowerSource(bool connected);
     bool isConnectedToPowerSource();
+    QDate getCurrentDate();
+    QTime getCurrentTime();
+    void setCurrentDate(QDate);
+    void setCurrentTime(QTime);
 
 
 private:
@@ -37,6 +43,8 @@ private:
     bool isConnected;
     bool pauseButton;
     bool connectedToPowerSource;
+    QDate currentDate;
+    QTime currentTime;
 };
 
 #endif // HANDLER_H

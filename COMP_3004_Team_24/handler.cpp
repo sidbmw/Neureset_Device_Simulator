@@ -1,6 +1,6 @@
 #include "handler.h"
 
-Handler::Handler(bool system_on) {
+Handler::Handler(bool system_on, QDate date, QTime time) {
     this->system_on=system_on;
     this->menuPos=1;
     this->menuOn=false;
@@ -8,8 +8,28 @@ Handler::Handler(bool system_on) {
     this->totalTimeOfTimer=(2 * 60 + 21) * 1000;
     this->isConnected=false;
     this->pauseButton=false;
+    this->currentDate=date;
+    this->currentTime=time;
 }
 
+
+QDate Handler::getCurrentDate(){
+    return this->currentDate;
+}
+
+QTime Handler::getCurrentTime(){
+    return this->currentTime;
+}
+
+
+
+
+void Handler::setCurrentTime(QTime t){
+    this->currentTime=t;
+}
+void Handler::setCurrentDate(QDate d){
+    this->currentDate=d;
+}
 
 void Handler::setPauseButton(bool b){
     this->pauseButton=b;
