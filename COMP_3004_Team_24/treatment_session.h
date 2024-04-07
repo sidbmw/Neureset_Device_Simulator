@@ -6,7 +6,7 @@
 
 class TreatmentSession {
 public:
-    TreatmentSession(EEGInterface& eegInterface, VisualFeedback& visualFeedback); // Constructor updated
+    TreatmentSession(EEGInterface& eegInterface, VisualFeedback& visualFeedback); 
     ~TreatmentSession();
 
     void startSession();
