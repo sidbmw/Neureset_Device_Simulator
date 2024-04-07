@@ -13,6 +13,7 @@
 #include <QTimer>
 #include <QDateTime>
 #include <QInputDialog>
+#include <QDateTimeEdit>
 #include "visual_feedback.h"
 
 int MainWindow::elapsedTime=141;
@@ -27,9 +28,11 @@ MainWindow::MainWindow(QWidget *parent)
     , dateTimeSettingAction(new QAction("Date and Time Setting", this))
     , batteryTimer(new QTimer(this))
 {
+    dateTimeEdit=NULL;
     contactLostTimer=0;
     ui->setupUi(this);
-    control=new Handler(false);
+    QDateTime currentDateTime = QDateTime::currentDateTime();
+    control=new Handler(false,currentDateTime.date(),currentDateTime.time());
     connect(ui->power, SIGNAL(clicked(bool)), this, SLOT(powerButtonPressed()));
     progressBarTimer=nullptr;
     labelTimer=nullptr;
@@ -140,25 +143,9 @@ void MainWindow::menuButtonPressed() {
         label3->setStyleSheet("color: #fff; font-size: 16px;");
         label3->setAlignment(Qt::AlignCenter);
 
-
-//        QDateTime currentDateTime = QDateTime::currentDateTime();
-
-//        // Extract date and time separately
-//        QDate currentDate = currentDateTime.date();
-//        QTime currentTime = currentDateTime.time();
-//        QString dateTimeString = currentDate.toString("yyyy-MM-dd") + " " + currentTime.toString("hh:mm:ss");
-
-//        QLabel *label4 = new QLabel(dateTimeString);
-//        label4->setObjectName("dateAndTime");
-//        label4->setStyleSheet("color: #fff; font-size: 8px; font-weight: bold;");
-//        label4->setAlignment(Qt::AlignRight);
-
-        // Assuming you have a QVBoxLayout for your main layout
-        // Replace 'mainLayout' with your actual layout variable name
         widgetLayout->addWidget(label1);
         widgetLayout->addWidget(label2);
         widgetLayout->addWidget(label3);
-//        widgetLayout->addWidget(label4,0, Qt::AlignBottom);
         layout->addWidget(widget);
     }
 }
@@ -414,21 +401,52 @@ void MainWindow::sessionLog() { // this will be moved to session class later
 }
 
 void MainWindow::dateTimeSetting() {
-    bool ok;
-    QString dateAndTime = QInputDialog::getText(this, tr("Session Date & Time"), tr("Enter Date-Time"), QLineEdit::Normal, QDateTime::currentDateTime().toString(), &ok);
-    if (ok && !dateAndTime.isEmpty()){
-        currentDateAndTime = QDateTime::fromString(dateAndTime, "ddd MMM d hh:mm:ss yyyy");
-//        displayMessage("Date -> " + dateAndTime);
+    cleaningTimer();
+    control->setAllSettingToDefault();
+    control->setMenuOn(true);
 
-        ui->dateAndTimeDisplay->setText((currentDateAndTime.toString()));
-        ui->dateAndTimeDisplay->setStyleSheet("color: white; font-size: 6pt;");
+    QFrame *parentFrame = ui->mainDisplay;
+    clearFrame(parentFrame);
 
+    // Create a layout for the parent frame
+    QVBoxLayout *layout = new QVBoxLayout(parentFrame);
 
-        // Start incrementing timer
-        sessionTimer = new QTimer(this);
-        connect(sessionTimer, &QTimer::timeout, this, &MainWindow::updateSessionTime);
-        sessionTimer->start(1000);
-    }
+    // Create a new widget
+    QWidget *widget = new QWidget;
+    widget->setObjectName("widget");
+    widget->setStyleSheet("background-color: black;");
+
+    // Create a layout for the widget
+    QVBoxLayout *widgetLayout = new QVBoxLayout(widget);
+    widget->setLayout(widgetLayout);
+
+    dateTimeEdit = new QDateTimeEdit(widget);
+    dateTimeEdit->setStyleSheet("background-color: black; color: gold;");
+    dateTimeEdit->setCalendarPopup(true); // Optional: enables a calendar popup for date selection
+    dateTimeEdit->setDateTime(QDateTime::currentDateTime());
+
+    // Set the display format for the date and time
+    dateTimeEdit->setDisplayFormat("dd/MM/yyyy hh:mm:ss"); // Customize the format as needed
+
+    widgetLayout->addWidget(dateTimeEdit);
+
+    QPushButton *updateButton = new QPushButton("Update Date And Time", this);
+    updateButton->setStyleSheet("border:1px solid white; color:gold");
+    updateButton->setFixedWidth(200);
+    widgetLayout->addWidget(updateButton,Qt::AlignCenter);
+
+    // Add the DateTimeEdit widget to the layout
+    layout->addWidget(widget);
+    connect(updateButton, SIGNAL(clicked()), this, SLOT(updateDateTime()));
+}
+
+void MainWindow::updateDateTime() {
+    QDateTime dateTime = dateTimeEdit->dateTime();
+    displayMessage("New date and time:" + dateTime.toString("dd/MM/yyyy hh:mm:ss"));
+    QTimer::singleShot(3000, this,[this](){
+        control->setMenuOn(false);
+        menuButtonPressed();
+    });
 }
 
 void MainWindow::updateSessionTime(){
@@ -530,7 +548,6 @@ void MainWindow::cleaningIndicators(){
     ui->contactIndicator->setStyleSheet("background-color:none");
     ui->contactLostIndicator->setStyleSheet("background-color:none");
     ui->treatmentIndicator->setStyleSheet("background-color:none");
-
 }
 
 void MainWindow::clearFrame(QFrame *frame) {
