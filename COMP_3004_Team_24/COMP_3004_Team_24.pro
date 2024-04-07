@@ -15,7 +15,8 @@ SOURCES += \
     device_settings.cpp \
     eeg_interface.cpp \
     session_log.cpp \
-    treatment_session.cpp
+    treatment_session.cpp \
+    visual_feedback.cpp
 
 HEADERS += \
     device_settings.h \

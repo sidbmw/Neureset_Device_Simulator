@@ -10,6 +10,9 @@
 #include <QString>
 #include <QDateTime>
 #include <QLabel>
+#include "eeg_interface.h"
+#include "visual_feedback.h"
+#include "treatment_session.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

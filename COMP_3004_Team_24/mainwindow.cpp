@@ -13,6 +13,7 @@
 #include <QTimer>
 #include <QDateTime>
 #include <QInputDialog>
+#include "visual_feedback.h"
 
 int MainWindow::elapsedTime=141;
 
@@ -364,6 +365,9 @@ void MainWindow::newSession() { // this will be moved to session class later
     });
 
     contactCheckTimer->start(1000);
+    if(control->getIsConnected()) {
+        ui->contactIndicator->setStyleSheet("background-Color:blue");
+    }
  }
 
 void MainWindow::playButtonPressed() {

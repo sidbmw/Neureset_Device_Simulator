@@ -20,8 +20,11 @@ public:
     // Calculates the overall baseline average frequency for all sites
     double calculateOverallBaselineFrequency();
 
+    // Applies a new frequency to the specified EEG site
+    void applyFrequencyToSite(int siteIndex, double newFrequency);
+
 private:
-    std::vector<double> signals; // Mock signals for each EEG site
+    std::vector<double> eegSignals; // Mock signals for each EEG site
 };
 
 #endif 

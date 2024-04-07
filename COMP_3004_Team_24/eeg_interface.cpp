@@ -2,11 +2,12 @@
 #include <algorithm>
 #include <numeric>
 #include <random>
+#include <iostream>
 
 EEGInterface::EEGInterface() {
     // Initialize mock signals for each EEG site with random values
-    signals.resize(21);
-    std::generate(signals.begin(), signals.end(), []() {
+    eegSignals.resize(21);
+    std::generate(eegSignals.begin(), eegSignals.end(), []() {
         static std::default_random_engine e;
         static std::uniform_real_distribution<> dis(0.5, 1.5); // Mock signal range
         return dis(e);
@@ -20,8 +21,8 @@ void EEGInterface::initialize() {
 }
 
 double EEGInterface::readSignal(int siteIndex) {
-    if (siteIndex >= 0 && siteIndex < signals.size()) {
-        return signals[siteIndex];
+    if (siteIndex >= 0 && siteIndex < eegSignals.size()) {
+        return eegSignals[siteIndex];
     }
     return 0.0; // Return 0 if siteIndex is out of range
 }
@@ -33,6 +34,22 @@ double EEGInterface::calculateBaselineFrequency(int siteIndex) {
 
 double EEGInterface::calculateOverallBaselineFrequency() {
     // Mock calculation of overall baseline frequency
-    double total = std::accumulate(signals.begin(), signals.end(), 0.0);
-    return total / signals.size();
+    double total = std::accumulate(eegSignals.begin(), eegSignals.end(), 0.0);
+    return total / eegSignals.size();
+}
+
+void EEGInterface::applyFrequencyToSite(int siteIndex, double newFrequency) {
+    // Check if the siteIndex is within the valid range
+    if (siteIndex >= 0 && siteIndex < eegSignals.size()) {
+        // Mock implementation: Log applying new frequency to the site
+        // In a real scenario, this would interface with EEG hardware to apply the frequency
+        std::cout << "Applying frequency " << newFrequency << " Hz to site " << siteIndex << std::endl;
+        
+        // Update the signal value for the site to simulate applying the new frequency
+        // This is a simplification and in real application, the interaction with hardware would be more complex
+        eegSignals[siteIndex] = newFrequency;
+    } else {
+        // Handle invalid siteIndex
+        std::cerr << "Invalid site index: " << siteIndex << ". Cannot apply frequency." << std::endl;
+    }
 }
