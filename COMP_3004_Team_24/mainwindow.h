@@ -65,10 +65,10 @@ private slots:
     void resetButtonPressed();
     void makeContact();
     void removeContact();
-    void updateSessionTime();
+    void updateTimer();
     void updateBatteryDisplay();
     void clearLowBatteryMessage();
-    void updateDateTime();
+    void displayNewDateTime();
 
 public slots:
     void menuButtonPressed();
