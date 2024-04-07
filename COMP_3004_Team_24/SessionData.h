@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include <QString>
 #include <QDateTime>
 
 using namespace std;
@@ -14,6 +15,7 @@ class SessionData{
     public:
         SessionData(const QDateTime& startTime);
         QDateTime getSessionTime() const;
+        void print();
 
     private:
         QDateTime startTime;

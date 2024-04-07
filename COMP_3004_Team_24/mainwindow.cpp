@@ -57,6 +57,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     // connect(progressBarTimer, SIGNAL(timeout()), this, SLOT(checkContactStatus()));
     // connect(contactLostTimer, SIGNAL(timeout()), this, SLOT(contactLostTimeout()));
+
+    // Start incrementing timer
+    sessionTimer = new QTimer(this);
+    connect(sessionTimer, &QTimer::timeout, this, &MainWindow::updateSessionTime);
+    sessionTimer->start(1000);
+
+    log = new session_log();
 }
 
 MainWindow::~MainWindow()
@@ -75,6 +82,7 @@ MainWindow::~MainWindow()
 
     delete ui;
     delete control;
+    delete log;
     delete scene;
 }
 
@@ -101,6 +109,9 @@ void MainWindow::powerButtonPressed(){
 }
 
 void MainWindow::menuButtonPressed() {
+
+    control->setSessionLogOn(false);
+    sessionPos = 0;
 
     if(control->getSystemOn()==false){
 
@@ -167,6 +178,26 @@ void MainWindow::upSelectorPressed(){
         }
 
     }
+    else if (control->getSessionLogOn()){
+
+        std::vector<SessionData*> list = log->getSessionHistory();
+
+        if (list.empty()){
+            //std::cout << "nothing in list" << std::endl;
+        }
+        else{
+
+            if (sessionPos > 0){
+                sessionPos--;
+                //qDebug()<<list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss");
+                sessionlabel->setText(list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
+            }
+            else {
+                //std::cout << "can not go down" << std::endl;
+            }
+        }
+
+    }
 }
 
 void MainWindow::downSelectorPressed(){
@@ -185,6 +216,27 @@ void MainWindow::downSelectorPressed(){
         }
 
     }
+    else if (control->getSessionLogOn()){
+
+
+        std::vector<SessionData*> list = log->getSessionHistory();
+
+        if (list.empty()){
+            //std::cout << "nothing in list" << std::endl;
+        }
+        else{
+
+            if (sessionPos < list.size()-1){
+                sessionPos++;
+                //qDebug()<<list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss");
+                sessionlabel->setText(list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
+            }
+            else {
+                //std::cout << "can not go up" << std::endl;
+            }
+        }
+
+    }
 }
 
 
@@ -196,10 +248,12 @@ void MainWindow::okButtonPressed(){
             control->setMenuOn(false);
             ui->dateAndTimeDisplay->hide();
             newSession();
+
         }else if( current==2){
             control->setMenuOn(false);
             ui->dateAndTimeDisplay->hide();
-            displayMessage("please add Code for session logs");
+            sessionLog();
+
         }else if(current ==3 ){
             control->setMenuOn(false);
             ui->dateAndTimeDisplay->show();
@@ -246,6 +300,7 @@ void MainWindow::displayMessage(const QString &output){
 }
 
 void MainWindow::newSession() { // this will be moved to session class later
+
     QFrame *parentFrame = ui->mainDisplay;
     clearFrame(parentFrame);
     control->setInNewSession(true);
@@ -274,6 +329,9 @@ void MainWindow::newSession() { // this will be moved to session class later
     widgetLayout->addWidget(progressBar);
     layout->addWidget(widget);
 
+    // for session log -syd
+    QDateTime startTime = currentDateAndTime;
+    //std::cout << "start time: " << startTime.toString("yyyy-MM-dd hh:mm:ss").toStdString() << std::endl;
 
     progressBarTimer = new QTimer(this);
     labelTimer=new QTimer(this);
@@ -305,7 +363,8 @@ void MainWindow::newSession() { // this will be moved to session class later
             progressBarTimer->stop();
             contactCheckTimer->stop();
 
-
+            // if the session is completed, add it -syd
+            log->addSession(startTime);
         }
 
         if(elapsedTime>=60 && elapsedTime <= 82){
@@ -395,9 +454,42 @@ void MainWindow::removeContact(){
     control->setIsConnected(false);
 }
 
-void MainWindow::sessionLog() { // this will be moved to session class later
-    // logger for current session
-    qInfo("insert loggin methods here");
+void MainWindow::sessionLog() {
+
+    log->print();
+
+    QFrame *parentFrame = ui->mainDisplay;
+    clearFrame(parentFrame);
+
+    // select session log -> should be in ok button ????
+    control->setSessionLogOn(true);
+
+    // Create a layout for the parent frame
+    QVBoxLayout *layout = new QVBoxLayout(parentFrame);
+
+    // Create a new widget
+    QWidget *widget = new QWidget;
+    widget->setObjectName("widget");
+    widget->setStyleSheet("background-color: black;");
+    QVBoxLayout *widgetLayout = new QVBoxLayout(widget);
+    widget->setLayout(widgetLayout);
+
+    std::vector<SessionData*> list = log->getSessionHistory();
+
+    if (list.empty()){
+        sessionlabel = new QLabel("Empty");
+    }
+    else{
+        sessionlabel = new QLabel(list[0]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
+    }
+
+    sessionlabel->setObjectName("sessionLogLabel");
+    sessionlabel->setStyleSheet("color: white; font-size: 16px;font-weight: bold;");
+    sessionlabel->setAlignment(Qt::AlignCenter);
+    widgetLayout->addWidget(sessionlabel);
+
+    layout->addWidget(widget);
+
 }
 
 void MainWindow::dateTimeSetting() {

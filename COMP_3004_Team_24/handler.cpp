@@ -8,29 +8,15 @@ Handler::Handler(bool system_on, QDate date, QTime time) {
     this->totalTimeOfTimer=(2 * 60 + 21) * 1000;
     this->isConnected=false;
     this->pauseButton=false;
-    this->currentDate=date;
-    this->currentTime=time;
+    this->sessionLogOn=false; // syd code
 }
 
-
-QDate Handler::getCurrentDate(){
-    return this->currentDate;
+bool Handler :: getSessionLogOn(){ // syd code
+    return sessionLogOn;
 }
-
-QTime Handler::getCurrentTime(){
-    return this->currentTime;
+void Handler::setSessionLogOn(bool b){ // syd code
+    this->sessionLogOn=b;
 }
-
-
-
-
-void Handler::setCurrentTime(QTime t){
-    this->currentTime=t;
-}
-void Handler::setCurrentDate(QDate d){
-    this->currentDate=d;
-}
-
 void Handler::setPauseButton(bool b){
     this->pauseButton=b;
 }

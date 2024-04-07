@@ -14,6 +14,7 @@
 #include "eeg_interface.h"
 #include "visual_feedback.h"
 #include "treatment_session.h"
+#include "session_log.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -31,8 +32,9 @@ private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
     Handler *control;
+    session_log *log; // syd code
     void clearFrame(QFrame *frame);
-    QDateTime currentDateAndTime;
+    QDateTime currentDateAndTime = QDateTime::currentDateTime();
     QProgressBar *batteryProgressBar;
     QLabel *lowBatteryMsg;
 
@@ -47,6 +49,9 @@ private:
     QAction *newSessionAction;
     QAction *sessionLogAction;
     QAction *dateTimeSettingAction;
+
+    QLabel *sessionlabel; // syd code
+    int sessionPos = 0;
 
     void displayMessage(const QString &output);
     void cleaningTimer();
