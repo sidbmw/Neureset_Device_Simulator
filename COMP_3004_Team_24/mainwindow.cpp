@@ -415,12 +415,12 @@ void MainWindow::sessionLog() { // this will be moved to session class later
 
 void MainWindow::dateTimeSetting() {
     bool ok;
-    QString dateAndTime = QInputDialog::getText(this, tr("Session Date & Time"), tr("Enter Date-Time"), QLineEdit::Normal, QDateTime::currentDateTime().toString(), &ok);
+    QString dateAndTime = QInputDialog::getText(this, tr("Session Date & Time"), tr("Enter Date-Time"), QLineEdit::Normal, QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"), &ok);
     if (ok && !dateAndTime.isEmpty()){
-        currentDateAndTime = QDateTime::fromString(dateAndTime, "ddd MMM d hh:mm:ss yyyy");
+        currentDateAndTime = QDateTime::fromString(dateAndTime, "yyyy-MM-dd hh:mm:ss");
 //        displayMessage("Date -> " + dateAndTime);
 
-        ui->dateAndTimeDisplay->setText((currentDateAndTime.toString()));
+        ui->dateAndTimeDisplay->setText((currentDateAndTime.toString("yyyy-MM-dd hh:mm:ss")));
         ui->dateAndTimeDisplay->setStyleSheet("color: white; font-size: 6pt;");
 
 
@@ -433,7 +433,7 @@ void MainWindow::dateTimeSetting() {
 
 void MainWindow::updateSessionTime(){
     currentDateAndTime = currentDateAndTime.addSecs(1);
-    ui->dateAndTimeDisplay->setText(currentDateAndTime.toString("ddd MMM d hh:mm:ss yyyy"));
+    ui->dateAndTimeDisplay->setText(currentDateAndTime.toString("yyyy-MM-dd hh:mm:ss"));
     ui->dateAndTimeDisplay->raise();
     ui->dateAndTimeDisplay->update();
 }
