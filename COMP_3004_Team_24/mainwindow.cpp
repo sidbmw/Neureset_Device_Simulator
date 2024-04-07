@@ -423,6 +423,11 @@ void MainWindow::dateTimeSetting() {
         ui->dateAndTimeDisplay->setText((currentDateAndTime.toString("yyyy-MM-dd hh:mm:ss")));
         ui->dateAndTimeDisplay->setStyleSheet("color: white; font-size: 6pt;");
 
+        // stop and delete previous timer if running
+        if (sessionTimer) {
+            sessionTimer->stop();
+            delete sessionTimer;
+        }
 
         // Start incrementing timer
         sessionTimer = new QTimer(this);
