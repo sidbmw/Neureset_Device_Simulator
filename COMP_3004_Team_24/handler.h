@@ -22,6 +22,8 @@ public:
     bool getIsConnected();
     void setPauseButton(bool b);
     bool getPauseButton();
+    void setConnectedToPowerSource(bool connected);
+    bool isConnectedToPowerSource();
 
 
 private:
@@ -34,6 +36,7 @@ private:
     int totalTimeOfTimer;
     bool isConnected;
     bool pauseButton;
+    bool connectedToPowerSource;
 };
 
 #endif // HANDLER_H

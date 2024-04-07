@@ -9,6 +9,7 @@
 #include <QProgressBar>
 #include <QString>
 #include <QDateTime>
+#include <QLabel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,11 +29,14 @@ private:
     Handler *control;
     void clearFrame(QFrame *frame);
     QDateTime currentDateAndTime;
+    QProgressBar *batteryProgressBar;
+    QLabel *lowBatteryMsg;
 
     QTimer *sessionTimer;
     QTimer *progressBarTimer;
     QTimer *labelTimer;
     QTimer *contactCheckTimer;
+    QTimer *batteryTimer;
     int contactLostTimer;
 
     QMenu *menu;
@@ -57,6 +61,8 @@ private slots:
     void makeContact();
     void removeContact();
     void updateSessionTime();
+    void updateBatteryDisplay();
+    void clearLowBatteryMessage();
 
 public slots:
     void menuButtonPressed();
@@ -65,6 +71,7 @@ public slots:
     void dateTimeSetting();
     void checkContactStatus();
     void contactLostTimeout();
+    void togglePowerSource();
 
 };
 #endif // MAINWINDOW_H
