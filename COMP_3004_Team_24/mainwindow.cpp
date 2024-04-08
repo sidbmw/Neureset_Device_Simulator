@@ -22,11 +22,11 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , scene(new QGraphicsScene(this))
+    , batteryTimer(new QTimer(this))
     , menu(new QMenu(this))
     , newSessionAction(new QAction("New Session", this))
     , sessionLogAction(new QAction("Session Log", this))
     , dateTimeSettingAction(new QAction("Date and Time Setting", this))
-    , batteryTimer(new QTimer(this))
 {
     dateTimeEdit=NULL;
     contactLostTimer=0;
@@ -54,14 +54,6 @@ MainWindow::MainWindow(QWidget *parent)
     batteryProgressBar->setRange(0, 100);
     batteryProgressBar->setValue(100);
     lowBatteryMsg = ui -> lowBatteryMsg;
-
-    // connect(progressBarTimer, SIGNAL(timeout()), this, SLOT(checkContactStatus()));
-    // connect(contactLostTimer, SIGNAL(timeout()), this, SLOT(contactLostTimeout()));
-
-    // Start incrementing timer
-    sessionTimer = new QTimer(this);
-    connect(sessionTimer, &QTimer::timeout, this, &MainWindow::updateSessionTime);
-    sessionTimer->start(1000);
 
     log = new session_log();
 }
