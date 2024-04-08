@@ -55,14 +55,6 @@ MainWindow::MainWindow(QWidget *parent)
     batteryProgressBar->setValue(100);
     lowBatteryMsg = ui -> lowBatteryMsg;
 
-    // connect(progressBarTimer, SIGNAL(timeout()), this, SLOT(checkContactStatus()));
-    // connect(contactLostTimer, SIGNAL(timeout()), this, SLOT(contactLostTimeout()));
-
-    // Start incrementing timer
-    // sessionTimer = new QTimer(this);
-    // connect(sessionTimer, &QTimer::timeout, this, &MainWindow::updateTimer);
-    // sessionTimer->start(1000);
-
     log = new session_log();
 }
 
