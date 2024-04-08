@@ -329,7 +329,7 @@ void MainWindow::newSession() { // this will be moved to session class later
     widgetLayout->addWidget(progressBar);
     layout->addWidget(widget);
 
-    // for session log -syd
+    // for session log
     QDateTime startTime = currentDateAndTime;
     //std::cout << "start time: " << startTime.toString("yyyy-MM-dd hh:mm:ss").toStdString() << std::endl;
 
@@ -363,7 +363,7 @@ void MainWindow::newSession() { // this will be moved to session class later
             progressBarTimer->stop();
             contactCheckTimer->stop();
 
-            // if the session is completed, add it -syd
+            // if the session is completed, add it
             log->addSession(startTime);
         }
 
@@ -456,12 +456,12 @@ void MainWindow::removeContact(){
 
 void MainWindow::sessionLog() {
 
-    log->print();
+    //log->print();
 
     QFrame *parentFrame = ui->mainDisplay;
     clearFrame(parentFrame);
 
-    // select session log -> should be in ok button ????
+    // select session log
     control->setSessionLogOn(true);
 
     // Create a layout for the parent frame

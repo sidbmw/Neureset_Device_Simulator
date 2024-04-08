@@ -32,7 +32,7 @@ private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
     Handler *control;
-    session_log *log; // syd code
+    session_log *log;
     void clearFrame(QFrame *frame);
     QDateTime currentDateAndTime = QDateTime::currentDateTime();
     QProgressBar *batteryProgressBar;
@@ -50,7 +50,7 @@ private:
     QAction *sessionLogAction;
     QAction *dateTimeSettingAction;
 
-    QLabel *sessionlabel; // syd code
+    QLabel *sessionlabel; // for session log display
     int sessionPos = 0;
 
     void displayMessage(const QString &output);

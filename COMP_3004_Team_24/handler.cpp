@@ -8,13 +8,13 @@ Handler::Handler(bool system_on, QDate date, QTime time) {
     this->totalTimeOfTimer=(2 * 60 + 21) * 1000;
     this->isConnected=false;
     this->pauseButton=false;
-    this->sessionLogOn=false; // syd code
+    this->sessionLogOn=false;
 }
 
-bool Handler :: getSessionLogOn(){ // syd code
+bool Handler :: getSessionLogOn(){
     return sessionLogOn;
 }
-void Handler::setSessionLogOn(bool b){ // syd code
+void Handler::setSessionLogOn(bool b){
     this->sessionLogOn=b;
 }
 void Handler::setPauseButton(bool b){
