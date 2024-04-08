@@ -22,11 +22,11 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , scene(new QGraphicsScene(this))
+    , batteryTimer(new QTimer(this))
     , menu(new QMenu(this))
     , newSessionAction(new QAction("New Session", this))
     , sessionLogAction(new QAction("Session Log", this))
     , dateTimeSettingAction(new QAction("Date and Time Setting", this))
-    , batteryTimer(new QTimer(this))
 {
     dateTimeEdit=NULL;
     contactLostTimer=0;
@@ -59,9 +59,9 @@ MainWindow::MainWindow(QWidget *parent)
     // connect(contactLostTimer, SIGNAL(timeout()), this, SLOT(contactLostTimeout()));
 
     // Start incrementing timer
-    sessionTimer = new QTimer(this);
-    connect(sessionTimer, &QTimer::timeout, this, &MainWindow::updateSessionTime);
-    sessionTimer->start(1000);
+    // sessionTimer = new QTimer(this);
+    // connect(sessionTimer, &QTimer::timeout, this, &MainWindow::updateTimer);
+    // sessionTimer->start(1000);
 
     log = new session_log();
 }
