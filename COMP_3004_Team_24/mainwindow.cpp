@@ -59,9 +59,9 @@ MainWindow::MainWindow(QWidget *parent)
     // connect(contactLostTimer, SIGNAL(timeout()), this, SLOT(contactLostTimeout()));
 
     // Start incrementing timer
-    sessionTimer = new QTimer(this);
-    connect(sessionTimer, &QTimer::timeout, this, &MainWindow::updateSessionTime);
-    sessionTimer->start(1000);
+    //sessionTimer = new QTimer(this);
+    //connect(sessionTimer, &QTimer::timeout, this, &MainWindow::updateSessionTime);
+    //sessionTimer->start(1000);
 
     log = new session_log();
 }
