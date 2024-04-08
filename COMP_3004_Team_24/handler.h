@@ -26,8 +26,8 @@ public:
     bool getPauseButton();
     void setConnectedToPowerSource(bool connected);
     bool isConnectedToPowerSource();
-    bool getSessionLogOn(); // syd code
-    void setSessionLogOn(bool b); // syd code
+    bool getSessionLogOn();
+    void setSessionLogOn(bool b);
 
 
 private:
