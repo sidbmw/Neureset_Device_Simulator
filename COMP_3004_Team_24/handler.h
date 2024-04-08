@@ -26,10 +26,8 @@ public:
     bool getPauseButton();
     void setConnectedToPowerSource(bool connected);
     bool isConnectedToPowerSource();
-    QDate getCurrentDate();
-    QTime getCurrentTime();
-    void setCurrentDate(QDate);
-    void setCurrentTime(QTime);
+    bool getSessionLogOn();
+    void setSessionLogOn(bool b);
 
 
 private:
@@ -43,8 +41,7 @@ private:
     bool isConnected;
     bool pauseButton;
     bool connectedToPowerSource;
-    QDate currentDate;
-    QTime currentTime;
+    bool sessionLogOn; //to keep track of if the session log option is selected
 };
 
 #endif // HANDLER_H
