@@ -487,7 +487,6 @@ void MainWindow::sessionLog() {
 void MainWindow::dateTimeSetting() {
     cleaningTimer();
     control->setAllSettingToDefault();
-    control->setMenuOn(true);
 
     QFrame *parentFrame = ui->mainDisplay;
     clearFrame(parentFrame);
@@ -552,17 +551,6 @@ void MainWindow::updateTimer(){
     ui->dateAndTimeDisplay->update();
 }
 
-void MainWindow::checkContactStatus(){
-    // check for contact for 5 minutes
-    // if no contact after 5 min, turn off device
-    // erase current session
-}
-
-void MainWindow::contactLostTimeout(){
-    // red light flases
-    // session is paused
-    // device starts beeping until contact is reestablished
-}
 
 void MainWindow::updateBatteryDisplay() {
     int currentValue = batteryProgressBar->value();
