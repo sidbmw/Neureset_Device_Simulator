@@ -88,7 +88,7 @@ void MainWindow::powerButtonPressed(){
         batteryTimer->stop();
     } else {
         control->setSystemOn(true);
-        batteryTimer->start(3000);
+        batteryTimer->start(50000);
         displayMessage("Welcome to Final Project\n\nTeam Members:\nSiddharth Natamai\nKiran Adhikari\nSydney McLeod\nKripa Adhikari\nNikhil Sharma");
         QTimer::singleShot(3000, this,[this](){
             if(!control->getMenuOn() && !control->getInNewSession()){
@@ -558,7 +558,7 @@ void MainWindow::updateBatteryDisplay() {
     if (control->isConnectedToPowerSource()) {
         // If connected to power source, increase battery level
         if (currentValue < 100) {
-            currentValue += 5;
+            currentValue += 10;
             batteryProgressBar->setValue(currentValue);
         }
         // If battery reaches 100%, stop increasing and wait for power source button click
@@ -569,7 +569,7 @@ void MainWindow::updateBatteryDisplay() {
     } else {
         // If not connected to power source, decrease battery level
         if (currentValue > 0) {
-            currentValue -= 5;
+            currentValue -= 10;
             batteryProgressBar->setValue(currentValue);
         }
         // Check if battery level drops to 0%, shutdown device
@@ -592,11 +592,11 @@ void MainWindow::updateBatteryDisplay() {
 void MainWindow::togglePowerSource() {
     if (control->isConnectedToPowerSource()) {
         control->setConnectedToPowerSource(false);
-        batteryTimer->start(3000);
+        batteryTimer->start(50000);
         ui->powerSourceButton->setStyleSheet("background-color: red;");
     } else {
         control->setConnectedToPowerSource(true);
-        batteryTimer->start(3000);
+        batteryTimer->start(50000);
         ui->powerSourceButton->setStyleSheet("background-color: green;");
     }
 }
