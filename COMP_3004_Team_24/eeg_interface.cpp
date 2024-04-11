@@ -21,7 +21,7 @@ void EEGInterface::initialize() {
 }
 
 double EEGInterface::readSignal(int siteIndex) {
-    if (siteIndex >= 0 && siteIndex < eegSignals.size()) {
+    if (siteIndex >= 0 && siteIndex < static_cast<int>(eegSignals.size())) {
         return eegSignals[siteIndex];
     }
     return 0.0; // Return 0 if siteIndex is out of range
@@ -40,7 +40,7 @@ double EEGInterface::calculateOverallBaselineFrequency() {
 
 void EEGInterface::applyFrequencyToSite(int siteIndex, double newFrequency) {
     // Check if the siteIndex is within the valid range
-    if (siteIndex >= 0 && siteIndex < eegSignals.size()) {
+    if (siteIndex >= 0 && siteIndex < static_cast<int>(eegSignals.size())) {
         // Mock implementation: Log applying new frequency to the site
         // In a real scenario, this would interface with EEG hardware to apply the frequency
         std::cout << "Applying frequency " << newFrequency << " Hz to site " << siteIndex << std::endl;
@@ -52,4 +52,15 @@ void EEGInterface::applyFrequencyToSite(int siteIndex, double newFrequency) {
         // Handle invalid siteIndex
         std::cerr << "Invalid site index: " << siteIndex << ". Cannot apply frequency." << std::endl;
     }
+}
+// Add a method to periodically generate simulated EEG data
+void EEGInterface::generateSimulatedEEGData() {
+    // Periodically update eegSignals with new simulated data
+    // This is a placeholder for the actual implementation
+    std::generate(eegSignals.begin(), eegSignals.end(), []() {
+        static std::default_random_engine e;
+        static std::uniform_real_distribution<> dis(0.5, 1.5); // Update range if needed
+        return dis(e);
+    });
+    // This method should be called at regular intervals to simulate real-time EEG data
 }

@@ -5,6 +5,7 @@
 #include <fstream>
 #include <vector>
 #include <future>
+#include <iostream>
 
 TreatmentSession::TreatmentSession(EEGInterface& eegInterface, VisualFeedback& visualFeedback) : eegInterface(eegInterface), visualFeedback(visualFeedback) {
 }
@@ -76,13 +77,42 @@ void TreatmentSession::exportSessionData() const {
     // Export session data to a log file
     std::ofstream sessionLog("session_log.txt", std::ios::app);
     sessionLog << "Initial Overall Baseline Frequency: " << overallBaselineFrequency << "\n";
-    for (int i = 0; i < siteBaselineFrequencies.size(); i++) {
+    for (int i = 0; i < static_cast<int>(siteBaselineFrequencies.size()); i++) {
         sessionLog << "Site " << i << " Baseline Frequency (Before): " << siteBaselineFrequencies[i] << "\n";
     }
     sessionLog << "Final Overall Baseline Frequency: " << overallBaselineFrequency << "\n";
-    for (int i = 0; i < siteBaselineFrequencies.size(); i++) {
+    for (int i = 0; i < static_cast<int>(siteBaselineFrequencies.size()); i++) {
         sessionLog << "Site " << i << " Baseline Frequency (After): " << siteBaselineFrequencies[i] << "\n";
     }
     sessionLog << "\n";
     sessionLog.close();
+}
+// Implement therapy session simulation with adjusted timing for testing
+void TreatmentSession::simulateTherapySession() {
+    std::cout << "Starting therapy session simulation...\n";
+    for (int round = 1; round <= 4; ++round) {
+        std::cout << "Round " << round << " of therapy\n";
+        // Simulate 5 seconds for analysis
+        std::this_thread::sleep_for(std::chrono::seconds(5));
+        std::cout << "Processing input waveform\n";
+        // Simulate calculating dominant frequency
+        double dominantFrequency = calculateDominantFrequency();
+        std::cout << "Dominant frequency calculated: " << dominantFrequency << "\n";
+        // Simulate delivering 1 sec feedback
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::cout << "Delivering feedback\n";
+    }
+    // Simulate final analysis of 5 sec
+    std::this_thread::sleep_for(std::chrono::seconds(5));
+    std::cout << "Therapy finished\n";
+}
+
+double TreatmentSession::calculateDominantFrequency() {
+    // Placeholder for dominant frequency calculation logic
+    // Simplified dominant frequency calculation
+    double f1 = 8.0, A1 = 0.5; // Example values for frequency and amplitude
+    double f2 = 12.0, A2 = 0.5;
+    double f3 = 30.0, A3 = 0.5;
+    double fd = (f1 * A1 * A1 + f2 * A2 * A2 + f3 * A3 * A3) / (A1 * A1 + A2 * A2 + A3 * A3);
+    return fd; // Return the calculated dominant frequency
 }

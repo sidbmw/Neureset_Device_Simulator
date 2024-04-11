@@ -15,6 +15,9 @@ public:
 
     void runTreatmentCycle();
 
+    void simulateTherapySession(); 
+    double calculateDominantFrequency(); 
+
 private:
     EEGInterface& eegInterface;
     VisualFeedback& visualFeedback; 

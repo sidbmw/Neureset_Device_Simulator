@@ -28,6 +28,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void createWaveChart();
+
 private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;

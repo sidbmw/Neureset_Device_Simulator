@@ -23,6 +23,9 @@ public:
     // Applies a new frequency to the specified EEG site
     void applyFrequencyToSite(int siteIndex, double newFrequency);
 
+    // Generates simulated EEG data
+    void generateSimulatedEEGData();
+
 private:
     std::vector<double> eegSignals; // Mock signals for each EEG site
 };
