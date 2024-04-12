@@ -80,8 +80,8 @@ public slots:
     void newSession();
     void sessionLog();
     void dateTimeSetting();
-    void checkContactStatus();
-    void contactLostTimeout();
+    // void checkContactStatus();
+    // void contactLostTimeout();
     void togglePowerSource();
 
 };
