@@ -15,6 +15,7 @@ class SessionData{
     public:
         SessionData(const QDateTime& startTime);
         QDateTime getSessionTime() const;
+        QDateTime getSessionEndTime() const;
         void print();
 
     private:
