@@ -476,12 +476,14 @@ void MainWindow::sessionLog() {
 
     std::vector<SessionData*> list = log->getSessionHistory();
 
+    sessionPos= 0;
+
     if (list.empty()){
         sessionlabel = new QLabel("Empty");
     }
     else{
-//        sessionlabel = new QLabel(list[0]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
-        sessionlabel = new QLabel(currentDateAndTime.toString("yyyy-MM-dd hh:mm:ss"));
+        QString sessionDisplayText = QString("Session #%1 \nDate&Time: %2").arg(sessionPos + 1).arg(list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
+        sessionlabel = new QLabel(sessionDisplayText);
 
     }
 
