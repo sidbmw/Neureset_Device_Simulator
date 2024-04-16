@@ -16,7 +16,7 @@
 #include <QDateTimeEdit>
 #include "visual_feedback.h"
 
-int MainWindow::elapsedTime=141;
+int MainWindow::elapsedTime=141; // changed for testing
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -179,13 +179,10 @@ void MainWindow::upSelectorPressed(){
         }
         else{
 
-            if (sessionPos < list.size()-1){
-                sessionPos++;
+            if (sessionPos > 0){
+                sessionPos--;
                 QString sessionDisplayTest = QString("Session #%1 \nDate&Time: %2").arg(sessionPos + 1).arg(list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
                 sessionlabel->setText(sessionDisplayTest);
-            }
-            else {
-                //std::cout << "can not go down" << std::endl;
             }
         }
 
@@ -218,13 +215,10 @@ void MainWindow::downSelectorPressed(){
         }
         else{
 
-            if (sessionPos < list.size()-1){
+            if (sessionPos < list.size() - 1){
                 sessionPos++;
                 QString sessionDisplayTest = QString("Session #%1 \nDate&Time: %2").arg(sessionPos + 1).arg(list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
                 sessionlabel->setText(sessionDisplayTest);
-            }
-            else {
-                //std::cout << "can not go up" << std::endl;
             }
         }
 
