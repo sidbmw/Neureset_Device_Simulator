@@ -15,10 +15,12 @@ class SessionData{
     public:
         SessionData(const QDateTime& startTime);
         QDateTime getSessionTime() const;
+        QDateTime getSessionEndTime() const;
         void print();
 
     private:
-        QDateTime startTime;
+        QDateTime sessionStartTime;
+        QDateTime sessionEndTime;
         // need to retrieve the data for these for the PC
         vector<double> beforeDominantAverageFreqency;
         vector<double> afterDominantAverageFreqency;

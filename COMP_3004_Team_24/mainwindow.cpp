@@ -16,7 +16,7 @@
 #include <QDateTimeEdit>
 #include "visual_feedback.h"
 
-int MainWindow::elapsedTime=141;
+int MainWindow::elapsedTime=141; 
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -56,6 +56,7 @@ MainWindow::MainWindow(QWidget *parent)
     lowBatteryMsg = ui -> lowBatteryMsg;
 
     log = new session_log();
+    endLog = new session_log();
 }
 
 MainWindow::~MainWindow()
@@ -75,6 +76,7 @@ MainWindow::~MainWindow()
     delete ui;
     delete control;
     delete log;
+    delete endLog;
     delete scene;
 }
 
@@ -173,19 +175,17 @@ void MainWindow::upSelectorPressed(){
     else if (control->getSessionLogOn()){
 
         std::vector<SessionData*> list = log->getSessionHistory();
+        std::vector<SessionData*> endTimeList = endLog->getSessionHistory();
 
-        if (list.empty()){
-            //std::cout << "nothing in list" << std::endl;
+        if (list.empty() && endTimeList.empty()){
+            sessionlabel->setText("No sessions available.");
         }
         else{
 
             if (sessionPos > 0){
                 sessionPos--;
-                //qDebug()<<list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss");
-                sessionlabel->setText(list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
-            }
-            else {
-                //std::cout << "can not go down" << std::endl;
+                QString sessionDisplayText = QString("Session #%1 \nStart: %2 \nEnd: %3").arg(sessionPos + 1).arg(list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss")).arg(endTimeList[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
+                sessionlabel->setText(sessionDisplayText);
             }
         }
 
@@ -212,19 +212,17 @@ void MainWindow::downSelectorPressed(){
 
 
         std::vector<SessionData*> list = log->getSessionHistory();
+        std::vector<SessionData*> endTimeList = endLog->getSessionHistory();
 
-        if (list.empty()){
-            //std::cout << "nothing in list" << std::endl;
+        if (list.empty() && endTimeList.empty()){
+            sessionlabel->setText("No sessions available.");
         }
         else{
 
-            if (sessionPos < list.size()-1){
+            if (sessionPos < list.size() - 1){
                 sessionPos++;
-                //qDebug()<<list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss");
-                sessionlabel->setText(list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
-            }
-            else {
-                //std::cout << "can not go up" << std::endl;
+                QString sessionDisplayText = QString("Session #%1 \nStart: %2 \nEnd: %3").arg(sessionPos + 1).arg(list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss")).arg(endTimeList[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
+                sessionlabel->setText(sessionDisplayText);
             }
         }
 
@@ -293,6 +291,8 @@ void MainWindow::displayMessage(const QString &output){
 
 void MainWindow::newSession() { // this will be moved to session class later
 
+    sessionEndTime = QDateTime(); // reset session end time
+
     QFrame *parentFrame = ui->mainDisplay;
     clearFrame(parentFrame);
     control->setInNewSession(true);
@@ -322,7 +322,13 @@ void MainWindow::newSession() { // this will be moved to session class later
     layout->addWidget(widget);
 
     // for session log
-    QDateTime startTime = currentDateAndTime;
+    QDateTime startTime;
+    if (currentDateAndTime.isValid()){
+        startTime = currentDateAndTime;
+    }
+    else{
+        startTime = QDateTime::currentDateTime();
+    }
     //std::cout << "start time: " << startTime.toString("yyyy-MM-dd hh:mm:ss").toStdString() << std::endl;
 
     progressBarTimer = new QTimer(this);
@@ -338,6 +344,7 @@ void MainWindow::newSession() { // this will be moved to session class later
             // Stop the timer when progress bar is full
             progressBarTimer->stop();
             labelTimer->stop();
+            currentDateAndTime = QDateTime::currentDateTime(); // reset manually set date and time
         }
     });
 
@@ -355,8 +362,11 @@ void MainWindow::newSession() { // this will be moved to session class later
             progressBarTimer->stop();
             contactCheckTimer->stop();
 
+            sessionEndTime = QDateTime::currentDateTime();
             // if the session is completed, add it
             log->addSession(startTime);
+            endLog->addSession(sessionEndTime);
+            currentDateAndTime = QDateTime::currentDateTime();
         }
 
         if(elapsedTime>=60 && elapsedTime <= 82){
@@ -467,13 +477,17 @@ void MainWindow::sessionLog() {
     widget->setLayout(widgetLayout);
 
     std::vector<SessionData*> list = log->getSessionHistory();
+    std::vector<SessionData*> endTimeList = endLog->getSessionHistory();
 
-    if (list.empty()){
+    sessionPos= 0;
+
+    if (list.empty() && endTimeList.empty()){
         sessionlabel = new QLabel("Empty");
     }
-    else{
-        sessionlabel = new QLabel(list[0]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
-    }
+    else {
+            QString sessionDisplayText = QString("Session #%1 \nStart: %2 \nEnd: %3").arg(sessionPos + 1).arg(list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss")).arg(endTimeList[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
+            sessionlabel = new QLabel(sessionDisplayText);
+        }
 
     sessionlabel->setObjectName("sessionLogLabel");
     sessionlabel->setStyleSheet("color: white; font-size: 16px;font-weight: bold;");

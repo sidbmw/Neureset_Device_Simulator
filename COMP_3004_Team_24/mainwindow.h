@@ -33,6 +33,7 @@ private:
     QGraphicsScene *scene;
     Handler *control;
     session_log *log;
+    session_log *endLog;
     void clearFrame(QFrame *frame);
     QDateTime currentDateAndTime = QDateTime::currentDateTime();
     QProgressBar *batteryProgressBar;
@@ -58,6 +59,7 @@ private:
     static int elapsedTime;
     void cleaningIndicators();
     QDateTimeEdit *dateTimeEdit;
+    QDateTime sessionEndTime;
 
 
 private slots:
