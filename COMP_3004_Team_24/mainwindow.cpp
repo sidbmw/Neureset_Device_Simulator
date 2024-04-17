@@ -88,6 +88,8 @@ void MainWindow::powerButtonPressed(){
         control->setSystemOn(false);
         displayMessage("Shutting Down...");
         batteryTimer->stop();
+        ui->dateAndTimeDisplay->hide();
+        ui->dateAndTimeDisplay->clear();
     } else {
         control->setSystemOn(true);
         batteryTimer->start(50000);
