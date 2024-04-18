@@ -1,5 +1,6 @@
 #include "treatment_session.h"
 #include "visual_feedback.h"
+#include "eegsignalsimulator.h"
 #include <thread>
 #include <chrono>
 #include <fstream>
@@ -7,7 +8,9 @@
 #include <future>
 #include <iostream>
 
-TreatmentSession::TreatmentSession(EEGInterface& eegInterface, VisualFeedback& visualFeedback) : eegInterface(eegInterface), visualFeedback(visualFeedback) {
+TreatmentSession::TreatmentSession(EEGInterface& eegInterface, VisualFeedback& visualFeedback) : eegInterface(eegInterface), visualFeedback(visualFeedback), eegSimulator(21) {
+    eegSimulator.simulateEEGData();
+    baselineFrequencies = eegSimulator.calculateBaselineFrequencies();
 }
 
 TreatmentSession::~TreatmentSession() {
@@ -24,7 +27,8 @@ void TreatmentSession::startSession() {
 void TreatmentSession::runTreatmentCycle() {
     // Apply treatment to each EEG site
     for (int siteIndex = 0; siteIndex < 21; siteIndex++) {
-        applyTreatmentToSite(siteIndex);
+        double baselineFrequency = baselineFrequencies[siteIndex];
+        applyTreatmentToSite(baselineFrequency, siteIndex);
     }
 }
 
@@ -43,19 +47,16 @@ void TreatmentSession::calculateInitialBaseline() {
     overallBaselineFrequency = totalFrequency / 21;
 }
 
-void TreatmentSession::applyTreatmentToSite(int siteIndex) {
-    // Apply treatment to a specific EEG site
-    siteBaselineFrequency = eegInterface.calculateBaselineFrequency(siteIndex);
-    visualFeedback.turnOnGreenLight();
-    for (int i = 0; i < 16; i++) {
-        double offsetFrequency = 5.0;
-        double newFrequency = siteBaselineFrequency + offsetFrequency;
-        eegInterface.applyFrequencyToSite(siteIndex, newFrequency);
-        std::this_thread::sleep_for(std::chrono::milliseconds(62));
+void TreatmentSession::applyTreatmentToSite(double baselineFrequency, int siteIndex) {
+    const double offsetFrequency = 5.0; // Hz
+    double currentFrequency = baselineFrequency;
+    for (int i = 0; i < 16; ++i) { // Apply treatment every 1/16th of a second for 1 second
+        currentFrequency += offsetFrequency;
+        // Simulate recalculating the brainwave frequency and applying the offset
+        std::this_thread::sleep_for(std::chrono::milliseconds(62)); // Simulate time delay
     }
-    visualFeedback.turnOffGreenLight();
-    siteBaselineFrequency = eegInterface.calculateBaselineFrequency(siteIndex);
-    siteBaselineFrequencies.push_back(siteBaselineFrequency);
+    // Store or process the final frequency for the site after treatment
+    siteBaselineFrequencies.push_back(currentFrequency);
 }
 
 void TreatmentSession::calculateFinalBaseline() {

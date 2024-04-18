@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>846</width>
-    <height>637</height>
+    <width>811</width>
+    <height>802</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -372,14 +372,24 @@ border-image: url(&quot;:/images/circle-check-solid.svg&quot;);</string>
      <string>Power Source</string>
     </property>
    </widget>
+   <widget class="QWidget" name="sineWaveChart" native="true">
+    <property name="geometry">
+     <rect>
+      <x>29</x>
+      <y>520</y>
+      <width>741</width>
+      <height>151</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>846</width>
-     <height>37</height>
+     <width>811</width>
+     <height>24</height>
     </rect>
    </property>
   </widget>

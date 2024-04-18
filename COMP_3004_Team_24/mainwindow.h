@@ -11,6 +11,7 @@
 #include <QDateTime>
 #include <QLabel>
 #include <QDateTimeEdit>
+#include <QWidget>
 #include "eeg_interface.h"
 #include "visual_feedback.h"
 #include "treatment_session.h"
@@ -25,7 +26,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
     void createWaveChart();
@@ -88,6 +89,7 @@ public slots:
     // void checkContactStatus();
     // void contactLostTimeout();
     void togglePowerSource();
-
+    void on_contactOnButton_clicked(); 
 };
 #endif // MAINWINDOW_H
+
