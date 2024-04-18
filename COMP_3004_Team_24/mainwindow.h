@@ -29,6 +29,7 @@ public:
     ~MainWindow();
 
     void createWaveChart();
+    void displaySineWaveChart(); 
 
 private:
     Ui::MainWindow *ui;
