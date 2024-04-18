@@ -4,7 +4,7 @@ Team 24
 Members & Contribution 
 
 	Siddharth Natamai - Base Code, Main Use Case, Treatment Session (in-progress)
-	Kiran Adhikari - UI Drop Down Menu, Date&Time Use Case, Device State Diagram
+	Kiran Adhikari - UI Drop Down Menu, Date&Time Use Case, Session Log Use Case, Device State Diagram
 	Sydney McLeod - Use Case Document, UML Class Diagram, Session Log Use Case, Traceability Matrix
 	Kripa Adhikari - Use Case Document, Sequence Diagram: Normal Operation, Sequence Diagram: Battery Low Diagram, Battery Depletion Use Case
 	Nikhil Sharma - Created Device UI, New Session Use Case, Date&Time UI  
