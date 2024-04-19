@@ -16,6 +16,10 @@
 #include "visual_feedback.h"
 #include "treatment_session.h"
 #include "session_log.h"
+#include "waveform_generator.h"
+#include <QtCharts>
+#include <QChartView>
+#include "sinewavechart.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -65,6 +69,12 @@ private:
     QDateTimeEdit *dateTimeEdit;
     QDateTime sessionEndTime;
 
+    WaveformGenerator* generator;
+    QChartView *chartView;
+    QTimer *chartUpdateTimer;
+    int currentElectrode;
+    SineWaveChart *sineWaveChart;
+
 
 private slots:
     void powerButtonPressed();
@@ -80,6 +90,7 @@ private slots:
     void updateBatteryDisplay();
     void clearLowBatteryMessage();
     void displayNewDateTime();
+    void updateEEGChart(int electrode);
 
 public slots:
     void menuButtonPressed();

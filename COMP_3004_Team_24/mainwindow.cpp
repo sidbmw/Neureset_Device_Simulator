@@ -16,7 +16,7 @@
 #include <QDateTimeEdit>
 #include "visual_feedback.h"
 #include "sinewavechart.h"
-#include <QtCharts> 
+#include <QtCharts>
 #include <QChartView>
 #include <QLineSeries>
 #include <QValueAxis>
@@ -52,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(batteryTimer, SIGNAL(timeout()), this, SLOT(updateBatteryDisplay()));
     connect(ui->powerSourceButton, SIGNAL(clicked()), this, SLOT(togglePowerSource()));
 
+
     ui->dateAndTimeDisplay->hide();
     ui->lowBatteryMsg->hide();
     ui->sineWaveChart->setVisible(false); // Ensure sineWaveChart is hidden initially
@@ -64,6 +65,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     log = new session_log();
     endLog = new session_log();
+    generator = new WaveformGenerator();
+
+    chartUpdateTimer = new QTimer(this);
+    connect(chartUpdateTimer, &QTimer::timeout, this, &MainWindow::updateEEGChart);
 
 }
 
@@ -302,6 +307,10 @@ void MainWindow::newSession() { // this will be moved to session class later
 
     sessionEndTime = QDateTime(); // reset session end time
 
+    qInfo("clearing chart...");
+    clearEEGChart();
+    qInfo("chart cleared");
+
     QFrame *parentFrame = ui->mainDisplay;
     clearFrame(parentFrame);
     control->setInNewSession(true);
@@ -330,10 +339,23 @@ void MainWindow::newSession() { // this will be moved to session class later
     widgetLayout->addWidget(progressBar);
     layout->addWidget(widget);
 
+
     // creating the chart for eeg graph
-    SineWaveChart *sineWaveChart = new SineWaveChart();
-    QChartView *chartView = sineWaveChart->displayChart();
+
+//    if (sineWaveChart != nullptr){
+//        delete sineWaveChart;
+//    }
+//    if (chartView != nullptr && chartView->chart() != nullptr) {
+//        delete chartView->chart();
+//    }
+    if (!sineWaveChart) {
+        sineWaveChart = new SineWaveChart(generator);
+    }
+
+//    sineWaveChart = new SineWaveChart(generator);
+    chartView = sineWaveChart->displayChart(1);
     chartView->setVisible(false);
+
     layout->addWidget(chartView);
     parentFrame->setLayout(layout);
 
@@ -350,24 +372,32 @@ void MainWindow::newSession() { // this will be moved to session class later
     progressBarTimer = new QTimer(this);
     labelTimer=new QTimer(this);
 
+//    updateEEGChart();
+//    chartUpdateTimer->start(10000);
+    qInfo("ss");
     connect(progressBarTimer, &QTimer::timeout, [=]() {
-
-        // show the graph once timer starts
-        if (chartView != nullptr) {
-            chartView->setVisible(true);
-        }
-
         // Update progress bar value
         int newValue = progressBar->value() + 1;
         progressBar->setValue(newValue);
+
+        if (newValue == 1){
+            // show the graph once timer starts
+            if (chartView != nullptr) {
+                chartView->setVisible(true);
+            }
+            updateEEGChart();
+        }
+
         // Check if progress bar is full
         if (newValue >= 100) {
             // Stop the timer when progress bar is full
             progressBarTimer->stop();
             labelTimer->stop();
+            chartUpdateTimer->stop();
             currentDateAndTime = QDateTime::currentDateTime(); // reset manually set date and time
         }
     });
+    chartUpdateTimer->start(10000);
 
     connect(labelTimer, &QTimer::timeout, [=](){
 
@@ -439,6 +469,39 @@ void MainWindow::newSession() { // this will be moved to session class later
     }
  }
 
+void MainWindow::updateEEGChart() {
+    if (currentElectrode < 0 || currentElectrode >= 7) {
+        currentElectrode = 0;  // Reset if out of bounds
+    }
+
+    std::vector<double> waveform = generator->generateWaveform(currentElectrode, 10);
+    QLineSeries *series = new QLineSeries();
+    double interval = 0.01;  // Sampling interval
+    for (int i = 0; i < waveform.size(); ++i) {
+        series->append(i * interval, waveform[i]);
+    }
+
+    if (chartView->chart() == nullptr) {
+        chartView->setChart(new QChart());
+    } else {
+        chartView->chart()->removeAllSeries(); // Clear previous series
+    }
+
+    chartView->chart()->addSeries(series);
+    chartView->chart()->createDefaultAxes();
+    chartView->setVisible(true);
+
+    currentElectrode = (currentElectrode + 1) % 7;
+}
+
+
+
+
+//if (chartView) {
+//    chartView->setChart(sineWaveChart->updateEEGChart(electrodeSite));
+//    chartView->setVisible(true);
+//    electrodeSite = (electrodeSite + 1) % 7;
+//}
 void MainWindow::playButtonPressed() {
     // Start or resume the timer
     control->setPauseButton(false);
@@ -686,6 +749,17 @@ void MainWindow::clearFrame(QFrame *frame) {
         delete layout;
     }
 }
+
+void MainWindow::clearEEGChart() {
+    if (chartView) {
+        // Safely delete the chart if it exists
+        if (chartView->chart()) {
+            delete chartView->chart();
+            chartView->setChart(nullptr);  // Prevent dangling pointer
+        }
+    }
+}
+
 void MainWindow::on_contactOnButton_clicked() {
     ui->sineWaveChart->setVisible(true); // Show the sineWaveChart when contact is made
 }

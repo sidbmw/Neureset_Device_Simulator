@@ -18,19 +18,22 @@ void WaveformGenerator::initWaveforms() {
     };
 }
 
-std::vector<double> WaveformGenerator::generateWaveform(int electrodeIndex, double time) {
+std::vector<double> WaveformGenerator::generateWaveform(int electrode, double time) {
     std::vector<double> waveform;
-    if (electrodeIndex < 0 || electrodeIndex >= waveforms.size()) return waveform;
+    if (electrode < 0 || electrode >= waveforms.size()) return waveform;
 
     // Generate waveform based on the frequencies and amplitudes for the selected electrode
     for (double t = 0; t < time; t += 0.01) { // Increment by 0.01 for higher resolution
         double value = 0;
-        for (auto& freqAmp : waveforms[electrodeIndex]) {
+        for (auto& freqAmp : waveforms[electrode]) {
             value += freqAmp.second * sin(2 * M_PI * freqAmp.first * t);
         }
         waveform.push_back(value);
     }
     return waveform;
 }
+
+
+
 
 

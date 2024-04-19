@@ -7,11 +7,12 @@
 class WaveformGenerator {
 public:
     WaveformGenerator();
-    std::vector<double> generateWaveform(int electrodeIndex, double time);
+    std::vector<double> generateWaveform(int electrode, double time);
 
 private:
     void initWaveforms();
     std::vector<std::vector<std::pair<double, double>>> waveforms; // Pair of frequency and amplitude
+
 };
 
 #endif // WAVEFORM_GENERATOR_H
