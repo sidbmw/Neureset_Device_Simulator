@@ -65,10 +65,6 @@ MainWindow::MainWindow(QWidget *parent)
     log = new session_log();
     endLog = new session_log();
 
-    // Display the sine wave chart
-    SineWaveChart *sineWaveChart = new SineWaveChart();
-    
-    sineWaveChart->displayChart(ui->mainDisplay); 
 }
 
 MainWindow::~MainWindow()
@@ -334,6 +330,13 @@ void MainWindow::newSession() { // this will be moved to session class later
     widgetLayout->addWidget(progressBar);
     layout->addWidget(widget);
 
+    // creating the chart for eeg graph
+    SineWaveChart *sineWaveChart = new SineWaveChart();
+    QChartView *chartView = sineWaveChart->displayChart();
+    chartView->setVisible(false);
+    layout->addWidget(chartView);
+    parentFrame->setLayout(layout);
+
     // for session log
     QDateTime startTime;
     if (currentDateAndTime.isValid()){
@@ -348,6 +351,11 @@ void MainWindow::newSession() { // this will be moved to session class later
     labelTimer=new QTimer(this);
 
     connect(progressBarTimer, &QTimer::timeout, [=]() {
+
+        // show the graph once timer starts
+        if (chartView != nullptr) {
+            chartView->setVisible(true);
+        }
 
         // Update progress bar value
         int newValue = progressBar->value() + 1;
