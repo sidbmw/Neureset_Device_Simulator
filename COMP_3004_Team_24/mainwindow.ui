@@ -32,10 +32,10 @@
     <widget class="QFrame" name="mainDisplay">
      <property name="geometry">
       <rect>
-       <x>110</x>
+       <x>100</x>
        <y>90</y>
-       <width>481</width>
-       <height>221</height>
+       <width>551</width>
+       <height>251</height>
       </rect>
      </property>
      <property name="frameShape">
@@ -47,8 +47,8 @@
      <widget class="QLabel" name="dateAndTimeDisplay">
       <property name="geometry">
        <rect>
-        <x>360</x>
-        <y>190</y>
+        <x>420</x>
+        <y>220</y>
         <width>121</width>
         <height>16</height>
        </rect>
@@ -61,7 +61,7 @@
     <widget class="QPushButton" name="menu">
      <property name="geometry">
       <rect>
-       <x>110</x>
+       <x>100</x>
        <y>50</y>
        <width>31</width>
        <height>32</height>
@@ -161,7 +161,7 @@ border-image: url(&quot;:/images/power-off-solid.svg&quot;);
     <widget class="QPushButton" name="upSelector">
      <property name="geometry">
       <rect>
-       <x>610</x>
+       <x>680</x>
        <y>130</y>
        <width>31</width>
        <height>32</height>
@@ -186,7 +186,7 @@ border-image: url(&quot;:/images/circle-up-solid.svg&quot;);
     <widget class="QPushButton" name="downSelector">
      <property name="geometry">
       <rect>
-       <x>610</x>
+       <x>680</x>
        <y>180</y>
        <width>31</width>
        <height>32</height>
@@ -211,8 +211,8 @@ border-image: url(&quot;:/images/circle-down-solid.svg&quot;);
     <widget class="QPushButton" name="play">
      <property name="geometry">
       <rect>
-       <x>280</x>
-       <y>330</y>
+       <x>320</x>
+       <y>350</y>
        <width>21</width>
        <height>32</height>
       </rect>
@@ -236,8 +236,8 @@ border-image: url(&quot;:/images/play-solid.svg&quot;);
     <widget class="QPushButton" name="pause">
      <property name="geometry">
       <rect>
-       <x>330</x>
-       <y>330</y>
+       <x>370</x>
+       <y>350</y>
        <width>21</width>
        <height>32</height>
       </rect>
@@ -261,8 +261,8 @@ border-image: url(&quot;:/images/pause-solid.svg&quot;);
     <widget class="QPushButton" name="reset">
      <property name="geometry">
       <rect>
-       <x>380</x>
-       <y>330</y>
+       <x>420</x>
+       <y>350</y>
        <width>21</width>
        <height>32</height>
       </rect>
@@ -286,7 +286,7 @@ border-image: url(&quot;:/images/stop-solid.svg&quot;);
     <widget class="QPushButton" name="ok">
      <property name="geometry">
       <rect>
-       <x>610</x>
+       <x>680</x>
        <y>250</y>
        <width>31</width>
        <height>31</height>
@@ -322,7 +322,7 @@ border-image: url(&quot;:/images/circle-check-solid.svg&quot;);</string>
     <widget class="QLabel" name="lowBatteryMsg">
      <property name="geometry">
       <rect>
-       <x>150</x>
+       <x>140</x>
        <y>50</y>
        <width>441</width>
        <height>20</height>
@@ -389,7 +389,7 @@ border-image: url(&quot;:/images/circle-check-solid.svg&quot;);</string>
      <x>0</x>
      <y>0</y>
      <width>811</width>
-     <height>24</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
