@@ -90,7 +90,8 @@ private slots:
     void updateBatteryDisplay();
     void clearLowBatteryMessage();
     void displayNewDateTime();
-    void updateEEGChart(int electrode);
+    void updateEEGChart();
+    void clearEEGChart();
 
 public slots:
     void menuButtonPressed();

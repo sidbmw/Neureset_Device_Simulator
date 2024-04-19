@@ -1,19 +1,20 @@
 #include "sinewavechart.h"
 
-SineWaveChart::SineWaveChart() {}
+SineWaveChart::SineWaveChart(WaveformGenerator* generator) : waveformGenerator(generator) {}
 
-QChartView* SineWaveChart::displayChart() {
-    QLineSeries *series = new QLineSeries();
-    const double frequency = 1.0; // Frequency of the sine wave
-    const double amplitude = 1.0; // Amplitude of the sine wave
-    const double phase = 0.0; // Phase shift of the sine wave
-    const int samples = 100; // Number of samples
-    const double interval = 0.1; // Interval between samples
-    for (int i = 0; i < samples; ++i) {
-        double x = i * interval;
-        double y = amplitude * qSin(2 * M_PI * frequency * x + phase);
-        series->append(x, y);
+QChartView* SineWaveChart::displayChart(int electrodeIndex) {
+
+    if (!waveformGenerator) {
+            return nullptr;
     }
+
+    QLineSeries *series = new QLineSeries();
+    std::vector<double> waveform = waveformGenerator->generateWaveform(electrodeIndex, 10); // change num based on display length. I set to 10s default
+
+    double timeIncrement = 0.01;
+        for (int i = 0; i < waveform.size(); ++i) {
+            series->append(i * timeIncrement, waveform[i]);
+        }
 
     QChart *chart = new QChart();
     chart->legend()->hide();
