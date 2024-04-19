@@ -2,33 +2,30 @@
 #define TREATMENT_SESSION_H
 
 #include "eeg_interface.h"
-#include "visual_feedback.h" 
+#include "visual_feedback.h"
+#include "eegsignalsimulator.h" // Include the EEGSignalSimulator header
 
 class TreatmentSession {
 public:
-    TreatmentSession(EEGInterface& eegInterface, VisualFeedback& visualFeedback); 
+    TreatmentSession(EEGInterface& eegInterface, VisualFeedback& visualFeedback);
     ~TreatmentSession();
 
     void startSession();
-
-    void startNewSession();
-
     void runTreatmentCycle();
+    void applyTreatmentToSite(double baselineFrequency, int siteIndex);
+    void calculateInitialBaseline();
+    void calculateFinalBaseline();
+    void exportSessionData() const;
+    void simulateTherapySession();
+    double calculateDominantFrequency();
 
 private:
     EEGInterface& eegInterface;
-    VisualFeedback& visualFeedback; 
-    void calculateInitialBaseline();
-    void applyTreatmentToSite(int siteIndex);
-    void calculateFinalBaseline();
-    void manageGreenLightIndicator(bool on);
-    void manageBlueLightIndicator(bool on);
-    void manageRedLightIndicator(bool on);
-    bool checkElectrodeContact();
-    double overallBaselineFrequency; 
-    double siteBaselineFrequency; 
-    std::vector<double> siteBaselineFrequencies; 
-    void exportSessionData() const; 
+    VisualFeedback& visualFeedback;
+    EEGSignalSimulator eegSimulator; // Declare eegSimulator as a member variable
+    std::vector<double> baselineFrequencies; // Declare baselineFrequencies as a member variable
+    double overallBaselineFrequency;
+    std::vector<double> siteBaselineFrequencies;
 };
 
-#endif
+#endif // TREATMENT_SESSION_H

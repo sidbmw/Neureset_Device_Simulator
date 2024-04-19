@@ -14,6 +14,8 @@ public:
     void getDate();
     void getTime();
 
+    void simulateConnectionLossAndReestablishment();
+
 private:
 
     void updateTime(); // For later implementation if we need to keep track of current time. Need to implement a thread.

@@ -15,6 +15,12 @@
 #include <QInputDialog>
 #include <QDateTimeEdit>
 #include "visual_feedback.h"
+#include "sinewavechart.h"
+#include <QtCharts> 
+#include <QChartView>
+#include <QLineSeries>
+#include <QValueAxis>
+#include <cmath>
 
 int MainWindow::elapsedTime=141; 
 
@@ -48,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->dateAndTimeDisplay->hide();
     ui->lowBatteryMsg->hide();
+    ui->sineWaveChart->setVisible(false); // Ensure sineWaveChart is hidden initially
 
     //initialize battery display
     batteryProgressBar = ui -> batteryDisplay;
@@ -57,6 +64,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     log = new session_log();
     endLog = new session_log();
+
+    // Display the sine wave chart
+    SineWaveChart *sineWaveChart = new SineWaveChart();
+    
+    sineWaveChart->displayChart(ui->mainDisplay); 
 }
 
 MainWindow::~MainWindow()
@@ -79,7 +91,6 @@ MainWindow::~MainWindow()
     delete endLog;
     delete scene;
 }
-
 
 void MainWindow::powerButtonPressed(){
     if (control->getSystemOn()) {
@@ -452,6 +463,7 @@ void MainWindow::resetButtonPressed() {
 
 void MainWindow::makeContact(){
     control->setIsConnected(true);
+    ui->sineWaveChart->setVisible(true); // Show the sineWaveChart when contact is made
 }
 
 void MainWindow::removeContact(){
@@ -665,4 +677,7 @@ void MainWindow::clearFrame(QFrame *frame) {
         // Delete the layout itself
         delete layout;
     }
+}
+void MainWindow::on_contactOnButton_clicked() {
+    ui->sineWaveChart->setVisible(true); // Show the sineWaveChart when contact is made
 }
