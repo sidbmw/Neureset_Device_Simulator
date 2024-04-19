@@ -308,7 +308,7 @@ void MainWindow::newSession() { // this will be moved to session class later
     sessionEndTime = QDateTime(); // reset session end time
 
     qInfo("clearing chart...");
-    clearEEGChart();
+//    clearEEGChart();
     qInfo("chart cleared");
 
     QFrame *parentFrame = ui->mainDisplay;
