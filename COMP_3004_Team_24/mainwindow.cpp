@@ -55,7 +55,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->dateAndTimeDisplay->hide();
     ui->lowBatteryMsg->hide();
-    ui->sineWaveChart->setVisible(false); // Ensure sineWaveChart is hidden initially
+    // Ensure sineWaveChart is hidden initially to prevent crash
+    // chartView->setVisible(false);
 
     //initialize battery display
     batteryProgressBar = ui -> batteryDisplay;
@@ -70,6 +71,10 @@ MainWindow::MainWindow(QWidget *parent)
     chartUpdateTimer = new QTimer(this);
     connect(chartUpdateTimer, &QTimer::timeout, this, &MainWindow::updateEEGChart);
 
+    // Initialize chartView to prevent crash when setting visibility
+    sineWaveChart = new SineWaveChart(generator);
+    chartView = sineWaveChart->displayChart(1);
+    chartView->setVisible(false); // Ensure sineWaveChart is hidden initially
 }
 
 MainWindow::~MainWindow()
@@ -767,5 +772,5 @@ void MainWindow::clearEEGChart() {
 }
 
 void MainWindow::on_contactOnButton_clicked() {
-    ui->sineWaveChart->setVisible(true); // Show the sineWaveChart when contact is made
+    makeContact(); // Call makeContact when contactOnButton is clicked
 }
