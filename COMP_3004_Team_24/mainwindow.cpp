@@ -306,6 +306,7 @@ void MainWindow::displayMessage(const QString &output){
 void MainWindow::newSession() { // this will be moved to session class later
 
     sessionEndTime = QDateTime(); // reset session end time
+    elapsedTime = 141; // Reset the session duration
 
     qInfo("clearing chart...");
 //    clearEEGChart();
@@ -358,6 +359,7 @@ void MainWindow::newSession() { // this will be moved to session class later
 
     layout->addWidget(chartView);
     parentFrame->setLayout(layout);
+
 
     // for session log
     QDateTime startTime;
@@ -474,7 +476,7 @@ void MainWindow::updateEEGChart() {
         currentElectrode = 0;  // Reset if out of bounds
     }
 
-    std::vector<double> waveform = generator->generateWaveform(currentElectrode, 10);
+    std::vector<double> waveform = generator->generateWaveform(currentElectrode, 1);
     QLineSeries *series = new QLineSeries();
     double interval = 0.01;  // Sampling interval
     for (int i = 0; i < waveform.size(); ++i) {
@@ -491,9 +493,13 @@ void MainWindow::updateEEGChart() {
     chartView->chart()->createDefaultAxes();
     chartView->setVisible(true);
 
+    QList<QAbstractAxis*> axes = chartView->chart()->axes();
+    foreach (QAbstractAxis* axis, axes) {
+        axis->setLabelsBrush(QBrush(Qt::white));
+    }
+
     currentElectrode = (currentElectrode + 1) % 7;
 }
-
 
 
 
