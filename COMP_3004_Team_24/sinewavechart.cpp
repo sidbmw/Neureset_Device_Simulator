@@ -20,7 +20,9 @@ QChartView* SineWaveChart::displayChart(int electrodeIndex) {
     chart->legend()->hide();
     chart->addSeries(series);
     chart->createDefaultAxes();
-    chart->setTitle("Sine Wave Pattern");
+    chart->setTitle("EEG Graph Display");
+    chart->setTitleBrush(QBrush(Qt::white));
+    chart->setBackgroundBrush(QBrush(Qt::black));
 
     QChartView *chartView = new QChartView(chart);
     chartView->setRenderHint(QPainter::Antialiasing);

@@ -8,13 +8,13 @@ WaveformGenerator::WaveformGenerator() {
 void WaveformGenerator::initWaveforms() {
     // Example initialization, real implementation would vary
     waveforms = {
-        {{8, 0.5}, {12, 0.5}}, // Electrode 1: Alpha band
-        {{12, 0.5}, {30, 0.5}}, // Electrode 2: Beta band
-        {{1, 0.5}, {4, 0.5}}, // Electrode 3: Delta band
-        {{4, 0.5}, {8, 0.5}}, // Electrode 4: Theta band
-        {{25, 0.5}, {140, 0.5}}, // Electrode 5: Gamma band
-        {{8, 0.5}, {30, 0.5}}, // Electrode 6: Alpha + Beta bands
-        {{1, 0.5}, {140, 0.5}} // Electrode 7: Delta + Gamma bands
+       {{1, 0.5}, {4, 0.5}},// Electrode 1: Delta band
+       {{4, 0.5}, {8, 0.5}}, // Electrode 2: Theta band
+       {{8, 0.5}, {12, 0.5}}, //Electrode 3: Alpha band
+       {{12, 0.5}, {30, 0.5}}, // Electrode 4: Beta band
+       {{25, 0.5}, {140, 0.5}}, // Electrode 5: Gamma band
+       {{8, 0.5}, {30, 0.5}}, // Electrode 6: Alpha + Beta bands
+       {{1, 0.5}, {140, 0.5}} // Electrode 7: Delta + Gamma bands
     };
 }
 
@@ -32,8 +32,6 @@ std::vector<double> WaveformGenerator::generateWaveform(int electrode, double ti
     }
     return waveform;
 }
-
-
 
 
 
