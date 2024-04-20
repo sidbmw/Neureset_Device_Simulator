@@ -52,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(batteryTimer, SIGNAL(timeout()), this, SLOT(updateBatteryDisplay()));
     connect(ui->powerSourceButton, SIGNAL(clicked()), this, SLOT(togglePowerSource()));
 
+    connect(ui->connectPCButton, SIGNAL(clicked()), this, SLOT(connectPC()));
 
     ui->dateAndTimeDisplay->hide();
     ui->lowBatteryMsg->hide();
@@ -373,7 +374,7 @@ void MainWindow::newSession() { // this will be moved to session class later
             // show the graph once timer starts
             if (chartView != nullptr) {
                 chartView->setVisible(true);
-                chartUpdateTimer->start(3000);
+                chartUpdateTimer->start(10000);
             }
             updateEEGChart();
         }
@@ -429,8 +430,6 @@ void MainWindow::newSession() { // this will be moved to session class later
 
 
     contactCheckTimer=new QTimer(this);
-
-    //contact timer
     connect( contactCheckTimer, &QTimer::timeout, [=]() {
 
         if(control->getIsConnected() && (control->getPauseButton())==false){
@@ -448,7 +447,6 @@ void MainWindow::newSession() { // this will be moved to session class later
                 ui->contactLostIndicator->setStyleSheet("background-color:none");
             });
             progressBarTimer->stop();
-            chartUpdateTimer->stop();
             ui->contactIndicator->setStyleSheet("background-Color:none");
             labelTimer->stop();
 
@@ -459,12 +457,7 @@ void MainWindow::newSession() { // this will be moved to session class later
         }
     });
 
-    connect(chartUpdateTimer, &QTimer::timeout, [=](){
-        this->updateEEGChart();
-    });
-
     contactCheckTimer->start(1000);
-
     if(control->getIsConnected()) {
         ui->contactIndicator->setStyleSheet("background-Color:blue");
     }
@@ -608,6 +601,17 @@ void MainWindow::sessionLog() {
     layout->addWidget(widget);
 
     qDebug() << "[MainWindow::sessionLog] Session log displayed with session count: " << list.size();
+}
+
+void MainWindow::connectPC(){
+    if (pcOn && control->getSystemOn()){
+        ui->computerDisaply->setPlainText("enter data here");
+        pcOn = false;
+    }
+    else{
+        ui->computerDisaply->setPlainText("");
+        pcOn = true;
+    }
 }
 
 void MainWindow::dateTimeSetting() {
