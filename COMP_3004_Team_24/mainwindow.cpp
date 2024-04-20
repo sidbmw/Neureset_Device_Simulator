@@ -92,6 +92,24 @@ MainWindow::~MainWindow()
         labelTimer=nullptr;
     }
 
+    if(chartUpdateTimer!=nullptr){
+        chartUpdateTimer->stop();
+        delete chartUpdateTimer;
+        chartUpdateTimer=nullptr;
+    }
+
+    if(contactCheckTimer!=nullptr){
+        contactCheckTimer->stop();
+        delete contactCheckTimer;
+        contactCheckTimer=nullptr;
+    }
+
+    if(batteryTimer!=nullptr){
+        batteryTimer->stop();
+        delete batteryTimer;
+        batteryTimer=nullptr;
+    }
+
     delete ui;
     delete control;
     delete log;
@@ -516,27 +534,42 @@ void MainWindow::playButtonPressed() {
     qDebug() << "[MainWindow::playButtonPressed] Play button pressed.";
     // Start or resume the timer
     control->setPauseButton(false);
-    progressBarTimer->start(control->getTotalTimeOfTimer()/100); // Start the timer with an interval of 1 second
-    labelTimer->start(1000);
+    if(progressBarTimer != nullptr) { // Added null check for progressBarTimer
+        progressBarTimer->start(control->getTotalTimeOfTimer()/100); // Start the timer with an interval of 1 second
+    }
+    if(labelTimer != nullptr) { // Added null check for labelTimer
+        labelTimer->start(1000);
+    }
     ui->contactIndicator->setStyleSheet("background-Color:blue");
-    chartUpdateTimer->start();
+    if(chartUpdateTimer != nullptr) { // Added null check for chartUpdateTimer
+        chartUpdateTimer->start();
+    }
 }
 
 void MainWindow::pauseButtonPressed() {
     qDebug() << "[MainWindow::pauseButtonPressed] Pause button pressed.";
     // Pause the timer
     control->setPauseButton(true);
-    progressBarTimer->stop();
+    if(progressBarTimer != nullptr) { // Added null check for progressBarTimer
+        progressBarTimer->stop();
+    }
     ui->contactIndicator->setStyleSheet("background-Color:none");
-    labelTimer->stop();
-    chartUpdateTimer->stop();
+    if(labelTimer != nullptr) { // Added null check for labelTimer
+        labelTimer->stop();
+    }
+    if(chartUpdateTimer != nullptr) { // Added null check for chartUpdateTimer
+        chartUpdateTimer->stop();
+    }
 }
-
 
 void MainWindow::resetButtonPressed() {
     qDebug() << "[MainWindow::resetButtonPressed] Reset button pressed.";
-    progressBarTimer->stop();
-    labelTimer->stop();
+    if(progressBarTimer != nullptr) { // Added null check for progressBarTimer
+        progressBarTimer->stop();
+    }
+    if(labelTimer != nullptr) { // Added null check for labelTimer
+        labelTimer->stop();
+    }
     control->setPauseButton(false);
     QLabel *label=ui->mainDisplay->findChild<QWidget * >("widget")->findChild<QLabel *>("timerLabel");
     label->setText("02:21");
@@ -652,6 +685,7 @@ void MainWindow::displayNewDateTime() {
     if (sessionTimer) {
         sessionTimer->stop();
         delete sessionTimer;
+        sessionTimer = nullptr;
     }
 
     sessionTimer = new QTimer(this);
@@ -787,6 +821,7 @@ void MainWindow::clearEEGChart() {
         if (chartView->chart()) {
              qDebug() << "Chart cleared";
              delete chartView;
+             chartView = nullptr; // Ensure pointer is set to nullptr after deletion
         }
     }
 }
