@@ -52,6 +52,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(batteryTimer, SIGNAL(timeout()), this, SLOT(updateBatteryDisplay()));
     connect(ui->powerSourceButton, SIGNAL(clicked()), this, SLOT(togglePowerSource()));
 
+    connect(ui->connectPCButton, SIGNAL(clicked()), this, SLOT(connectPC()));
 
     ui->dateAndTimeDisplay->hide();
     ui->lowBatteryMsg->hide();
@@ -600,6 +601,17 @@ void MainWindow::sessionLog() {
     layout->addWidget(widget);
 
     qDebug() << "[MainWindow::sessionLog] Session log displayed with session count: " << list.size();
+}
+
+void MainWindow::connectPC(){
+    if (pcOn && control->getSystemOn()){
+        ui->computerDisaply->setPlainText("enter data here");
+        pcOn = false;
+    }
+    else{
+        ui->computerDisaply->setPlainText("");
+        pcOn = true;
+    }
 }
 
 void MainWindow::dateTimeSetting() {
