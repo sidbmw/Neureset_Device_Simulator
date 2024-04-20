@@ -80,35 +80,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    if(progressBarTimer!=nullptr){
-        progressBarTimer->stop();
-        delete progressBarTimer;
-        progressBarTimer=nullptr;
-    }
-
-    if(labelTimer!=nullptr){
-        labelTimer->stop();
-        delete labelTimer;
-        labelTimer=nullptr;
-    }
-
-    if(chartUpdateTimer!=nullptr){
-        chartUpdateTimer->stop();
-        delete chartUpdateTimer;
-        chartUpdateTimer=nullptr;
-    }
-
-    if(contactCheckTimer!=nullptr){
-        contactCheckTimer->stop();
-        delete contactCheckTimer;
-        contactCheckTimer=nullptr;
-    }
-
-    if(batteryTimer!=nullptr){
-        batteryTimer->stop();
-        delete batteryTimer;
-        batteryTimer=nullptr;
-    }
+    cleaningTimer(); // Utilize cleaningTimer for cleanup
 
     delete ui;
     delete control;
@@ -564,13 +536,7 @@ void MainWindow::pauseButtonPressed() {
 
 void MainWindow::resetButtonPressed() {
     qDebug() << "[MainWindow::resetButtonPressed] Reset button pressed.";
-    if(progressBarTimer != nullptr) { // Added null check for progressBarTimer
-        progressBarTimer->stop();
-    }
-    if(labelTimer != nullptr) { // Added null check for labelTimer
-        labelTimer->stop();
-    }
-    control->setPauseButton(false);
+    cleaningTimer(); // Utilize cleaningTimer for cleanup
     QLabel *label=ui->mainDisplay->findChild<QWidget * >("widget")->findChild<QLabel *>("timerLabel");
     label->setText("02:21");
     QProgressBar *progressBar =ui->mainDisplay->findChild<QWidget * >("widget")->findChild<QProgressBar *>("progressBar");
