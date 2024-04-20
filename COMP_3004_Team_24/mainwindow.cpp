@@ -374,7 +374,7 @@ void MainWindow::newSession() { // this will be moved to session class later
             // show the graph once timer starts
             if (chartView != nullptr) {
                 chartView->setVisible(true);
-                chartUpdateTimer->start(10000);
+                // chartUpdateTimer->start(10000);
             }
             updateEEGChart();
         }
@@ -391,6 +391,7 @@ void MainWindow::newSession() { // this will be moved to session class later
     });
 
 
+    chartUpdateTimer->start(10000);
 
     connect(labelTimer, &QTimer::timeout, [=](){
 
