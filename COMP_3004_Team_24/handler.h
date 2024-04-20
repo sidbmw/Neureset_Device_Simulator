@@ -28,6 +28,8 @@ public:
     bool isConnectedToPowerSource();
     bool getSessionLogOn();
     void setSessionLogOn(bool b);
+    bool getDateTimeOn();
+    void setDateTimeOn(bool b);
 
 
 private:
@@ -42,6 +44,7 @@ private:
     bool pauseButton;
     bool connectedToPowerSource;
     bool sessionLogOn; //to keep track of if the session log option is selected
+    bool dateTimeOn;
 };
 
 #endif // HANDLER_H

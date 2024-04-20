@@ -9,8 +9,15 @@ Handler::Handler(bool system_on, QDate date, QTime time) {
     this->isConnected=false;
     this->pauseButton=true;
     this->sessionLogOn=false;
+    this->dateTimeOn = false;
 }
 
+bool Handler :: getDateTimeOn(){
+    return sessionLogOn;
+}
+void Handler::setDateTimeOn(bool b){
+    this->dateTimeOn=b;
+}
 bool Handler :: getSessionLogOn(){
     return sessionLogOn;
 }
