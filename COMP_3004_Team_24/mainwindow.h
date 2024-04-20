@@ -63,6 +63,8 @@ private:
     QLabel *sessionlabel; // for session log display
     int sessionPos = 0;
 
+    bool pcOn = false;
+
     void displayMessage(const QString &output);
     void cleaningTimer();
     static int elapsedTime;
@@ -93,6 +95,7 @@ private slots:
     void displayNewDateTime();
     void updateEEGChart();
     void clearEEGChart();
+    void outputPC();
 
 public slots:
     void menuButtonPressed();

@@ -57,6 +57,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(batteryTimer, SIGNAL(timeout()), this, SLOT(updateBatteryDisplay()));
     connect(ui->powerSourceButton, SIGNAL(clicked()), this, SLOT(togglePowerSource()));
 
+    connect(ui->connectPCButton, SIGNAL(clicked()), this, SLOT(outputPC()));
+
 
     ui->dateAndTimeDisplay->hide();
     ui->lowBatteryMsg->hide();
@@ -659,6 +661,19 @@ void MainWindow::sessionLog() {
 
     layout->addWidget(widget);
 
+}
+
+void MainWindow:: outputPC(){
+    // insert retrieval data here
+
+    if (pcOn == false){
+        pcOn = true;
+        ui->PCOutput->setPlainText("data here");
+    }
+    else{
+        pcOn = false;
+        ui->PCOutput->setPlainText("");
+    }
 }
 
 void MainWindow::dateTimeSetting() {
