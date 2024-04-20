@@ -521,7 +521,7 @@ void MainWindow::playButtonPressed() {
     progressBarTimer->start(control->getTotalTimeOfTimer()/100); // Start the timer with an interval of 1 second
     labelTimer->start(1000);
     ui->contactIndicator->setStyleSheet("background-Color:blue");
-    chartUpdateTimer->start(1000);
+    chartUpdateTimer->start();
 }
 
 void MainWindow::pauseButtonPressed() {
