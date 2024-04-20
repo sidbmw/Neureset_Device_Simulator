@@ -105,7 +105,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::powerButtonPressed(){
     if (control->getSystemOn()) {
-        cleaningTimer();
+        //cleaningTimer();
         control->setAllSettingToDefault();
         control->setSystemOn(false);
         displayMessage("Shutting Down...");
@@ -144,7 +144,8 @@ void MainWindow::menuButtonPressed() {
     }else{
 
         //cleaning up any session timer if it is running
-        cleaningTimer();
+        //cleaningTimer();
+
         control->setAllSettingToDefault();
         control->setMenuOn(true);
 
@@ -323,17 +324,17 @@ void MainWindow::displayMessage(const QString &output){
 
 void MainWindow::newSession() { // this will be moved to session class later
 
+    control->setInNewSession(true);
     //control->setPauseButton(true);
     //sessionEndTime = QDateTime(); // reset session end time
     elapsedTime = 141; // Reset the session duration
 
-    qInfo("clearing chart...");
+    //qInfo("clearing chart...");
 //    clearEEGChart();
-    qInfo("chart cleared");
+    //qInfo("chart cleared");
 
     QFrame *parentFrame = ui->mainDisplay;
     clearFrame(parentFrame);
-
 
     // Create a layout for the parent frame
     QVBoxLayout *layout = new QVBoxLayout(parentFrame);
@@ -430,18 +431,21 @@ void MainWindow::newSession() { // this will be moved to session class later
         label1->setText(labelText);
         if (elapsedTime <= 0){
             qDebug()<<"stop";
+
             control->setInNewSession(false);
-            //add code here to check eeg value and save it in logs just check it twice so we have before and after
+
             labelTimer->stop();
             progressBarTimer->stop();
             contactCheckTimer->stop();
+            chartUpdateTimer->stop();
 
             QDateTime endTime;
-            endTime = currentDateTime;
+            if (currentDateTime.isValid()){
+                endTime = currentDateTime;
+            }
+
             // if the session is completed, add it
             log->addSession(startTime, endTime);
-            //endLog->addSession(sessionEndTime);
-            //currentDateAndTime = QDateTime::currentDateTime();
         }
 
         if(elapsedTime>=60 && elapsedTime <= 82){
@@ -533,7 +537,6 @@ void MainWindow::updateEEGChart() {
 //}
 void MainWindow::playButtonPressed() {
     // Start or resume the timer
-    control->setInNewSession(true);
     control->setPauseButton(false);
     progressBarTimer->start(control->getTotalTimeOfTimer()/100); // Start the timer with an interval of 1 second
     labelTimer->start(1000);
@@ -551,22 +554,22 @@ void MainWindow::pauseButtonPressed() {
 }
 
 void MainWindow::resetButtonPressed() {
+
     control->setInNewSession(false);
+
     labelTimer->stop();
     progressBarTimer->stop();
     contactCheckTimer->stop();
     chartUpdateTimer->stop();
-    //cleaningTimer();
 
-    //progressBarTimer->stop();
-    //labelTimer->stop();
-    control->setPauseButton(false);
+    control->setPauseButton(true);
+
     QLabel *label=ui->mainDisplay->findChild<QWidget * >("widget")->findChild<QLabel *>("timerLabel");
     label->setText("02:21");
     QProgressBar *progressBar =ui->mainDisplay->findChild<QWidget * >("widget")->findChild<QProgressBar *>("progressBar");
     progressBar->setValue(0);
 
-    elapsedTime=141;
+    //elapsedTime=141;
 
     //chartView->chart()->removeAllSeries();
     //delete chartView->chart();
