@@ -374,7 +374,7 @@ void MainWindow::newSession() { // this will be moved to session class later
             // show the graph once timer starts
             if (chartView != nullptr) {
                 chartView->setVisible(true);
-                chartUpdateTimer->start(10000);
+                chartUpdateTimer->start(3000);
             }
             updateEEGChart();
         }
@@ -430,6 +430,8 @@ void MainWindow::newSession() { // this will be moved to session class later
 
 
     contactCheckTimer=new QTimer(this);
+
+    //contact timer
     connect( contactCheckTimer, &QTimer::timeout, [=]() {
 
         if(control->getIsConnected() && (control->getPauseButton())==false){
@@ -447,6 +449,7 @@ void MainWindow::newSession() { // this will be moved to session class later
                 ui->contactLostIndicator->setStyleSheet("background-color:none");
             });
             progressBarTimer->stop();
+            chartUpdateTimer->stop();
             ui->contactIndicator->setStyleSheet("background-Color:none");
             labelTimer->stop();
 
@@ -457,7 +460,12 @@ void MainWindow::newSession() { // this will be moved to session class later
         }
     });
 
+    connect(chartUpdateTimer, &QTimer::timeout, [=](){
+        this->updateEEGChart();
+    });
+
     contactCheckTimer->start(1000);
+
     if(control->getIsConnected()) {
         ui->contactIndicator->setStyleSheet("background-Color:blue");
     }
