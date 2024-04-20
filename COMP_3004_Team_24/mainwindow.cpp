@@ -666,7 +666,7 @@ void MainWindow::sessionLog() {
 void MainWindow:: outputPC(){
     // insert retrieval data here
 
-    if (pcOn == false){
+    if (pcOn == false && control->getSystemOn()){
         pcOn = true;
         ui->PCOutput->setPlainText("data here");
     }
