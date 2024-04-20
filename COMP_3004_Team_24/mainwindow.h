@@ -67,7 +67,6 @@ private:
     static int elapsedTime;
     void cleaningIndicators();
     QDateTimeEdit *dateTimeEdit;
-    QDateTime sessionEndTime;
 
     WaveformGenerator* generator;
     QChartView *chartView;

@@ -13,8 +13,8 @@ using namespace std;
 class SessionData{
 
     public:
-        SessionData(const QDateTime& startTime);
-        QDateTime getSessionTime() const;
+        SessionData(const QDateTime& startTime, const QDateTime& endTime);
+        QDateTime getSessionStartTime() const;
         QDateTime getSessionEndTime() const;
         void print();
 

@@ -16,9 +16,7 @@ public:
 
     void exportData() const;
 
-    //void addSession(const SessionData& data);
-
-    void addSession(const QDateTime& time);
+    void addSession(const QDateTime& start, const QDateTime& end);
 
     vector<SessionData*> getSessionHistory() const;
 

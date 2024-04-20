@@ -65,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent)
     lowBatteryMsg = ui -> lowBatteryMsg;
 
     log = new session_log();
-    endLog = new session_log();
+    //endLog = new session_log();
     generator = new WaveformGenerator();
 
     chartUpdateTimer = new QTimer(this);
@@ -123,7 +123,9 @@ void MainWindow::powerButtonPressed(){
 
 void MainWindow::menuButtonPressed() {
 
+    control->setInNewSession(false);
     control->setSessionLogOn(false);
+
     sessionPos = 0;
 
     if(control->getSystemOn()==false){
@@ -194,16 +196,18 @@ void MainWindow::upSelectorPressed(){
     else if (control->getSessionLogOn()){
 
         std::vector<SessionData*> list = log->getSessionHistory();
-        std::vector<SessionData*> endTimeList = endLog->getSessionHistory();
+        //std::vector<SessionData*> endTimeList = endLog->getSessionHistory();
 
-        if (list.empty() && endTimeList.empty()){
+        if (list.empty()){
             sessionlabel->setText("No sessions available.");
         }
         else{
 
             if (sessionPos > 0){
                 sessionPos--;
-                QString sessionDisplayText = QString("Session #%1 \nStart: %2 \nEnd: %3").arg(sessionPos + 1).arg(list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss")).arg(endTimeList[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
+                QString sessionDisplayText = QString("Session #%1 \nStart: %2 \nEnd: %3").arg(sessionPos + 1).arg(list[sessionPos]->getSessionStartTime().toString("yyyy-MM-dd hh:mm:ss")).arg(list[sessionPos]->getSessionEndTime().toString("yyyy-MM-dd hh:mm:ss"));
+                //QString sessionDisplayText = QString("Session #%1 \n").arg(sessionPos + 1);
+                //list[sessionPos]->print();
                 sessionlabel->setText(sessionDisplayText);
             }
         }
@@ -231,16 +235,16 @@ void MainWindow::downSelectorPressed(){
 
 
         std::vector<SessionData*> list = log->getSessionHistory();
-        std::vector<SessionData*> endTimeList = endLog->getSessionHistory();
+        //std::vector<SessionData*> endTimeList = endLog->getSessionHistory();
 
-        if (list.empty() && endTimeList.empty()){
+        if (list.empty()){
             sessionlabel->setText("No sessions available.");
         }
         else{
 
             if (sessionPos < list.size() - 1){
                 sessionPos++;
-                QString sessionDisplayText = QString("Session #%1 \nStart: %2 \nEnd: %3").arg(sessionPos + 1).arg(list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss")).arg(endTimeList[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
+                QString sessionDisplayText = QString("Session #%1 \nStart: %2 \nEnd: %3").arg(sessionPos + 1).arg(list[sessionPos]->getSessionStartTime().toString("yyyy-MM-dd hh:mm:ss")).arg(list[sessionPos]->getSessionEndTime().toString("yyyy-MM-dd hh:mm:ss"));
                 sessionlabel->setText(sessionDisplayText);
             }
         }
@@ -310,6 +314,7 @@ void MainWindow::displayMessage(const QString &output){
 
 void MainWindow::newSession() { // this will be moved to session class later
 
+    control->setInNewSession(true);
     //sessionEndTime = QDateTime(); // reset session end time
     elapsedTime = 141; // Reset the session duration
 
@@ -319,7 +324,7 @@ void MainWindow::newSession() { // this will be moved to session class later
 
     QFrame *parentFrame = ui->mainDisplay;
     clearFrame(parentFrame);
-    control->setInNewSession(true);
+
 
     // Create a layout for the parent frame
     QVBoxLayout *layout = new QVBoxLayout(parentFrame);
@@ -415,15 +420,17 @@ void MainWindow::newSession() { // this will be moved to session class later
         label1->setText(labelText);
         if (elapsedTime <= 0){
             qDebug()<<"stop";
+            control->setInNewSession(false);
             //add code here to check eeg value and save it in logs just check it twice so we have before and after
             labelTimer->stop();
             progressBarTimer->stop();
             contactCheckTimer->stop();
 
-            sessionEndTime = currentDateAndTime;
+            QDateTime endTime;
+            endTime = currentDateAndTime;
             // if the session is completed, add it
-            log->addSession(startTime);
-            endLog->addSession(sessionEndTime);
+            log->addSession(startTime, endTime);
+            //endLog->addSession(sessionEndTime);
             //currentDateAndTime = QDateTime::currentDateTime();
         }
 
@@ -474,6 +481,7 @@ void MainWindow::newSession() { // this will be moved to session class later
     if(control->getIsConnected()) {
         ui->contactIndicator->setStyleSheet("background-Color:blue");
     }
+
  }
 
 void MainWindow::updateEEGChart() {
@@ -573,15 +581,16 @@ void MainWindow::sessionLog() {
     widget->setLayout(widgetLayout);
 
     std::vector<SessionData*> list = log->getSessionHistory();
-    std::vector<SessionData*> endTimeList = endLog->getSessionHistory();
+    //std::vector<SessionData*> endTimeList = endLog->getSessionHistory();
 
     sessionPos= 0;
 
-    if (list.empty() && endTimeList.empty()){
+    if (list.empty()){
         sessionlabel = new QLabel("Empty");
     }
     else {
-            QString sessionDisplayText = QString("Session #%1 \nStart: %2 \nEnd: %3").arg(sessionPos + 1).arg(list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss")).arg(endTimeList[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
+            //QString sessionDisplayText = QString("Session #%1 \n").arg(sessionPos + 1).arg(list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss")).arg(endTimeList[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
+            QString sessionDisplayText = QString("Session #%1 \nStart: %2 \nEnd: %3").arg(sessionPos + 1).arg(list[sessionPos]->getSessionStartTime().toString("yyyy-MM-dd hh:mm:ss")).arg(list[sessionPos]->getSessionEndTime().toString("yyyy-MM-dd hh:mm:ss"));
             sessionlabel = new QLabel(sessionDisplayText);
         }
 
@@ -616,7 +625,13 @@ void MainWindow::dateTimeSetting() {
     dateTimeEdit = new QDateTimeEdit(widget);
     dateTimeEdit->setStyleSheet("background-color: black; color: gold;");
     dateTimeEdit->setCalendarPopup(true); // Optional: enables a calendar popup for date selection
-    dateTimeEdit->setDateTime(QDateTime::currentDateTime());
+    //dateTimeEdit->setDateTime(QDateTime::currentDateTime());
+    if (currentDateAndTime == QDateTime::currentDateTime()){
+        dateTimeEdit->setDateTime(QDateTime::currentDateTime());
+    }
+    else{
+        dateTimeEdit->setDateTime(currentDateAndTime);
+    }
 
     // Set the display format for the date and time
     dateTimeEdit->setDisplayFormat("yyyy-MM-dd hh:mm:ss");

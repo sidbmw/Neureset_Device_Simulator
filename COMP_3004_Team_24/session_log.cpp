@@ -11,8 +11,8 @@ session_log :: ~session_log(){
     sessionHistory.clear();
 }
 
-void session_log :: addSession(const QDateTime& time){
-    SessionData* session = new SessionData(time);
+void session_log :: addSession(const QDateTime& start, const QDateTime& end){
+    SessionData* session = new SessionData(start,end);
     sessionHistory.push_back(session);
 }
 
