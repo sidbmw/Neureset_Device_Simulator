@@ -22,7 +22,7 @@
 #include <QValueAxis>
 #include <cmath>
 
-int MainWindow::elapsedTime=141;
+int MainWindow::elapsedTime=141; 
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -402,7 +402,6 @@ void MainWindow::newSession() { // this will be moved to session class later
             labelTimer->stop();
             chartUpdateTimer->stop();
             currentDateAndTime = QDateTime::currentDateTime(); // reset manually set date and time
-            sessionEndTime = QDateTime::currentDateTime(); // reset end time
         }
     });
     chartUpdateTimer->start(10000);
@@ -424,7 +423,6 @@ void MainWindow::newSession() { // this will be moved to session class later
             sessionEndTime = QDateTime::currentDateTime();
             // if the session is completed, add it
             log->addSession(startTime);
-            sessionEndTime = startTime.addSecs(141);
             endLog->addSession(sessionEndTime);
             currentDateAndTime = QDateTime::currentDateTime();
         }
@@ -521,7 +519,6 @@ void MainWindow::playButtonPressed() {
     progressBarTimer->start(control->getTotalTimeOfTimer()/100); // Start the timer with an interval of 1 second
     labelTimer->start(1000);
     ui->contactIndicator->setStyleSheet("background-Color:blue");
-    chartUpdateTimer->start();
 }
 
 void MainWindow::pauseButtonPressed() {
@@ -530,7 +527,6 @@ void MainWindow::pauseButtonPressed() {
     progressBarTimer->stop();
     ui->contactIndicator->setStyleSheet("background-Color:none");
     labelTimer->stop();
-    chartUpdateTimer->stop();
 }
 
 void MainWindow::resetButtonPressed() {
