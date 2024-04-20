@@ -313,13 +313,11 @@ void MainWindow::newSession() { // this will be moved to session class later
     sessionEndTime = QDateTime(); // reset session end time
     elapsedTime = 141; // Reset the session duration
 
-    qInfo("clearing chart...");
-//    clearEEGChart();
-    qInfo("chart cleared");
-
     QFrame *parentFrame = ui->mainDisplay;
     clearFrame(parentFrame);
     control->setInNewSession(true);
+
+
 
     // Create a layout for the parent frame
     QVBoxLayout *layout = new QVBoxLayout(parentFrame);
@@ -345,25 +343,13 @@ void MainWindow::newSession() { // this will be moved to session class later
     widgetLayout->addWidget(progressBar);
     layout->addWidget(widget);
 
-
-    // creating the chart for eeg graph
-
-//    if (sineWaveChart != nullptr){
-//        delete sineWaveChart;
-//    }
-//    if (chartView != nullptr && chartView->chart() != nullptr) {
-//        delete chartView->chart();
-//    }
     if (!sineWaveChart) {
         sineWaveChart = new SineWaveChart(generator);
     }
 
-//    sineWaveChart = new SineWaveChart(generator);
     chartView = sineWaveChart->displayChart(1);
     chartView->setVisible(false);
-
-    layout->addWidget(chartView);
-    parentFrame->setLayout(layout);
+    widgetLayout->addWidget(chartView);
 
 
     // for session log
@@ -374,14 +360,12 @@ void MainWindow::newSession() { // this will be moved to session class later
     else{
         startTime = QDateTime::currentDateTime();
     }
-    //std::cout << "start time: " << startTime.toString("yyyy-MM-dd hh:mm:ss").toStdString() << std::endl;
+
 
     progressBarTimer = new QTimer(this);
     labelTimer=new QTimer(this);
+    chartUpdateTimer=new QTimer(this);
 
-//    updateEEGChart();
-//    chartUpdateTimer->start(10000);
-    qInfo("ss");
     connect(progressBarTimer, &QTimer::timeout, [=]() {
         // Update progress bar value
         int newValue = progressBar->value() + 1;
@@ -391,6 +375,7 @@ void MainWindow::newSession() { // this will be moved to session class later
             // show the graph once timer starts
             if (chartView != nullptr) {
                 chartView->setVisible(true);
+                chartUpdateTimer->start(10000);
             }
             updateEEGChart();
         }
@@ -405,7 +390,8 @@ void MainWindow::newSession() { // this will be moved to session class later
             sessionEndTime = QDateTime::currentDateTime(); // reset end time
         }
     });
-    chartUpdateTimer->start(10000);
+
+
 
     connect(labelTimer, &QTimer::timeout, [=](){
 
@@ -476,6 +462,8 @@ void MainWindow::newSession() { // this will be moved to session class later
     if(control->getIsConnected()) {
         ui->contactIndicator->setStyleSheet("background-Color:blue");
     }
+
+
  }
 
 void MainWindow::updateEEGChart() {
@@ -510,11 +498,6 @@ void MainWindow::updateEEGChart() {
 
 
 
-//if (chartView) {
-//    chartView->setChart(sineWaveChart->updateEEGChart(electrodeSite));
-//    chartView->setVisible(true);
-//    electrodeSite = (electrodeSite + 1) % 7;
-//}
 void MainWindow::playButtonPressed() {
     // Start or resume the timer
     control->setPauseButton(false);
@@ -532,6 +515,7 @@ void MainWindow::pauseButtonPressed() {
     labelTimer->stop();
     chartUpdateTimer->stop();
 }
+
 
 void MainWindow::resetButtonPressed() {
     progressBarTimer->stop();
@@ -554,11 +538,11 @@ void MainWindow::makeContact(){
 
 void MainWindow::removeContact(){
     control->setIsConnected(false);
+    ui->sineWaveChart->setVisible(false);
 }
 
 void MainWindow::sessionLog() {
 
-    //log->print();
 
     QFrame *parentFrame = ui->mainDisplay;
     clearFrame(parentFrame);
@@ -720,6 +704,13 @@ void MainWindow::clearLowBatteryMessage() {
 }
 
 void MainWindow::cleaningTimer(){
+
+    if(chartUpdateTimer !=nullptr){
+        chartUpdateTimer->stop();
+        delete chartUpdateTimer;
+        chartUpdateTimer=nullptr;
+    }
+
     if(progressBarTimer!=nullptr){
         progressBarTimer->stop();
         delete progressBarTimer;
@@ -749,11 +740,11 @@ void MainWindow::cleaningIndicators(){
 }
 
 void MainWindow::clearFrame(QFrame *frame) {
+
+    cleaningTimer();
     QLayout *layout = frame->layout();
 
     if (layout) {
-
-
         // Delete all widgets inside the layout
         while (QLayoutItem *item = layout->takeAt(0)) {
             delete item->widget();
@@ -766,11 +757,12 @@ void MainWindow::clearFrame(QFrame *frame) {
 }
 
 void MainWindow::clearEEGChart() {
+
     if (chartView) {
         // Safely delete the chart if it exists
         if (chartView->chart()) {
-            delete chartView->chart();
-            chartView->setChart(nullptr);  // Prevent dangling pointer
+             qDebug() << "Chart cleared";
+             delete chartView;
         }
     }
 }
