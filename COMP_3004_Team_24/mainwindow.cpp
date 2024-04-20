@@ -542,7 +542,7 @@ void MainWindow::pauseButtonPressed() {
 
 void MainWindow::resetButtonPressed() {
     qDebug() << "[MainWindow::resetButtonPressed] Reset button pressed.";
-    cleaningTimer(); // Utilize cleaningTimer for cleanup
+     // Utilize cleaningTimer for cleanup
     QLabel *label=ui->mainDisplay->findChild<QWidget * >("widget")->findChild<QLabel *>("timerLabel");
     label->setText("02:21");
     QProgressBar *progressBar =ui->mainDisplay->findChild<QWidget * >("widget")->findChild<QProgressBar *>("progressBar");
