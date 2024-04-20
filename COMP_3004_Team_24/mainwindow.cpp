@@ -536,6 +536,9 @@ void MainWindow::updateEEGChart() {
 //    electrodeSite = (electrodeSite + 1) % 7;
 //}
 void MainWindow::playButtonPressed() {
+    if(control->getMenuOn()){
+        return;
+    }
     // Start or resume the timer
     control->setPauseButton(false);
     progressBarTimer->start(control->getTotalTimeOfTimer()/100); // Start the timer with an interval of 1 second
@@ -545,6 +548,9 @@ void MainWindow::playButtonPressed() {
 }
 
 void MainWindow::pauseButtonPressed() {
+    if(control->getMenuOn()){
+        return;
+    }
     // Pause the timer
     control->setPauseButton(true);
     progressBarTimer->stop();
@@ -554,6 +560,9 @@ void MainWindow::pauseButtonPressed() {
 }
 
 void MainWindow::resetButtonPressed() {
+    if(control->getMenuOn()){
+        return;
+    }
 
     control->setInNewSession(false);
 
