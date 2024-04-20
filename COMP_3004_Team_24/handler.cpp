@@ -7,7 +7,7 @@ Handler::Handler(bool system_on, QDate date, QTime time) {
     this->inNewSession=false;
     this->totalTimeOfTimer=(2 * 60 + 21) * 1000;
     this->isConnected=false;
-    this->pauseButton=false;
+    this->pauseButton=true;
     this->sessionLogOn=false;
 }
 

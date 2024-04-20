@@ -99,7 +99,7 @@ MainWindow::~MainWindow()
     delete ui;
     delete control;
     delete log;
-    delete endLog;
+    //delete endLog;
     delete scene;
 }
 
@@ -128,11 +128,11 @@ void MainWindow::powerButtonPressed(){
 
 void MainWindow::menuButtonPressed() {
 
-    //if (control->getInNewSession() == true){
-    //    return;
-    //}
-
     control->setSessionLogOn(false);
+
+    if (control->getInNewSession() == true){
+        return;
+    }
 
     sessionPos = 0;
 
@@ -142,6 +142,7 @@ void MainWindow::menuButtonPressed() {
     }else if(control->getMenuOn()==true){
         return;
     }else{
+
         //cleaning up any session timer if it is running
         cleaningTimer();
         control->setAllSettingToDefault();
@@ -322,7 +323,7 @@ void MainWindow::displayMessage(const QString &output){
 
 void MainWindow::newSession() { // this will be moved to session class later
 
-    control->setInNewSession(true);
+    //control->setPauseButton(true);
     //sessionEndTime = QDateTime(); // reset session end time
     elapsedTime = 141; // Reset the session duration
 
@@ -417,7 +418,8 @@ void MainWindow::newSession() { // this will be moved to session class later
             //currentDateAndTime = QDateTime::currentDateTime(); // reset manually set date and time
         }
     });
-    chartUpdateTimer->start(10000);
+    chartNum = 10000;
+    chartUpdateTimer->start(chartNum);
 
     connect(labelTimer, &QTimer::timeout, [=](){
 
@@ -531,10 +533,12 @@ void MainWindow::updateEEGChart() {
 //}
 void MainWindow::playButtonPressed() {
     // Start or resume the timer
+    control->setInNewSession(true);
     control->setPauseButton(false);
     progressBarTimer->start(control->getTotalTimeOfTimer()/100); // Start the timer with an interval of 1 second
     labelTimer->start(1000);
     ui->contactIndicator->setStyleSheet("background-Color:blue");
+    chartUpdateTimer->start(chartNum);
 }
 
 void MainWindow::pauseButtonPressed() {
@@ -543,19 +547,34 @@ void MainWindow::pauseButtonPressed() {
     progressBarTimer->stop();
     ui->contactIndicator->setStyleSheet("background-Color:none");
     labelTimer->stop();
+    chartUpdateTimer->stop();
 }
 
 void MainWindow::resetButtonPressed() {
-    progressBarTimer->stop();
+    control->setInNewSession(false);
     labelTimer->stop();
+    progressBarTimer->stop();
+    contactCheckTimer->stop();
+    chartUpdateTimer->stop();
+    //cleaningTimer();
+
+    //progressBarTimer->stop();
+    //labelTimer->stop();
     control->setPauseButton(false);
     QLabel *label=ui->mainDisplay->findChild<QWidget * >("widget")->findChild<QLabel *>("timerLabel");
     label->setText("02:21");
     QProgressBar *progressBar =ui->mainDisplay->findChild<QWidget * >("widget")->findChild<QProgressBar *>("progressBar");
     progressBar->setValue(0);
+
     elapsedTime=141;
-    pauseButtonPressed();
-    control->setInNewSession(false);
+
+    //chartView->chart()->removeAllSeries();
+    //delete chartView->chart();
+    //chartView->setChart(new QChart());
+
+    //pauseButtonPressed();
+    //newSession();
+
 }
 
 
@@ -757,6 +776,7 @@ void MainWindow::cleaningTimer(){
         delete contactCheckTimer;
         contactCheckTimer=nullptr;
     }
+
 
     cleaningIndicators();
 

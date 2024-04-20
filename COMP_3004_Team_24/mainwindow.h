@@ -72,6 +72,7 @@ private:
     WaveformGenerator* generator;
     QChartView *chartView;
     QTimer *chartUpdateTimer;
+    int chartNum = 10000;
     int currentElectrode;
     SineWaveChart *sineWaveChart;
 
