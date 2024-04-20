@@ -447,6 +447,7 @@ void MainWindow::newSession() { // this will be moved to session class later
                 ui->contactLostIndicator->setStyleSheet("background-color:none");
             });
             progressBarTimer->stop();
+            chartUpdateTimer->stop();
             ui->contactIndicator->setStyleSheet("background-Color:none");
             labelTimer->stop();
 
@@ -455,6 +456,10 @@ void MainWindow::newSession() { // this will be moved to session class later
                 powerButtonPressed();
             }
         }
+    });
+
+    connect(chartUpdateTimer, &QTimer::timeout, [=](){
+         this->updateEEGChart();
     });
 
     contactCheckTimer->start(1000);
