@@ -75,6 +75,7 @@ MainWindow::MainWindow(QWidget *parent)
     sineWaveChart = new SineWaveChart(generator);
     chartView = sineWaveChart->displayChart(1);
     chartView->setVisible(false); // Ensure sineWaveChart is hidden initially
+    qDebug() << "[MainWindow Constructor] ChartView initialized and hidden.";
 }
 
 MainWindow::~MainWindow()
@@ -99,6 +100,7 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::powerButtonPressed(){
+    qDebug() << "[MainWindow::powerButtonPressed] Power button pressed.";
     if (control->getSystemOn()) {
         cleaningTimer();
         control->setAllSettingToDefault();
@@ -122,6 +124,7 @@ void MainWindow::powerButtonPressed(){
 }
 
 void MainWindow::menuButtonPressed() {
+    qDebug() << "[MainWindow::menuButtonPressed] Menu button pressed.";
 
     control->setSessionLogOn(false);
     sessionPos = 0;
@@ -130,6 +133,7 @@ void MainWindow::menuButtonPressed() {
 
         displayMessage("Please Turn on the Device First");
     }else if(control->getMenuOn()==true){
+        qDebug() << "[MainWindow::menuButtonPressed] Menu already on, returning";
         return;
     }else{
         //cleaning up any session timer if it is running
@@ -176,6 +180,7 @@ void MainWindow::menuButtonPressed() {
 
 
 void MainWindow::upSelectorPressed(){
+    qDebug() << "[MainWindow::upSelectorPressed] Up selector button pressed.";
     if(control->getMenuOn()){
         int current = control->getMenuPos();
         QString temp = "label" + QString::number(current);
@@ -212,6 +217,7 @@ void MainWindow::upSelectorPressed(){
 }
 
 void MainWindow::downSelectorPressed(){
+    qDebug() << "[MainWindow::downSelectorPressed] Down selector button pressed.";
     if(control->getMenuOn()){
         int current = control->getMenuPos();
         QString temp = "label" + QString::number(current);
@@ -238,7 +244,7 @@ void MainWindow::downSelectorPressed(){
         }
         else{
 
-            if (sessionPos < list.size() - 1){
+            if (sessionPos < static_cast<int>(list.size()) - 1){
                 sessionPos++;
                 QString sessionDisplayText = QString("Session #%1 \nStart: %2 \nEnd: %3").arg(sessionPos + 1).arg(list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss")).arg(endTimeList[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
                 sessionlabel->setText(sessionDisplayText);
@@ -250,6 +256,7 @@ void MainWindow::downSelectorPressed(){
 
 
 void MainWindow::okButtonPressed(){
+    qDebug() << "[MainWindow::okButtonPressed] OK button pressed.";
     if(control->getMenuOn()){
 
         int current = control->getMenuPos();
@@ -309,6 +316,7 @@ void MainWindow::displayMessage(const QString &output){
 }
 
 void MainWindow::newSession() { // this will be moved to session class later
+    qDebug() << "[MainWindow::newSession] New session button pressed.";
 
     sessionEndTime = QDateTime(); // reset session end time
     elapsedTime = 141; // Reset the session duration
@@ -467,6 +475,12 @@ void MainWindow::newSession() { // this will be moved to session class later
  }
 
 void MainWindow::updateEEGChart() {
+    qDebug() << "[MainWindow::updateEEGChart] Updating EEG chart.";
+    if (!chartView || !chartView->chart()) {
+        qDebug() << "[MainWindow::updateEEGChart] chartView or chart is null, skipping update.";
+        return;
+    }
+
     if (currentElectrode < 0 || currentElectrode >= 7) {
         currentElectrode = 0;  // Reset if out of bounds
     }
@@ -474,7 +488,7 @@ void MainWindow::updateEEGChart() {
     std::vector<double> waveform = generator->generateWaveform(currentElectrode, 1);
     QLineSeries *series = new QLineSeries();
     double interval = 0.01;  // Sampling interval
-    for (int i = 0; i < waveform.size(); ++i) {
+    for (int i = 0; i < static_cast<int>(waveform.size()); ++i) {
         series->append(i * interval, waveform[i]);
     }
 
@@ -499,6 +513,7 @@ void MainWindow::updateEEGChart() {
 
 
 void MainWindow::playButtonPressed() {
+    qDebug() << "[MainWindow::playButtonPressed] Play button pressed.";
     // Start or resume the timer
     control->setPauseButton(false);
     progressBarTimer->start(control->getTotalTimeOfTimer()/100); // Start the timer with an interval of 1 second
@@ -508,6 +523,7 @@ void MainWindow::playButtonPressed() {
 }
 
 void MainWindow::pauseButtonPressed() {
+    qDebug() << "[MainWindow::pauseButtonPressed] Pause button pressed.";
     // Pause the timer
     control->setPauseButton(true);
     progressBarTimer->stop();
@@ -518,6 +534,7 @@ void MainWindow::pauseButtonPressed() {
 
 
 void MainWindow::resetButtonPressed() {
+    qDebug() << "[MainWindow::resetButtonPressed] Reset button pressed.";
     progressBarTimer->stop();
     labelTimer->stop();
     control->setPauseButton(false);
@@ -532,16 +549,19 @@ void MainWindow::resetButtonPressed() {
 
 
 void MainWindow::makeContact(){
+    qDebug() << "[MainWindow::makeContact] Contact on button pressed.";
     control->setIsConnected(true);
     ui->sineWaveChart->setVisible(true); // Show the sineWaveChart when contact is made
 }
 
 void MainWindow::removeContact(){
+    qDebug() << "[MainWindow::removeContact] Contact off button pressed.";
     control->setIsConnected(false);
     ui->sineWaveChart->setVisible(false);
 }
 
 void MainWindow::sessionLog() {
+    qDebug() << "[MainWindow::sessionLog] Entering sessionLog";
 
 
     QFrame *parentFrame = ui->mainDisplay;
@@ -580,9 +600,11 @@ void MainWindow::sessionLog() {
 
     layout->addWidget(widget);
 
+    qDebug() << "[MainWindow::sessionLog] Session log displayed with session count: " << list.size();
 }
 
 void MainWindow::dateTimeSetting() {
+    qDebug() << "[MainWindow::dateTimeSetting] Date and Time Setting button pressed.";
     cleaningTimer();
     control->setAllSettingToDefault();
 
@@ -622,6 +644,7 @@ void MainWindow::dateTimeSetting() {
 }
 
 void MainWindow::displayNewDateTime() {
+    qDebug() << "[MainWindow::displayNewDateTime] Update Date And Time button pressed.";
     currentDateAndTime = dateTimeEdit->dateTime();
     displayMessage("New date and time:" + currentDateAndTime.toString("yyyy-MM-dd hh:mm:ss"));
 
@@ -688,6 +711,7 @@ void MainWindow::updateBatteryDisplay() {
 }
 
 void MainWindow::togglePowerSource() {
+    qDebug() << "[MainWindow::togglePowerSource] Power source button pressed.";
     if (control->isConnectedToPowerSource()) {
         control->setConnectedToPowerSource(false);
         batteryTimer->start(50000);
