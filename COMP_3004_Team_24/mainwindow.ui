@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>811</width>
-    <height>802</height>
+    <width>1309</width>
+    <height>539</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -427,7 +427,7 @@ border-image: url(&quot;:/images/circle-check-solid.svg&quot;);</string>
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>811</width>
+     <width>1309</width>
      <height>22</height>
     </rect>
    </property>
