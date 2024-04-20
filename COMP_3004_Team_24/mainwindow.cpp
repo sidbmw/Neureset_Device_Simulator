@@ -37,7 +37,12 @@ MainWindow::MainWindow(QWidget *parent)
     dateTimeEdit=NULL;
     contactLostTimer=0;
     ui->setupUi(this);
+
     QDateTime currentDateTime = QDateTime::currentDateTime();
+    sessionTimer = new QTimer(this);
+    connect(sessionTimer, &QTimer::timeout, this, &MainWindow::updateTimer);
+    sessionTimer->start(1000);
+
     control=new Handler(false,currentDateTime.date(),currentDateTime.time());
     connect(ui->power, SIGNAL(clicked(bool)), this, SLOT(powerButtonPressed()));
     progressBarTimer=nullptr;
@@ -123,7 +128,10 @@ void MainWindow::powerButtonPressed(){
 
 void MainWindow::menuButtonPressed() {
 
-    control->setInNewSession(false);
+    //if (control->getInNewSession() == true){
+    //    return;
+    //}
+
     control->setSessionLogOn(false);
 
     sessionPos = 0;
@@ -373,8 +381,8 @@ void MainWindow::newSession() { // this will be moved to session class later
 
     // for session log
     QDateTime startTime;
-    if (currentDateAndTime.isValid()){
-        startTime = currentDateAndTime;
+    if (currentDateTime.isValid()){
+        startTime = currentDateTime;
     }
     //else{
     //    startTime = QDateTime::currentDateTime();
@@ -427,7 +435,7 @@ void MainWindow::newSession() { // this will be moved to session class later
             contactCheckTimer->stop();
 
             QDateTime endTime;
-            endTime = currentDateAndTime;
+            endTime = currentDateTime;
             // if the session is completed, add it
             log->addSession(startTime, endTime);
             //endLog->addSession(sessionEndTime);
@@ -547,7 +555,7 @@ void MainWindow::resetButtonPressed() {
     progressBar->setValue(0);
     elapsedTime=141;
     pauseButtonPressed();
-
+    control->setInNewSession(false);
 }
 
 
@@ -626,11 +634,11 @@ void MainWindow::dateTimeSetting() {
     dateTimeEdit->setStyleSheet("background-color: black; color: gold;");
     dateTimeEdit->setCalendarPopup(true); // Optional: enables a calendar popup for date selection
     //dateTimeEdit->setDateTime(QDateTime::currentDateTime());
-    if (currentDateAndTime == QDateTime::currentDateTime()){
+    if (currentDateTime == QDateTime::currentDateTime()){
         dateTimeEdit->setDateTime(QDateTime::currentDateTime());
     }
     else{
-        dateTimeEdit->setDateTime(currentDateAndTime);
+        dateTimeEdit->setDateTime(currentDateTime);
     }
 
     // Set the display format for the date and time
@@ -649,8 +657,8 @@ void MainWindow::dateTimeSetting() {
 }
 
 void MainWindow::displayNewDateTime() {
-    currentDateAndTime = dateTimeEdit->dateTime();
-    displayMessage("New date and time:" + currentDateAndTime.toString("yyyy-MM-dd hh:mm:ss"));
+    currentDateTime = dateTimeEdit->dateTime();
+    displayMessage("New date and time:" + currentDateTime.toString("yyyy-MM-dd hh:mm:ss"));
 
     // stop and delete previous timer if running
     if (sessionTimer) {
@@ -669,8 +677,9 @@ void MainWindow::displayNewDateTime() {
 }
 
 void MainWindow::updateTimer(){
-    currentDateAndTime = currentDateAndTime.addSecs(1);
-    ui->dateAndTimeDisplay->setText(currentDateAndTime.toString("yyyy-MM-dd hh:mm:ss"));
+    //currentDateAndTime = currentDateAndTime.addSecs(1);
+    currentDateTime = currentDateTime.addSecs(1);
+    ui->dateAndTimeDisplay->setText(currentDateTime.toString("yyyy-MM-dd hh:mm:ss"));
     ui->dateAndTimeDisplay->setStyleSheet("color: white; font-size: 6pt;");
     ui->dateAndTimeDisplay->raise();
     ui->dateAndTimeDisplay->update();

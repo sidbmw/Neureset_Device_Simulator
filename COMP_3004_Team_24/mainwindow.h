@@ -43,7 +43,8 @@ private:
     session_log *log;
     session_log *endLog;
     void clearFrame(QFrame *frame);
-    QDateTime currentDateAndTime = QDateTime::currentDateTime();
+    //QDateTime currentDateAndTime = QDateTime::currentDateTime();
+    QDateTime currentDateTime = QDateTime::currentDateTime();
     QProgressBar *batteryProgressBar;
     QLabel *lowBatteryMsg;
 
