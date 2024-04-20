@@ -310,7 +310,7 @@ void MainWindow::displayMessage(const QString &output){
 
 void MainWindow::newSession() { // this will be moved to session class later
 
-    sessionEndTime = QDateTime(); // reset session end time
+    //sessionEndTime = QDateTime(); // reset session end time
     elapsedTime = 141; // Reset the session duration
 
     qInfo("clearing chart...");
@@ -371,9 +371,9 @@ void MainWindow::newSession() { // this will be moved to session class later
     if (currentDateAndTime.isValid()){
         startTime = currentDateAndTime;
     }
-    else{
-        startTime = QDateTime::currentDateTime();
-    }
+    //else{
+    //    startTime = QDateTime::currentDateTime();
+    //}
     //std::cout << "start time: " << startTime.toString("yyyy-MM-dd hh:mm:ss").toStdString() << std::endl;
 
     progressBarTimer = new QTimer(this);
@@ -401,7 +401,7 @@ void MainWindow::newSession() { // this will be moved to session class later
             progressBarTimer->stop();
             labelTimer->stop();
             chartUpdateTimer->stop();
-            currentDateAndTime = QDateTime::currentDateTime(); // reset manually set date and time
+            //currentDateAndTime = QDateTime::currentDateTime(); // reset manually set date and time
         }
     });
     chartUpdateTimer->start(10000);
@@ -420,11 +420,11 @@ void MainWindow::newSession() { // this will be moved to session class later
             progressBarTimer->stop();
             contactCheckTimer->stop();
 
-            sessionEndTime = QDateTime::currentDateTime();
+            sessionEndTime = currentDateAndTime;
             // if the session is completed, add it
             log->addSession(startTime);
             endLog->addSession(sessionEndTime);
-            currentDateAndTime = QDateTime::currentDateTime();
+            //currentDateAndTime = QDateTime::currentDateTime();
         }
 
         if(elapsedTime>=60 && elapsedTime <= 82){
