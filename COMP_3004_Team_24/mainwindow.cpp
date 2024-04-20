@@ -543,6 +543,9 @@ void MainWindow::playButtonPressed() {
     if (control->getSessionLogOn()){
         return;
     }
+    if (control->getDateTimeOn()){
+        return;
+    }
     // Start or resume the timer
     control->setPauseButton(false);
     progressBarTimer->start(control->getTotalTimeOfTimer()/100); // Start the timer with an interval of 1 second
@@ -558,6 +561,9 @@ void MainWindow::pauseButtonPressed() {
     if (control->getSessionLogOn()){
         return;
     }
+    if (control->getDateTimeOn()){
+        return;
+    }
     // Pause the timer
     control->setPauseButton(true);
     progressBarTimer->stop();
@@ -571,6 +577,9 @@ void MainWindow::resetButtonPressed() {
         return;
     }
     if (control->getSessionLogOn()){
+        return;
+    }
+    if (control->getDateTimeOn()){
         return;
     }
 
