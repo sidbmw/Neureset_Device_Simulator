@@ -99,7 +99,6 @@ class MainWindow : public QMainWindow {
     void displayNewDateTime();
     void updateEEGChart();
     void clearEEGChart();
-    void connectPC();
     void PCOutput();
 
    public slots:
