@@ -335,7 +335,6 @@ void MainWindow::displayMessage(const QString &output)
 
 void MainWindow::newSession()
 {
-
     qDebug() << "[MainWindow::newSession] New session button pressed.";
 
     sessionEndTime = QDateTime(); // reset session end time
@@ -668,6 +667,7 @@ void MainWindow::PCOutput()
 {
     QString filename = sessionLogFilePath;
     QFile file(filename);
+    qDebug() << "[MainWindow::PCOutPut] File path and text file initialized.";
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
