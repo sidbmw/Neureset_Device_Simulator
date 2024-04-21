@@ -10,12 +10,12 @@
 #include <QTimer>
 #include <QPropertyAnimation>
 #include <QProgressBar>
-#include <QTimer>
 #include <QDateTime>
 #include <QInputDialog>
 #include <QDateTimeEdit>
 #include "visual_feedback.h"
 #include "sinewavechart.h"
+#include "treatment_session.h"
 #include <QtCharts>
 #include <QChartView>
 #include <QLineSeries>
@@ -34,6 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     , newSessionAction(new QAction("New Session", this))
     , sessionLogAction(new QAction("Session Log", this))
     , dateTimeSettingAction(new QAction("Date and Time Setting", this))
+
 {
     dateTimeEdit=NULL;
     contactLostTimer=0;
@@ -75,7 +76,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // Initialize chartView to prevent crash when setting visibility
     sineWaveChart = new SineWaveChart(generator);
-    chartView = sineWaveChart->displayChart(1);
+    chartView = sineWaveChart->displayChart(1, nullptr);
     chartView->setVisible(false); // Ensure sineWaveChart is hidden initially
     qDebug() << "[MainWindow Constructor] ChartView initialized and hidden.";
 }
@@ -347,7 +348,7 @@ void MainWindow::newSession() { // this will be moved to session class later
         sineWaveChart = new SineWaveChart(generator);
     }
 
-    chartView = sineWaveChart->displayChart(1);
+    chartView = sineWaveChart->displayChart(1, nullptr);
     chartView->setVisible(false);
     widgetLayout->addWidget(chartView);
 
@@ -607,6 +608,7 @@ void MainWindow::sessionLog() {
 
     qDebug() << "[MainWindow::sessionLog] Session log displayed with session count: " << list.size();
 }
+
 
 void MainWindow::updateDisplay() {
     QString logFilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + "frequency_log.txt";

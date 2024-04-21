@@ -56,4 +56,3 @@ double WaveformGenerator::calculateDominantFrequency(const std::vector<std::pair
 
     return numerator / denominator;
 }
-
