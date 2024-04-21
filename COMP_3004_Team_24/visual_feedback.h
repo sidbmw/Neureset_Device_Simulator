@@ -1,7 +1,8 @@
 #ifndef VISUAL_FEEDBACK_H
 #define VISUAL_FEEDBACK_H
 
-class VisualFeedback {
+class VisualFeedback
+{
 public:
     VisualFeedback();
     ~VisualFeedback();
@@ -31,4 +32,4 @@ private:
     bool isBeeping;
 };
 
-#endif 
+#endif

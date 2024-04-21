@@ -8,7 +8,8 @@
 
 using namespace std;
 
-class session_log {
+class session_log
+{
 
 public:
     session_log();
@@ -16,17 +17,16 @@ public:
 
     void exportData() const;
 
-    //void addSession(const SessionData& data);
+    // void addSession(const SessionData& data);
 
-    void addSession(const QDateTime& time);
+    void addSession(const QDateTime &time);
 
-    vector<SessionData*> getSessionHistory() const;
+    vector<SessionData *> getSessionHistory() const;
 
     void print();
 
 private:
-    vector<SessionData*> sessionHistory;
+    vector<SessionData *> sessionHistory;
 };
 
-
-#endif // SESSION_LOG_H
+#endif

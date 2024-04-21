@@ -1,17 +1,21 @@
 #include "SessionData.h"
 
-SessionData :: SessionData(const QDateTime& sessionStartTime){
+SessionData ::SessionData(const QDateTime &sessionStartTime)
+{
     this->sessionStartTime = sessionStartTime;
 }
 
-QDateTime SessionData :: getSessionTime() const{
+QDateTime SessionData ::getSessionTime() const
+{
     return sessionStartTime;
 }
 
-QDateTime SessionData :: getSessionEndTime() const{
+QDateTime SessionData ::getSessionEndTime() const
+{
     return sessionEndTime;
 }
 
-void SessionData :: print(){
+void SessionData ::print()
+{
     cout << sessionStartTime.toString("yyyy-MM-dd hh:mm:ss").toStdString() << endl;
 }

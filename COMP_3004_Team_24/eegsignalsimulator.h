@@ -3,7 +3,8 @@
 
 #include <vector>
 
-class EEGSignalSimulator {
+class EEGSignalSimulator
+{
 public:
     EEGSignalSimulator(int sites);
     void simulateEEGData();
@@ -14,4 +15,4 @@ private:
     std::vector<std::vector<double>> eegData;
 };
 
-#endif // EEGSIGNALSIMULATOR_H
+#endif

@@ -8,13 +8,14 @@
 
 using namespace QtCharts;
 
-class SineWaveChart {
+class SineWaveChart
+{
 public:
-    SineWaveChart(WaveformGenerator* generator);
-    QChartView* displayChart(int electrodeIndex);
+    SineWaveChart(WaveformGenerator *generator);
+    QChartView *displayChart(int electrodeIndex);
 
 private:
-    WaveformGenerator* waveformGenerator;
+    WaveformGenerator *waveformGenerator;
 };
 
-#endif // SINEWAVECHART_H
+#endif

@@ -22,7 +22,10 @@
 #include "sinewavechart.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui
+{
+    class MainWindow;
+}
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -34,7 +37,7 @@ public:
     ~MainWindow();
 
     void createWaveChart();
-    void displaySineWaveChart(); 
+    void displaySineWaveChart();
 
 private:
     Ui::MainWindow *ui;
@@ -74,13 +77,12 @@ private:
     QDateTimeEdit *dateTimeEdit;
     QDateTime sessionEndTime;
 
-    WaveformGenerator* generator;
+    WaveformGenerator *generator;
     QChartView *chartView;
     QTimer *chartUpdateTimer;
     int currentElectrode;
     SineWaveChart *sineWaveChart;
     QString sessionLogFilePath;
-
 
 private slots:
     void powerButtonPressed();
@@ -106,9 +108,7 @@ public slots:
     void newSession();
     void sessionLog();
     void dateTimeSetting();
-    // void checkContactStatus();
-    // void contactLostTimeout();
     void togglePowerSource();
-    void on_contactOnButton_clicked(); 
+    void on_contactOnButton_clicked();
 };
-#endif // MAINWINDOW_H
+#endif
