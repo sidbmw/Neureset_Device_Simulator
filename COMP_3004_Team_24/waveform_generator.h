@@ -10,6 +10,7 @@ public:
     WaveformGenerator();
     std::vector<double> generateWaveform(int electrode, double time);
     void printToLogFile(const std::string& filename, int sessionCount);
+    double calculateDominantFrequency(int electrode);
 
 private:
     void initWaveforms();

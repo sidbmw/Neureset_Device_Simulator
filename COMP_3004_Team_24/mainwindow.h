@@ -99,6 +99,7 @@ private slots:
     void updateEEGChart();
     void clearEEGChart();
     void connectPC();
+    void PCOutput();
 
 public slots:
     void menuButtonPressed();
