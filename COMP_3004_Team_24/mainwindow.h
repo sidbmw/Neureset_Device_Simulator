@@ -1,45 +1,44 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QPushButton>
-#include <QGraphicsScene>
-#include <QFrame>
-#include "handler.h"
-#include <QProgressBar>
-#include <QString>
-#include <QDateTime>
-#include <QLabel>
-#include <QDateTimeEdit>
-#include <QWidget>
-#include "eeg_interface.h"
-#include "visual_feedback.h"
-#include "treatment_session.h"
-#include "session_log.h"
-#include "waveform_generator.h"
-#include <QtCharts>
 #include <QChartView>
+#include <QDateTime>
+#include <QDateTimeEdit>
+#include <QFrame>
+#include <QGraphicsScene>
+#include <QLabel>
+#include <QMainWindow>
+#include <QProgressBar>
+#include <QPushButton>
+#include <QString>
+#include <QWidget>
+#include <QtCharts>
+
+#include "eeg_interface.h"
+#include "handler.h"
+#include "session_log.h"
 #include "sinewavechart.h"
+#include "treatment_session.h"
+#include "visual_feedback.h"
+#include "waveform_generator.h"
 
 QT_BEGIN_NAMESPACE
-namespace Ui
-{
-    class MainWindow;
+namespace Ui {
+class MainWindow;
 }
 QT_END_NAMESPACE
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow {
     Q_OBJECT
 
-public:
+   public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
     void createWaveChart();
     void displaySineWaveChart();
 
-private:
+   private:
     Ui::MainWindow *ui;
     QGraphicsScene *scene;
     Handler *control;
@@ -62,7 +61,7 @@ private:
     QAction *sessionLogAction;
     QAction *dateTimeSettingAction;
 
-    QLabel *sessionlabel; // for session log display
+    QLabel *sessionlabel;  // for session log display
     int sessionPos = 0;
 
     // For keeping track of session data during logs to .txt
@@ -84,7 +83,7 @@ private:
     SineWaveChart *sineWaveChart;
     QString sessionLogFilePath;
 
-private slots:
+   private slots:
     void powerButtonPressed();
     void upSelectorPressed();
     void downSelectorPressed();
@@ -100,10 +99,9 @@ private slots:
     void displayNewDateTime();
     void updateEEGChart();
     void clearEEGChart();
-    void connectPC();
     void PCOutput();
 
-public slots:
+   public slots:
     void menuButtonPressed();
     void newSession();
     void sessionLog();

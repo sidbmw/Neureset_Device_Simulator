@@ -8,10 +8,8 @@
 
 using namespace std;
 
-class session_log
-{
-
-public:
+class session_log {
+   public:
     session_log();
     ~session_log();
 
@@ -25,7 +23,7 @@ public:
 
     void print();
 
-private:
+   private:
     vector<SessionData *> sessionHistory;
 };
 

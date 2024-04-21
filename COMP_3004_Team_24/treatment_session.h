@@ -2,13 +2,13 @@
 #define TREATMENT_SESSION_H
 
 #include "eeg_interface.h"
+#include "eegsignalsimulator.h"  // Include the EEGSignalSimulator header
 #include "visual_feedback.h"
-#include "eegsignalsimulator.h" // Include the EEGSignalSimulator header
 
-class TreatmentSession
-{
-public:
-    TreatmentSession(EEGInterface &eegInterface, VisualFeedback &visualFeedback);
+class TreatmentSession {
+   public:
+    TreatmentSession(EEGInterface &eegInterface,
+                     VisualFeedback &visualFeedback);
     ~TreatmentSession();
 
     void startSession();
@@ -20,11 +20,13 @@ public:
     void simulateTherapySession();
     double calculateDominantFrequency();
 
-private:
+   private:
     EEGInterface &eegInterface;
     VisualFeedback &visualFeedback;
-    EEGSignalSimulator eegSimulator;         // Declare eegSimulator as a member variable
-    std::vector<double> baselineFrequencies; // Declare baselineFrequencies as a member variable
+    EEGSignalSimulator
+        eegSimulator;  // Declare eegSimulator as a member variable
+    std::vector<double> baselineFrequencies;  // Declare baselineFrequencies as
+                                              // a member variable
     double overallBaselineFrequency;
     std::vector<double> siteBaselineFrequencies;
 };

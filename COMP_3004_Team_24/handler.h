@@ -1,12 +1,11 @@
 #ifndef HANDLER_H
 #define HANDLER_H
 
-#include <QString>
 #include <QDate>
+#include <QString>
 
-class Handler
-{
-public:
+class Handler {
+   public:
     Handler(bool system_on, QDate date, QTime time);
     void setSystemOn(bool set);
     bool getSystemOn();
@@ -28,18 +27,19 @@ public:
     bool getSessionLogOn();
     void setSessionLogOn(bool b);
 
-private:
+   private:
     int menuPosDown();
     int menuPosUp();
     bool inNewSession;
     bool system_on;
     bool menuOn;
-    int menuPos; // to keep track of what option is currently selected
+    int menuPos;  // to keep track of what option is currently selected
     int totalTimeOfTimer;
     bool isConnected;
     bool pauseButton;
     bool connectedToPowerSource;
-    bool sessionLogOn; // to keep track of if the session log option is selected
+    bool
+        sessionLogOn;  // to keep track of if the session log option is selected
 };
 
 #endif
