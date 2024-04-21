@@ -4,16 +4,15 @@
 #include <ctime>
 #include <vector>
 
-class DeviceSettings
-{
-public:
+class DeviceSettings {
+   public:
     DeviceSettings();
 
     void setDate(int year, int month, int day);
     void setTime(int hour, int minute, int second);
     void simulateConnectionLossAndReestablishment();
 
-private:
+   private:
     int year;
     int month;
     int day;
@@ -22,4 +21,4 @@ private:
     int second;
 };
 
-#endif // DEVICE_SETTINGS_H
+#endif  // DEVICE_SETTINGS_H

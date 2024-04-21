@@ -1,9 +1,8 @@
 #ifndef VISUAL_FEEDBACK_H
 #define VISUAL_FEEDBACK_H
 
-class VisualFeedback
-{
-public:
+class VisualFeedback {
+   public:
     VisualFeedback();
     ~VisualFeedback();
 
@@ -25,7 +24,7 @@ public:
     // Stops the beeping sound
     void stopBeeping();
 
-private:
+   private:
     bool isGreenLight;
     bool isBlueLight;
     bool isRedLight;

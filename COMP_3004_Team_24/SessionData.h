@@ -1,25 +1,22 @@
 #ifndef SESSIONDATA_H
 #define SESSIONDATA_H
 
+#include <QDateTime>
+#include <QString>
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include <QString>
-#include <QDateTime>
-
 using namespace std;
 
-class SessionData
-{
-
-public:
+class SessionData {
+   public:
     SessionData(const QDateTime &startTime);
     QDateTime getSessionTime() const;
     QDateTime getSessionEndTime() const;
     void print();
 
-private:
+   private:
     QDateTime sessionStartTime;
     QDateTime sessionEndTime;
     // need to retrieve the data for these for the PC

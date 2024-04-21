@@ -3,14 +3,13 @@
 
 #include <vector>
 
-class EEGSignalSimulator
-{
-public:
+class EEGSignalSimulator {
+   public:
     EEGSignalSimulator(int sites);
     void simulateEEGData();
     std::vector<double> calculateBaselineFrequencies();
 
-private:
+   private:
     int eegSites;
     std::vector<std::vector<double>> eegData;
 };

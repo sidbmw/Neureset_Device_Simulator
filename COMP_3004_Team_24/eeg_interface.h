@@ -3,9 +3,8 @@
 
 #include <vector>
 
-class EEGInterface
-{
-public:
+class EEGInterface {
+   public:
     EEGInterface();
     ~EEGInterface();
 
@@ -27,8 +26,8 @@ public:
     // Generates simulated EEG data
     void generateSimulatedEEGData();
 
-private:
-    std::vector<double> eegSignals; // Mock signals for each EEG site
+   private:
+    std::vector<double> eegSignals;  // Mock signals for each EEG site
 };
 
 #endif
