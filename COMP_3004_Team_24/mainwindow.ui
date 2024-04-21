@@ -395,19 +395,6 @@ border-image: url(&quot;:/images/circle-check-solid.svg&quot;);</string>
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="connectPCButton">
-    <property name="geometry">
-     <rect>
-      <x>830</x>
-      <y>210</y>
-      <width>83</width>
-      <height>25</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Connect</string>
-    </property>
-   </widget>
    <widget class="QLabel" name="PClabel">
     <property name="geometry">
      <rect>

@@ -24,49 +24,37 @@
 #include <QCoreApplication>
 #include <QDir>
 
-int MainWindow::elapsedTime=141;
+int MainWindow::elapsedTime = 141;
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
-    , scene(new QGraphicsScene(this))
-    , batteryTimer(new QTimer(this))
-    , menu(new QMenu(this))
-    , newSessionAction(new QAction("New Session", this))
-    , sessionLogAction(new QAction("Session Log", this))
-    , dateTimeSettingAction(new QAction("Date and Time Setting", this))
+    : QMainWindow(parent), ui(new Ui::MainWindow), scene(new QGraphicsScene(this)), batteryTimer(new QTimer(this)), menu(new QMenu(this)), newSessionAction(new QAction("New Session", this)), sessionLogAction(new QAction("Session Log", this)), dateTimeSettingAction(new QAction("Date and Time Setting", this))
 {
-    dateTimeEdit=NULL;
-    contactLostTimer=0;
+    dateTimeEdit = NULL;
+    contactLostTimer = 0;
     ui->setupUi(this);
     QDateTime currentDateTime = QDateTime::currentDateTime();
-    control=new Handler(false,currentDateTime.date(),currentDateTime.time());
+    control = new Handler(false, currentDateTime.date(), currentDateTime.time());
     connect(ui->power, SIGNAL(clicked(bool)), this, SLOT(powerButtonPressed()));
-    progressBarTimer=nullptr;
-    labelTimer=nullptr;
-    contactCheckTimer=nullptr;
+    progressBarTimer = nullptr;
+    labelTimer = nullptr;
+    contactCheckTimer = nullptr;
     connect(ui->menu, SIGNAL(clicked()), this, SLOT(menuButtonPressed()));
-    connect(ui->upSelector,SIGNAL(clicked(bool)), this, SLOT(upSelectorPressed()));
-    connect(ui->downSelector,SIGNAL(clicked(bool)),this, SLOT(downSelectorPressed()));
-    connect(ui->ok,SIGNAL(clicked(bool)),this, SLOT(okButtonPressed()));
-    connect(ui->contact_on,SIGNAL(clicked(bool)),this,SLOT(makeContact()));
-    connect(ui->contact_off,SIGNAL(clicked(bool)),this,SLOT(removeContact()));
+    connect(ui->upSelector, SIGNAL(clicked(bool)), this, SLOT(upSelectorPressed()));
+    connect(ui->downSelector, SIGNAL(clicked(bool)), this, SLOT(downSelectorPressed()));
+    connect(ui->ok, SIGNAL(clicked(bool)), this, SLOT(okButtonPressed()));
+    connect(ui->contact_on, SIGNAL(clicked(bool)), this, SLOT(makeContact()));
+    connect(ui->contact_off, SIGNAL(clicked(bool)), this, SLOT(removeContact()));
     connect(batteryTimer, SIGNAL(timeout()), this, SLOT(updateBatteryDisplay()));
     connect(ui->powerSourceButton, SIGNAL(clicked()), this, SLOT(togglePowerSource()));
 
-    connect(ui->connectPCButton, SIGNAL(clicked()), this, SLOT(connectPC()));
-    //connect(ui->computerDisplay, SIGNAL(clicked()), this, SLOT(PCOutput()));
-
     ui->dateAndTimeDisplay->hide();
     ui->lowBatteryMsg->hide();
-    // Ensure sineWaveChart is hidden initially to prevent crash
-    // chartView->setVisible(false);
 
-    //initialize battery display
-    batteryProgressBar = ui -> batteryDisplay;
+    // initialize battery display
+    batteryProgressBar = ui->batteryDisplay;
     batteryProgressBar->setRange(0, 100);
     batteryProgressBar->setValue(100);
-    lowBatteryMsg = ui -> lowBatteryMsg;
+    lowBatteryMsg = ui->lowBatteryMsg;
 
     log = new session_log();
     endLog = new session_log();
@@ -87,7 +75,8 @@ MainWindow::MainWindow(QWidget *parent)
     dir.cdUp();
     sessionLogFilePath = dir.absolutePath() + "/session_treatment_data.txt";
     QFile file(sessionLogFilePath);
-    if (file.exists()) {
+    if (file.exists())
+    {
         file.remove();
     }
 }
@@ -103,9 +92,11 @@ MainWindow::~MainWindow()
     delete scene;
 }
 
-void MainWindow::powerButtonPressed(){
+void MainWindow::powerButtonPressed()
+{
     qDebug() << "[MainWindow::powerButtonPressed] Power button pressed.";
-    if (control->getSystemOn()) {
+    if (control->getSystemOn())
+    {
         cleaningTimer();
         control->setAllSettingToDefault();
         control->setSystemOn(false);
@@ -113,34 +104,42 @@ void MainWindow::powerButtonPressed(){
         batteryTimer->stop();
         ui->dateAndTimeDisplay->hide();
         ui->dateAndTimeDisplay->clear();
-    } else {
+    }
+    else
+    {
         control->setSystemOn(true);
         batteryTimer->start(50000);
         displayMessage("Welcome to Final Project\n\nTeam Members:\nSiddharth Natamai\nKiran Adhikari\nSydney McLeod\nKripa Adhikari\nNikhil Sharma");
-        QTimer::singleShot(3000, this,[this](){
+        QTimer::singleShot(3000, this, [this]()
+                           {
             if(!control->getMenuOn() && !control->getInNewSession()){
                 menuButtonPressed();
             }else{
                 return;
-            }
-        });
+            } });
     }
 }
 
-void MainWindow::menuButtonPressed() {
+void MainWindow::menuButtonPressed()
+{
     qDebug() << "[MainWindow::menuButtonPressed] Menu button pressed.";
 
     control->setSessionLogOn(false);
     sessionPos = 0;
 
-    if(control->getSystemOn()==false){
+    if (control->getSystemOn() == false)
+    {
 
         displayMessage("Please Turn on the Device First");
-    }else if(control->getMenuOn()==true){
+    }
+    else if (control->getMenuOn() == true)
+    {
         qDebug() << "[MainWindow::menuButtonPressed] Menu already on, returning";
         return;
-    }else{
-        //cleaning up any session timer if it is running
+    }
+    else
+    {
+        // cleaning up any session timer if it is running
         cleaningTimer();
         control->setAllSettingToDefault();
         control->setMenuOn(true);
@@ -182,99 +181,113 @@ void MainWindow::menuButtonPressed() {
     }
 }
 
-
-void MainWindow::upSelectorPressed(){
+void MainWindow::upSelectorPressed()
+{
     qDebug() << "[MainWindow::upSelectorPressed] Up selector button pressed.";
-    if(control->getMenuOn()){
+    if (control->getMenuOn())
+    {
         int current = control->getMenuPos();
         QString temp = "label" + QString::number(current);
-        QLabel *label=ui->mainDisplay->findChild<QWidget * >("widget")->findChild<QLabel *>(temp);
-        if(label){
+        QLabel *label = ui->mainDisplay->findChild<QWidget *>("widget")->findChild<QLabel *>(temp);
+        if (label)
+        {
             label->setStyleSheet("color:white;font-size: 16px;");
         }
-        current=control->newMenuPos("up");
-        temp="label" + QString::number(current);
-        label=ui->mainDisplay->findChild<QWidget * >("widget")->findChild<QLabel *>(temp);
-        if(label){
+        current = control->newMenuPos("up");
+        temp = "label" + QString::number(current);
+        label = ui->mainDisplay->findChild<QWidget *>("widget")->findChild<QLabel *>(temp);
+        if (label)
+        {
             label->setStyleSheet("color:yellow;font-size: 16px;font-weight: bold;");
         }
-
     }
-    else if (control->getSessionLogOn()){
+    else if (control->getSessionLogOn())
+    {
 
-        std::vector<SessionData*> list = log->getSessionHistory();
-        std::vector<SessionData*> endTimeList = endLog->getSessionHistory();
+        std::vector<SessionData *> list = log->getSessionHistory();
+        std::vector<SessionData *> endTimeList = endLog->getSessionHistory();
 
-        if (list.empty() && endTimeList.empty()){
+        if (list.empty() && endTimeList.empty())
+        {
             sessionlabel->setText("No sessions available.");
         }
-        else{
+        else
+        {
 
-            if (sessionPos > 0){
+            if (sessionPos > 0)
+            {
                 sessionPos--;
                 QString sessionDisplayText = QString("Session #%1 \nStart: %2 \nEnd: %3").arg(sessionPos + 1).arg(list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss")).arg(endTimeList[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
                 sessionlabel->setText(sessionDisplayText);
             }
         }
-
     }
 }
 
-void MainWindow::downSelectorPressed(){
+void MainWindow::downSelectorPressed()
+{
     qDebug() << "[MainWindow::downSelectorPressed] Down selector button pressed.";
-    if(control->getMenuOn()){
+    if (control->getMenuOn())
+    {
         int current = control->getMenuPos();
         QString temp = "label" + QString::number(current);
-        QLabel *label=ui->mainDisplay->findChild<QWidget * >("widget")->findChild<QLabel *>(temp);
-        if(label){
+        QLabel *label = ui->mainDisplay->findChild<QWidget *>("widget")->findChild<QLabel *>(temp);
+        if (label)
+        {
             label->setStyleSheet("color:white;font-size: 16px;");
         }
-        current=control->newMenuPos("down");
-        temp="label" + QString::number(current);
-        label=ui->mainDisplay->findChild<QWidget * >("widget")->findChild<QLabel *>(temp);
-        if(label){
+        current = control->newMenuPos("down");
+        temp = "label" + QString::number(current);
+        label = ui->mainDisplay->findChild<QWidget *>("widget")->findChild<QLabel *>(temp);
+        if (label)
+        {
             label->setStyleSheet("color:yellow;font-size: 16px;font-weight: bold;");
         }
-
     }
-    else if (control->getSessionLogOn()){
+    else if (control->getSessionLogOn())
+    {
 
+        std::vector<SessionData *> list = log->getSessionHistory();
+        std::vector<SessionData *> endTimeList = endLog->getSessionHistory();
 
-        std::vector<SessionData*> list = log->getSessionHistory();
-        std::vector<SessionData*> endTimeList = endLog->getSessionHistory();
-
-        if (list.empty() && endTimeList.empty()){
+        if (list.empty() && endTimeList.empty())
+        {
             sessionlabel->setText("No sessions available.");
         }
-        else{
+        else
+        {
 
-            if (sessionPos < static_cast<int>(list.size()) - 1){
+            if (sessionPos < static_cast<int>(list.size()) - 1)
+            {
                 sessionPos++;
                 QString sessionDisplayText = QString("Session #%1 \nStart: %2 \nEnd: %3").arg(sessionPos + 1).arg(list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss")).arg(endTimeList[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
                 sessionlabel->setText(sessionDisplayText);
             }
         }
-
     }
 }
 
-
-void MainWindow::okButtonPressed(){
+void MainWindow::okButtonPressed()
+{
     qDebug() << "[MainWindow::okButtonPressed] OK button pressed.";
-    if(control->getMenuOn()){
+    if (control->getMenuOn())
+    {
 
         int current = control->getMenuPos();
-        if(current==1){
+        if (current == 1)
+        {
             control->setMenuOn(false);
             ui->dateAndTimeDisplay->hide();
             newSession();
-
-        }else if( current==2){
+        }
+        else if (current == 2)
+        {
             control->setMenuOn(false);
             ui->dateAndTimeDisplay->hide();
             sessionLog();
-
-        }else if(current ==3 ){
+        }
+        else if (current == 3)
+        {
             control->setMenuOn(false);
             ui->dateAndTimeDisplay->show();
             dateTimeSetting();
@@ -282,8 +295,8 @@ void MainWindow::okButtonPressed(){
     }
 }
 
-
-void MainWindow::displayMessage(const QString &output){
+void MainWindow::displayMessage(const QString &output)
+{
     QFrame *parentFrame = ui->mainDisplay;
     clearFrame(parentFrame);
     QVBoxLayout *layout = new QVBoxLayout(parentFrame);
@@ -309,28 +322,26 @@ void MainWindow::displayMessage(const QString &output){
     // Add the widget to the layout of the parent frame
     layout->addWidget(widget);
 
-
     // Start the timer to hide the widget after 2 seconds
-    QTimer::singleShot(3000, widget, [widget]() {
+    QTimer::singleShot(3000, widget, [widget]()
+                       {
         if (widget == nullptr) {
             return;
         }
-        widget->hide();
-    });
+        widget->hide(); });
 }
 
-void MainWindow::newSession() { // this will be moved to session class later
+void MainWindow::newSession()
+{
 
     qDebug() << "[MainWindow::newSession] New session button pressed.";
 
     sessionEndTime = QDateTime(); // reset session end time
-    elapsedTime = 141; // Reset the session duration
+    elapsedTime = 141;            // Reset the session duration
 
     QFrame *parentFrame = ui->mainDisplay;
     clearFrame(parentFrame);
     control->setInNewSession(true);
-
-
 
     // Create a layout for the parent frame
     QVBoxLayout *layout = new QVBoxLayout(parentFrame);
@@ -351,12 +362,13 @@ void MainWindow::newSession() { // this will be moved to session class later
     QProgressBar *progressBar = new QProgressBar;
     progressBar->setObjectName("progressBar");
     progressBar->setRange(0, 100); // Set the range of the progress bar
-    progressBar->setValue(0); // Set initial value (optional)
+    progressBar->setValue(0);
     progressBar->setStyleSheet("QProgressBar { border: 1px solid white; } QProgressBar::chunk { background-color: yellow;}");
     widgetLayout->addWidget(progressBar);
     layout->addWidget(widget);
 
-    if (!sineWaveChart) {
+    if (!sineWaveChart)
+    {
         sineWaveChart = new SineWaveChart(generator);
     }
 
@@ -364,21 +376,23 @@ void MainWindow::newSession() { // this will be moved to session class later
     chartView->setVisible(false);
     widgetLayout->addWidget(chartView);
 
-
-    // for session log
+    // Session Log timer check
     QDateTime startTime;
-    if (currentDateAndTime.isValid()){
+    if (currentDateAndTime.isValid())
+    {
         startTime = currentDateAndTime;
     }
-    else{
+    else
+    {
         startTime = QDateTime::currentDateTime();
     }
 
     progressBarTimer = new QTimer(this);
-    labelTimer=new QTimer(this);
-    chartUpdateTimer=new QTimer(this);
+    labelTimer = new QTimer(this);
+    chartUpdateTimer = new QTimer(this);
 
-    connect(progressBarTimer, &QTimer::timeout, [=]() {
+    connect(progressBarTimer, &QTimer::timeout, [=]()
+            {
         // Update progress bar value
         int newValue = progressBar->value() + 1;
         progressBar->setValue(newValue);
@@ -402,51 +416,47 @@ void MainWindow::newSession() { // this will be moved to session class later
             sessionCount++;
             generator->printToLogFile(sessionLogFilePath.toStdString(), sessionCount);
             PCOutput();
-        }
-    });
-
+        } });
 
     chartUpdateTimer->start(10000);
 
-    connect(labelTimer, &QTimer::timeout, [=](){
+    connect(labelTimer, &QTimer::timeout, [=]()
+            {
+                --elapsedTime;
+                int minutes = elapsedTime / 60;
+                int seconds = elapsedTime % 60;
+                QString labelText = QString("%1:%2").arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));
+                label1->setText(labelText);
+                if (elapsedTime <= 0)
+                {
+                    qDebug() << "stop";
+                    labelTimer->stop();
+                    progressBarTimer->stop();
+                    contactCheckTimer->stop();
 
-        --elapsedTime;
-        int minutes = elapsedTime / 60;
-        int seconds = elapsedTime % 60;
-        QString labelText = QString("%1:%2").arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));
-        label1->setText(labelText);
-        if (elapsedTime <= 0){
-            qDebug()<<"stop";
-            //add code here to check eeg value and save it in logs just check it twice so we have before and after
-            labelTimer->stop();
-            progressBarTimer->stop();
-            contactCheckTimer->stop();
+                    sessionEndTime = QDateTime::currentDateTime();
+                    // if the session is completed, add it
+                    log->addSession(startTime);
+                    sessionEndTime = startTime.addSecs(141);
+                    endLog->addSession(sessionEndTime);
+                    currentDateAndTime = QDateTime::currentDateTime();
+                }
 
-            sessionEndTime = QDateTime::currentDateTime();
-            // if the session is completed, add it
-            log->addSession(startTime);
-            sessionEndTime = startTime.addSecs(141);
-            endLog->addSession(sessionEndTime);
-            currentDateAndTime = QDateTime::currentDateTime();
-        }
-
-        if(elapsedTime>=60 && elapsedTime <= 82){
-            ui->treatmentIndicator->setStyleSheet("background-color:green");
-            QTimer::singleShot(300, this, [=]() {
-                ui->treatmentIndicator->setStyleSheet("background-color:none");
-            });
-        }
-
-    });
+                if (elapsedTime >= 60 && elapsedTime <= 82)
+                {
+                    ui->treatmentIndicator->setStyleSheet("background-color:green");
+                    QTimer::singleShot(300, this, [=]()
+                                       { ui->treatmentIndicator->setStyleSheet("background-color:none"); });
+                } });
 
     // Connect buttons to slots
     connect(ui->play, &QPushButton::clicked, this, &MainWindow::playButtonPressed);
     connect(ui->pause, &QPushButton::clicked, this, &MainWindow::pauseButtonPressed);
     connect(ui->reset, &QPushButton::clicked, this, &MainWindow::resetButtonPressed);
 
-
-    contactCheckTimer=new QTimer(this);
-    connect( contactCheckTimer, &QTimer::timeout, [=]() {
+    contactCheckTimer = new QTimer(this);
+    connect(contactCheckTimer, &QTimer::timeout, [=]()
+            {
 
         if(control->getIsConnected() && (control->getPauseButton())==false){
             contactLostTimer=0;
@@ -471,42 +481,46 @@ void MainWindow::newSession() { // this will be moved to session class later
             if(contactLostTimer==30){
                 powerButtonPressed();
             }
-        }
-    });
+        } });
 
-    connect(chartUpdateTimer, &QTimer::timeout, [=](){
-         this->updateEEGChart();
-    });
+    connect(chartUpdateTimer, &QTimer::timeout, [=]()
+            { this->updateEEGChart(); });
 
     contactCheckTimer->start(1000);
-    if(control->getIsConnected()) {
+    if (control->getIsConnected())
+    {
         ui->contactIndicator->setStyleSheet("background-Color:blue");
     }
+}
 
-
- }
-
-void MainWindow::updateEEGChart() {
+void MainWindow::updateEEGChart()
+{
     qDebug() << "[MainWindow::updateEEGChart] Updating EEG chart.";
-    if (!chartView || !chartView->chart()) {
+    if (!chartView || !chartView->chart())
+    {
         qDebug() << "[MainWindow::updateEEGChart] chartView or chart is null, skipping update.";
         return;
     }
 
-    if (currentElectrode < 0 || currentElectrode >= 7) {
-        currentElectrode = 0;  // Reset if out of bounds
+    if (currentElectrode < 0 || currentElectrode >= 7)
+    {
+        currentElectrode = 0; // Reset if out of bounds
     }
 
     std::vector<double> waveform = generator->generateWaveform(currentElectrode, 1);
     QLineSeries *series = new QLineSeries();
-    double interval = 0.01;  // Sampling interval
-    for (int i = 0; i < static_cast<int>(waveform.size()); ++i) {
+    double interval = 0.01; // Sampling interval
+    for (int i = 0; i < static_cast<int>(waveform.size()); ++i)
+    {
         series->append(i * interval, waveform[i]);
     }
 
-    if (chartView->chart() == nullptr) {
+    if (chartView->chart() == nullptr)
+    {
         chartView->setChart(new QChart());
-    } else {
+    }
+    else
+    {
         chartView->chart()->removeAllSeries(); // Clear previous series
     }
 
@@ -514,75 +528,83 @@ void MainWindow::updateEEGChart() {
     chartView->chart()->createDefaultAxes();
     chartView->setVisible(true);
 
-    QList<QAbstractAxis*> axes = chartView->chart()->axes();
-    foreach (QAbstractAxis* axis, axes) {
+    QList<QAbstractAxis *> axes = chartView->chart()->axes();
+    foreach (QAbstractAxis *axis, axes)
+    {
         axis->setLabelsBrush(QBrush(Qt::white));
     }
 
     currentElectrode = (currentElectrode + 1) % 7;
 }
 
-
-
-void MainWindow::playButtonPressed() {
+void MainWindow::playButtonPressed()
+{
     qDebug() << "[MainWindow::playButtonPressed] Play button pressed.";
     // Start or resume the timer
     control->setPauseButton(false);
-    if(progressBarTimer != nullptr) { // Added null check for progressBarTimer
-        progressBarTimer->start(control->getTotalTimeOfTimer()/100); // Start the timer with an interval of 1 second
+    if (progressBarTimer != nullptr)
+    {                                                                  // Null check for progressBarTimer
+        progressBarTimer->start(control->getTotalTimeOfTimer() / 100); // Start the timer with an interval of 1 second
     }
-    if(labelTimer != nullptr) { // Added null check for labelTimer
+    if (labelTimer != nullptr)
+    { // Null check for labelTimer
         labelTimer->start(1000);
     }
     ui->contactIndicator->setStyleSheet("background-Color:blue");
-    if(chartUpdateTimer != nullptr) { // Added null check for chartUpdateTimer
+    if (chartUpdateTimer != nullptr)
+    { // Null check for chartUpdateTimer
         chartUpdateTimer->start();
     }
 }
 
-void MainWindow::pauseButtonPressed() {
+void MainWindow::pauseButtonPressed()
+{
     qDebug() << "[MainWindow::pauseButtonPressed] Pause button pressed.";
     // Pause the timer
     control->setPauseButton(true);
-    if(progressBarTimer != nullptr) { // Added null check for progressBarTimer
+    if (progressBarTimer != nullptr)
+    { // Null check for progressBarTimer
         progressBarTimer->stop();
     }
     ui->contactIndicator->setStyleSheet("background-Color:none");
-    if(labelTimer != nullptr) { // Added null check for labelTimer
+    if (labelTimer != nullptr)
+    { // Null check for labelTimer
         labelTimer->stop();
     }
-    if(chartUpdateTimer != nullptr) { // Added null check for chartUpdateTimer
+    if (chartUpdateTimer != nullptr)
+    { // Null check for chartUpdateTimer
         chartUpdateTimer->stop();
     }
 }
 
-void MainWindow::resetButtonPressed() {
+void MainWindow::resetButtonPressed()
+{
     qDebug() << "[MainWindow::resetButtonPressed] Reset button pressed.";
-    QLabel *label=ui->mainDisplay->findChild<QWidget * >("widget")->findChild<QLabel *>("timerLabel");
+    QLabel *label = ui->mainDisplay->findChild<QWidget *>("widget")->findChild<QLabel *>("timerLabel");
     label->setText("02:21");
-    QProgressBar *progressBar =ui->mainDisplay->findChild<QWidget * >("widget")->findChild<QProgressBar *>("progressBar");
+    QProgressBar *progressBar = ui->mainDisplay->findChild<QWidget *>("widget")->findChild<QProgressBar *>("progressBar");
     progressBar->setValue(0);
-    elapsedTime=141;
+    elapsedTime = 141;
     pauseButtonPressed();
-
 }
 
-
-void MainWindow::makeContact(){
+void MainWindow::makeContact()
+{
     qDebug() << "[MainWindow::makeContact] Contact on button pressed.";
     control->setIsConnected(true);
     ui->sineWaveChart->setVisible(true); // Show the sineWaveChart when contact is made
 }
 
-void MainWindow::removeContact(){
+void MainWindow::removeContact()
+{
     qDebug() << "[MainWindow::removeContact] Contact off button pressed.";
     control->setIsConnected(false);
     ui->sineWaveChart->setVisible(false);
 }
 
-void MainWindow::sessionLog() {
+void MainWindow::sessionLog()
+{
     qDebug() << "[MainWindow::sessionLog] Entering sessionLog";
-
 
     QFrame *parentFrame = ui->mainDisplay;
     clearFrame(parentFrame);
@@ -600,18 +622,20 @@ void MainWindow::sessionLog() {
     QVBoxLayout *widgetLayout = new QVBoxLayout(widget);
     widget->setLayout(widgetLayout);
 
-    std::vector<SessionData*> list = log->getSessionHistory();
-    std::vector<SessionData*> endTimeList = endLog->getSessionHistory();
+    std::vector<SessionData *> list = log->getSessionHistory();
+    std::vector<SessionData *> endTimeList = endLog->getSessionHistory();
 
-    sessionPos= 0;
+    sessionPos = 0;
 
-    if (list.empty() && endTimeList.empty()){
+    if (list.empty() && endTimeList.empty())
+    {
         sessionlabel = new QLabel("Empty");
     }
-    else {
-            QString sessionDisplayText = QString("Session #%1 \nStart: %2 \nEnd: %3").arg(sessionPos + 1).arg(list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss")).arg(endTimeList[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
-            sessionlabel = new QLabel(sessionDisplayText);
-        }
+    else
+    {
+        QString sessionDisplayText = QString("Session #%1 \nStart: %2 \nEnd: %3").arg(sessionPos + 1).arg(list[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss")).arg(endTimeList[sessionPos]->getSessionTime().toString("yyyy-MM-dd hh:mm:ss"));
+        sessionlabel = new QLabel(sessionDisplayText);
+    }
 
     sessionlabel->setObjectName("sessionLogLabel");
     sessionlabel->setStyleSheet("color: white; font-size: 16px;font-weight: bold;");
@@ -623,34 +647,26 @@ void MainWindow::sessionLog() {
     qDebug() << "[MainWindow::sessionLog] Session log displayed with session count: " << list.size();
 }
 
-void MainWindow::connectPC(){
-    if (pcOn && control->getSystemOn()){
-        ui->computerDisplay->setPlainText("enter data here");
-        pcOn = false;
-    }
-    else{
-        ui->computerDisplay->setPlainText("");
-        pcOn = true;
-    }
-}
-
-void MainWindow::PCOutput(){
+void MainWindow::PCOutput()
+{
     QString filename = sessionLogFilePath;
-        QFile file(filename);
+    QFile file(filename);
 
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-            QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
-            return;
-        }
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        QMessageBox::warning(this, "Warning", "Cannot open file: " + file.errorString());
+        return;
+    }
 
-        QTextStream in(&file);
-        QString fileContent = in.readAll();
-        file.close();
+    QTextStream in(&file);
+    QString fileContent = in.readAll();
+    file.close();
 
-        ui->computerDisplay->setPlainText(fileContent);
+    ui->computerDisplay->setPlainText(fileContent);
 }
 
-void MainWindow::dateTimeSetting() {
+void MainWindow::dateTimeSetting()
+{
     qDebug() << "[MainWindow::dateTimeSetting] Date and Time Setting button pressed.";
     cleaningTimer();
     control->setAllSettingToDefault();
@@ -683,20 +699,22 @@ void MainWindow::dateTimeSetting() {
     QPushButton *updateButton = new QPushButton("Update Date And Time", this);
     updateButton->setStyleSheet("border:1px solid white; color:gold");
     updateButton->setFixedWidth(200);
-    widgetLayout->addWidget(updateButton,Qt::AlignCenter);
+    widgetLayout->addWidget(updateButton, Qt::AlignCenter);
 
     // Add the DateTimeEdit widget to the layout
     layout->addWidget(widget);
     connect(updateButton, SIGNAL(clicked()), this, SLOT(displayNewDateTime()));
 }
 
-void MainWindow::displayNewDateTime() {
+void MainWindow::displayNewDateTime()
+{
     qDebug() << "[MainWindow::displayNewDateTime] Update Date And Time button pressed.";
     currentDateAndTime = dateTimeEdit->dateTime();
     displayMessage("New date and time:" + currentDateAndTime.toString("yyyy-MM-dd hh:mm:ss"));
 
     // stop and delete previous timer if running
-    if (sessionTimer) {
+    if (sessionTimer)
+    {
         sessionTimer->stop();
         delete sessionTimer;
         sessionTimer = nullptr;
@@ -706,13 +724,14 @@ void MainWindow::displayNewDateTime() {
     connect(sessionTimer, &QTimer::timeout, this, &MainWindow::updateTimer);
     sessionTimer->start(1000);
 
-    QTimer::singleShot(2000, this,[this](){
+    QTimer::singleShot(2000, this, [this]()
+                       {
         control->setMenuOn(false);
-        menuButtonPressed();
-    });
+        menuButtonPressed(); });
 }
 
-void MainWindow::updateTimer(){
+void MainWindow::updateTimer()
+{
     currentDateAndTime = currentDateAndTime.addSecs(1);
     ui->dateAndTimeDisplay->setText(currentDateAndTime.toString("yyyy-MM-dd hh:mm:ss"));
     ui->dateAndTimeDisplay->setStyleSheet("color: white; font-size: 6pt;");
@@ -720,105 +739,128 @@ void MainWindow::updateTimer(){
     ui->dateAndTimeDisplay->update();
 }
 
-
-void MainWindow::updateBatteryDisplay() {
+void MainWindow::updateBatteryDisplay()
+{
     int currentValue = batteryProgressBar->value();
 
-    if (control->isConnectedToPowerSource()) {
+    if (control->isConnectedToPowerSource())
+    {
         // If connected to power source, increase battery level
-        if (currentValue < 100) {
+        if (currentValue < 100)
+        {
             currentValue += 10;
             batteryProgressBar->setValue(currentValue);
         }
         // If battery reaches 100%, stop increasing and wait for power source button click
-        if (currentValue == 100) {
+        if (currentValue == 100)
+        {
             batteryTimer->stop();
             return;
         }
-    } else {
+    }
+    else
+    {
         // If not connected to power source, decrease battery level
-        if (currentValue > 0) {
+        if (currentValue > 0)
+        {
             currentValue -= 10;
             batteryProgressBar->setValue(currentValue);
         }
         // Check if battery level drops to 0%, shutdown device
-        if (currentValue == 0) {
+        if (currentValue == 0)
+        {
             powerButtonPressed();
             return;
         }
     }
 
     // Check if battery level is below 20% to display low battery message
-    if (currentValue <= 20) {
+    if (currentValue <= 20)
+    {
         lowBatteryMsg->setText("Low Battery! Please connect the device to a power source.");
         lowBatteryMsg->setStyleSheet("color: red;");
         lowBatteryMsg->show();
-    } else {
+    }
+    else
+    {
         lowBatteryMsg->hide();
     }
 }
 
-void MainWindow::togglePowerSource() {
+void MainWindow::togglePowerSource()
+{
     qDebug() << "[MainWindow::togglePowerSource] Power source button pressed.";
-    if (control->isConnectedToPowerSource()) {
+    if (control->isConnectedToPowerSource())
+    {
         control->setConnectedToPowerSource(false);
         batteryTimer->start(50000);
         ui->powerSourceButton->setStyleSheet("background-color: red;");
-    } else {
+    }
+    else
+    {
         control->setConnectedToPowerSource(true);
         batteryTimer->start(50000);
         ui->powerSourceButton->setStyleSheet("background-color: green;");
     }
 }
 
-void MainWindow::clearLowBatteryMessage() {
+void MainWindow::clearLowBatteryMessage()
+{
     lowBatteryMsg->clear();
 }
 
-void MainWindow::cleaningTimer(){
+void MainWindow::cleaningTimer()
+{
 
-    if(chartUpdateTimer !=nullptr){
+    if (chartUpdateTimer != nullptr)
+    {
         chartUpdateTimer->stop();
         delete chartUpdateTimer;
-        chartUpdateTimer=nullptr;
+        chartUpdateTimer = nullptr;
     }
 
-    if(progressBarTimer!=nullptr){
+    if (progressBarTimer != nullptr)
+    {
         progressBarTimer->stop();
         delete progressBarTimer;
-        progressBarTimer=nullptr;
+        progressBarTimer = nullptr;
     }
 
-    if(labelTimer!=nullptr){
+    if (labelTimer != nullptr)
+    {
         labelTimer->stop();
         delete labelTimer;
-        labelTimer=nullptr;
+        labelTimer = nullptr;
     }
 
-    if(contactCheckTimer!=nullptr){
+    if (contactCheckTimer != nullptr)
+    {
         contactCheckTimer->stop();
         delete contactCheckTimer;
-        contactCheckTimer=nullptr;
+        contactCheckTimer = nullptr;
     }
 
     cleaningIndicators();
-
 }
 
-void MainWindow::cleaningIndicators(){
+void MainWindow::cleaningIndicators()
+{
     ui->contactIndicator->setStyleSheet("background-color:none");
     ui->contactLostIndicator->setStyleSheet("background-color:none");
     ui->treatmentIndicator->setStyleSheet("background-color:none");
 }
 
-void MainWindow::clearFrame(QFrame *frame) {
+void MainWindow::clearFrame(QFrame *frame)
+{
 
     cleaningTimer();
     QLayout *layout = frame->layout();
 
-    if (layout) {
+    if (layout)
+    {
         // Delete all widgets inside the layout
-        while (QLayoutItem *item = layout->takeAt(0)) {
+        while (QLayoutItem *item = layout->takeAt(0))
+        {
             delete item->widget();
             delete item;
         }
@@ -828,18 +870,22 @@ void MainWindow::clearFrame(QFrame *frame) {
     }
 }
 
-void MainWindow::clearEEGChart() {
+void MainWindow::clearEEGChart()
+{
 
-    if (chartView) {
+    if (chartView)
+    {
         // Safely delete the chart if it exists
-        if (chartView->chart()) {
-             qDebug() << "Chart cleared";
-             delete chartView;
-             chartView = nullptr; // Ensure pointer is set to nullptr after deletion
+        if (chartView->chart())
+        {
+            qDebug() << "Chart cleared";
+            delete chartView;
+            chartView = nullptr; // Ensure pointer is set to nullptr after deletion
         }
     }
 }
 
-void MainWindow::on_contactOnButton_clicked() {
+void MainWindow::on_contactOnButton_clicked()
+{
     makeContact(); // Call makeContact when contactOnButton is clicked
 }

@@ -3,7 +3,8 @@
 
 #include <vector>
 
-class EEGInterface {
+class EEGInterface
+{
 public:
     EEGInterface();
     ~EEGInterface();
@@ -30,4 +31,4 @@ private:
     std::vector<double> eegSignals; // Mock signals for each EEG site
 };
 
-#endif 
+#endif

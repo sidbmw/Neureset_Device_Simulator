@@ -8,15 +8,18 @@
 #include <future>
 #include <iostream>
 
-TreatmentSession::TreatmentSession(EEGInterface& eegInterface, VisualFeedback& visualFeedback) : eegInterface(eegInterface), visualFeedback(visualFeedback), eegSimulator(21) {
+TreatmentSession::TreatmentSession(EEGInterface &eegInterface, VisualFeedback &visualFeedback) : eegInterface(eegInterface), visualFeedback(visualFeedback), eegSimulator(21)
+{
     eegSimulator.simulateEEGData();
     baselineFrequencies = eegSimulator.calculateBaselineFrequencies();
 }
 
-TreatmentSession::~TreatmentSession() {
+TreatmentSession::~TreatmentSession()
+{
 }
 
-void TreatmentSession::startSession() {
+void TreatmentSession::startSession()
+{
     // Start the treatment session
     calculateInitialBaseline();
     runTreatmentCycle();
@@ -24,33 +27,39 @@ void TreatmentSession::startSession() {
     exportSessionData();
 }
 
-void TreatmentSession::runTreatmentCycle() {
+void TreatmentSession::runTreatmentCycle()
+{
     // Apply treatment to each EEG site
-    for (int siteIndex = 0; siteIndex < 21; siteIndex++) {
+    for (int siteIndex = 0; siteIndex < 21; siteIndex++)
+    {
         double baselineFrequency = baselineFrequencies[siteIndex];
         applyTreatmentToSite(baselineFrequency, siteIndex);
     }
 }
 
-void TreatmentSession::calculateInitialBaseline() {
+void TreatmentSession::calculateInitialBaseline()
+{
     // Calculate initial baseline frequency for all EEG sites
     std::vector<std::future<double>> futures;
-    for (int siteIndex = 0; siteIndex < 21; siteIndex++) {
-        futures.push_back(std::async(std::launch::async, [this, siteIndex] {
-            return eegInterface.calculateBaselineFrequency(siteIndex);
-        }));
+    for (int siteIndex = 0; siteIndex < 21; siteIndex++)
+    {
+        futures.push_back(std::async(std::launch::async, [this, siteIndex]
+                                     { return eegInterface.calculateBaselineFrequency(siteIndex); }));
     }
     double totalFrequency = 0;
-    for (auto& future : futures) {
+    for (auto &future : futures)
+    {
         totalFrequency += future.get();
     }
     overallBaselineFrequency = totalFrequency / 21;
 }
 
-void TreatmentSession::applyTreatmentToSite(double baselineFrequency, int siteIndex) {
+void TreatmentSession::applyTreatmentToSite(double baselineFrequency, int siteIndex)
+{
     const double offsetFrequency = 5.0; // Hz
     double currentFrequency = baselineFrequency;
-    for (int i = 0; i < 16; ++i) { // Apply treatment every 1/16th of a second for 1 second
+    for (int i = 0; i < 16; ++i)
+    { // Apply treatment every 1/16th of a second for 1 second
         currentFrequency += offsetFrequency;
         // Simulate recalculating the brainwave frequency and applying the offset
         std::this_thread::sleep_for(std::chrono::milliseconds(62)); // Simulate time delay
@@ -59,39 +68,46 @@ void TreatmentSession::applyTreatmentToSite(double baselineFrequency, int siteIn
     siteBaselineFrequencies.push_back(currentFrequency);
 }
 
-void TreatmentSession::calculateFinalBaseline() {
+void TreatmentSession::calculateFinalBaseline()
+{
     // Calculate final baseline frequency for all EEG sites
     std::vector<std::future<double>> futures;
-    for (int siteIndex = 0; siteIndex < 21; siteIndex++) {
-        futures.push_back(std::async(std::launch::async, [this, siteIndex] {
-            return eegInterface.calculateBaselineFrequency(siteIndex);
-        }));
+    for (int siteIndex = 0; siteIndex < 21; siteIndex++)
+    {
+        futures.push_back(std::async(std::launch::async, [this, siteIndex]
+                                     { return eegInterface.calculateBaselineFrequency(siteIndex); }));
     }
     double totalFrequency = 0;
-    for (auto& future : futures) {
+    for (auto &future : futures)
+    {
         totalFrequency += future.get();
     }
     overallBaselineFrequency = totalFrequency / 21;
 }
 
-void TreatmentSession::exportSessionData() const {
+void TreatmentSession::exportSessionData() const
+{
     // Export session data to a log file
     std::ofstream sessionLog("session_log.txt", std::ios::app);
     sessionLog << "Initial Overall Baseline Frequency: " << overallBaselineFrequency << "\n";
-    for (int i = 0; i < static_cast<int>(siteBaselineFrequencies.size()); i++) {
+    for (int i = 0; i < static_cast<int>(siteBaselineFrequencies.size()); i++)
+    {
         sessionLog << "Site " << i << " Baseline Frequency (Before): " << siteBaselineFrequencies[i] << "\n";
     }
     sessionLog << "Final Overall Baseline Frequency: " << overallBaselineFrequency << "\n";
-    for (int i = 0; i < static_cast<int>(siteBaselineFrequencies.size()); i++) {
+    for (int i = 0; i < static_cast<int>(siteBaselineFrequencies.size()); i++)
+    {
         sessionLog << "Site " << i << " Baseline Frequency (After): " << siteBaselineFrequencies[i] << "\n";
     }
     sessionLog << "\n";
     sessionLog.close();
 }
 // Implement therapy session simulation with adjusted timing for testing
-void TreatmentSession::simulateTherapySession() {
+void TreatmentSession::simulateTherapySession()
+{
     std::cout << "Starting therapy session simulation...\n";
-    for (int round = 1; round <= 4; ++round) {
+    for (int round = 1; round <= 4; ++round)
+    {
         std::cout << "Round " << round << " of therapy\n";
         // Simulate 5 seconds for analysis
         std::this_thread::sleep_for(std::chrono::seconds(5));
@@ -108,7 +124,8 @@ void TreatmentSession::simulateTherapySession() {
     std::cout << "Therapy finished\n";
 }
 
-double TreatmentSession::calculateDominantFrequency() {
+double TreatmentSession::calculateDominantFrequency()
+{
     // Placeholder for dominant frequency calculation logic
     // Simplified dominant frequency calculation
     double f1 = 8.0, A1 = 0.5; // Example values for frequency and amplitude
