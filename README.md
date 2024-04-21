@@ -2,10 +2,10 @@
 
 ## Members & Contribution 
 
-- **Siddharth Natamai** - Base Code, Main Use Case, Treatment Session (in-progress)
-- **Kiran Adhikari** - UI Drop Down Menu, Date&Time Use Case, Session Log Use Case, Device State Diagram
-- **Sydney McLeod** - Use Case Document, UML Class Diagram, Session Log Use Case, Traceability Matrix
-- **Kripa Adhikari** - Use Case Document, Sequence Diagram: Normal Operation, Sequence Diagram: Battery Low Diagram, Battery Depletion Use Case
+- **Siddharth Natamai** - Base Code, Main Use Case, Treatment Session, EEG Graph
+- **Kiran Adhikari** - UI Drop Down Menu, Date&Time Use Case, EEG Graph, Session Log Use Case, Device State Diagram
+- **Sydney McLeod** - Use Case Document, UML Class Diagram, Session Log Use Case, Traceability Matrix, PC Output UI
+- **Kripa Adhikari** - Use Case Document, Battery Depletion Use Case, 4 Safety Scenario Sequence Diagrams, Success Scenario Sequence Diagram, Treatment Session Logging & PC Output
 - **Nikhil Sharma** - Created Device UI, New Session Use Case, Date&Time UI  
 
 ## Submission Includes:
@@ -38,3 +38,12 @@
 
 - Nuereset - Documentation : Includes the diagrams, use case document and documentation 
 - README.md
+
+Installation Requirements:
+	Please install QtChart using the following command:
+														sudo apt install libqt5charts5-dev
+
+Note: Please make sure that your VM uses enough CPU cores (at least more than 1) to avoid possible crashes.
+
+Github Repo: https://github.com/sidbmw/COMP_3004_Project
+Youtube Video: 
