@@ -1,4 +1,6 @@
 #include "waveform_generator.h"
+#include <iostream>
+#include <fstream>
 
 WaveformGenerator::WaveformGenerator() {
     // Initialize waveforms for 7 electrodes with different frequency combinations
@@ -33,5 +35,26 @@ std::vector<double> WaveformGenerator::generateWaveform(int electrode, double ti
     return waveform;
 }
 
+void WaveformGenerator::printToLogFile(const std::string& filename, int sessionCount) {
+    // Open the file in append mode
+    std::ofstream logFile(filename, std::ios::app);
 
+    // Check if the file is open and ready for writing
+    if (logFile.is_open()) {
+        logFile << "Session #" << sessionCount << " Waveform Data:\n";  // Increment and use session count
+        // Loop through each electrode's waveform data
+        for (int i = 0; i < waveforms.size(); ++i) {
+            logFile << "Waveform Data for Electrode " << (i + 1) << ":\n";
+            for (const auto& freqAmp : waveforms[i]) {
+                logFile << "Frequency: " << freqAmp.first << " Hz, Amplitude: " << freqAmp.second << "\n";
+            }
+            logFile << "End of Waveform Data for Electrode " << (i + 1) << "\n\n";
+        }
+        std::cout << "Waveform data logged to file: " << filename << std::endl;
+    } else {
+        std::cerr << "Unable to open log file: " << filename << std::endl;
+    }
 
+    // Close the file
+    logFile.close();
+}

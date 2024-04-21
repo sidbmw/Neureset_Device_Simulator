@@ -21,6 +21,8 @@
 #include <QLineSeries>
 #include <QValueAxis>
 #include <cmath>
+#include <QCoreApplication>
+#include <QDir>
 
 int MainWindow::elapsedTime=141;
 
@@ -77,6 +79,16 @@ MainWindow::MainWindow(QWidget *parent)
     chartView = sineWaveChart->displayChart(1);
     chartView->setVisible(false); // Ensure sineWaveChart is hidden initially
     qDebug() << "[MainWindow Constructor] ChartView initialized and hidden.";
+
+    // Create file path for session data log to .txt
+    QString basePath = QCoreApplication::applicationDirPath();
+    QDir dir(basePath);
+    dir.cdUp();
+    sessionLogFilePath = dir.absolutePath() + "/session_treatment_data.txt";
+    QFile file(sessionLogFilePath);
+    if (file.exists()) {
+        file.remove();
+    }
 }
 
 MainWindow::~MainWindow()
@@ -307,8 +319,10 @@ void MainWindow::displayMessage(const QString &output){
 }
 
 void MainWindow::newSession() { // this will be moved to session class later
+
     qDebug() << "[MainWindow::newSession] New session button pressed.";
 
+    sessionCount++;
     sessionEndTime = QDateTime(); // reset session end time
     elapsedTime = 141; // Reset the session duration
 
@@ -360,7 +374,6 @@ void MainWindow::newSession() { // this will be moved to session class later
         startTime = QDateTime::currentDateTime();
     }
 
-
     progressBarTimer = new QTimer(this);
     labelTimer=new QTimer(this);
     chartUpdateTimer=new QTimer(this);
@@ -379,13 +392,14 @@ void MainWindow::newSession() { // this will be moved to session class later
         }
 
         // Check if progress bar is full
-        if (newValue >= 100) {
+        if (newValue == 100) {
             // Stop the timer when progress bar is full
             progressBarTimer->stop();
             labelTimer->stop();
             chartUpdateTimer->stop();
             currentDateAndTime = QDateTime::currentDateTime(); // reset manually set date and time
             sessionEndTime = QDateTime::currentDateTime(); // reset end time
+            generator->printToLogFile(sessionLogFilePath.toStdString(), sessionCount);
         }
     });
 

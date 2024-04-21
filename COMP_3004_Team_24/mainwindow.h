@@ -62,6 +62,9 @@ private:
     QLabel *sessionlabel; // for session log display
     int sessionPos = 0;
 
+    // For keeping track of session data during logs to .txt
+    int sessionCount = 0;
+
     bool pcOn = false;
 
     void displayMessage(const QString &output);
@@ -76,6 +79,7 @@ private:
     QTimer *chartUpdateTimer;
     int currentElectrode;
     SineWaveChart *sineWaveChart;
+    QString sessionLogFilePath;
 
 
 private slots:
@@ -107,4 +111,3 @@ public slots:
     void on_contactOnButton_clicked(); 
 };
 #endif // MAINWINDOW_H
-
