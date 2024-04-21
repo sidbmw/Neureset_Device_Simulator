@@ -382,7 +382,7 @@ border-image: url(&quot;:/images/circle-check-solid.svg&quot;);</string>
      </rect>
     </property>
    </widget>
-   <widget class="QPlainTextEdit" name="computerDisaply">
+   <widget class="QPlainTextEdit" name="computerDisplay">
     <property name="geometry">
      <rect>
       <x>990</x>
