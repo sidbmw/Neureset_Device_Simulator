@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
     , scene(new QGraphicsScene(this))
     , batteryTimer(new QTimer(this))
+    , treatmentSession(new TreatmentSession(this, generator))
     , menu(new QMenu(this))
     , newSessionAction(new QAction("New Session", this))
     , sessionLogAction(new QAction("Session Log", this))
@@ -52,7 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(batteryTimer, SIGNAL(timeout()), this, SLOT(updateBatteryDisplay()));
     connect(ui->powerSourceButton, SIGNAL(clicked()), this, SLOT(togglePowerSource()));
 
-    connect(ui->connectPCButton, SIGNAL(clicked()), this, SLOT(connectPC()));
+    connect(treatmentSession, &TreatmentSession::updateDisplay, this, &MainWindow::updateDisplay);
 
     ui->dateAndTimeDisplay->hide();
     ui->lowBatteryMsg->hide();
@@ -607,15 +608,19 @@ void MainWindow::sessionLog() {
     qDebug() << "[MainWindow::sessionLog] Session log displayed with session count: " << list.size();
 }
 
-void MainWindow::connectPC(){
-    if (pcOn && control->getSystemOn()){
-        ui->computerDisaply->setPlainText("enter data here");
-        pcOn = false;
+void MainWindow::updateDisplay() {
+    QString logFilePath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation) + QDir::separator() + "frequency_log.txt";
+    QFile logFile(logFilePath);
+
+    if (!logFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qDebug() << "Could not open log file for reading:" << logFile.errorString();
+        return; // Make sure to return if you cannot open the file
     }
-    else{
-        ui->computerDisaply->setPlainText("");
-        pcOn = true;
-    }
+
+    QTextStream in(&logFile);
+    QString logContent = in.readAll();
+    ui->computerDisplay->setPlainText(logContent);
+    logFile.close(); // Close the file after reading
 }
 
 void MainWindow::dateTimeSetting() {

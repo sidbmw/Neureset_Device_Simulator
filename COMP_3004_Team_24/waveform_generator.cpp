@@ -1,4 +1,5 @@
 #include "waveform_generator.h"
+#include <cmath>
 
 WaveformGenerator::WaveformGenerator() {
     // Initialize waveforms for 7 electrodes with different frequency combinations
@@ -33,5 +34,26 @@ std::vector<double> WaveformGenerator::generateWaveform(int electrode, double ti
     return waveform;
 }
 
+std::vector<std::pair<double, double>> WaveformGenerator::getFrequencyAmplitudePairsForElectrode(int electrode) {
+    if (electrode < 0 || electrode >= waveforms.size()) {
+        return std::vector<std::pair<double, double>>(); // Return an empty vector for invalid electrode indices
+    }
+    return waveforms[electrode];
+}
 
+double WaveformGenerator::calculateDominantFrequency(const std::vector<std::pair<double, double>>& freqAmpPairs) {
+    double numerator = 0.0;
+    double denominator = 0.0;
+
+    for (const auto& freqAmp : freqAmpPairs) {
+        numerator += freqAmp.first * std::pow(freqAmp.second, 2);
+        denominator += std::pow(freqAmp.second, 2);
+    }
+
+    if (denominator == 0) {
+        return -1; // Avoid division by zero; indicates an error.
+    }
+
+    return numerator / denominator;
+}
 

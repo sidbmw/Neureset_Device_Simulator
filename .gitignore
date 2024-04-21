@@ -3,3 +3,4 @@ build*
 .DS_Store
 *.zip
 COMP_3004_Team_24/COMP_3004_Team_24.pro.user
+frequency_log.txt

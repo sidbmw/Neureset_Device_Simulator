@@ -1,31 +1,26 @@
 #ifndef TREATMENT_SESSION_H
 #define TREATMENT_SESSION_H
 
-#include "eeg_interface.h"
-#include "visual_feedback.h"
-#include "eegsignalsimulator.h" // Include the EEGSignalSimulator header
+#include <QObject>
+#include <QFile>
+#include "waveform_generator.h" // Include the header for WaveformGenerator
 
-class TreatmentSession {
+class TreatmentSession : public QObject {
+    Q_OBJECT
+
 public:
-    TreatmentSession(EEGInterface& eegInterface, VisualFeedback& visualFeedback);
-    ~TreatmentSession();
+    virtual ~TreatmentSession();
+    TreatmentSession(QObject *parent, WaveformGenerator* generator); // Add parameter for the generator
+    void processWaveform(int electrodeIndex);
+    void logFrequency(double frequency);
 
-    void startSession();
-    void runTreatmentCycle();
-    void applyTreatmentToSite(double baselineFrequency, int siteIndex);
-    void calculateInitialBaseline();
-    void calculateFinalBaseline();
-    void exportSessionData() const;
-    void simulateTherapySession();
-    double calculateDominantFrequency();
+signals:
+    void updateDisplay(const QString &text);
 
 private:
-    EEGInterface& eegInterface;
-    VisualFeedback& visualFeedback;
-    EEGSignalSimulator eegSimulator; // Declare eegSimulator as a member variable
-    std::vector<double> baselineFrequencies; // Declare baselineFrequencies as a member variable
-    double overallBaselineFrequency;
-    std::vector<double> siteBaselineFrequencies;
+    WaveformGenerator* waveformGenerator; // Store the reference to the generator
+    double dominantFrequency;
+    QFile logFile;
 };
 
 #endif // TREATMENT_SESSION_H

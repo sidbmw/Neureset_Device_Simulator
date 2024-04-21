@@ -2,19 +2,26 @@
 
 SineWaveChart::SineWaveChart(WaveformGenerator* generator) : waveformGenerator(generator) {}
 
-QChartView* SineWaveChart::displayChart(int electrodeIndex) {
-
+QChartView* SineWaveChart::displayChart(int electrodeIndex, TreatmentSession *treatmentSession) {
     if (!waveformGenerator) {
-            return nullptr;
+        return nullptr;
     }
 
     QLineSeries *series = new QLineSeries();
     std::vector<double> waveform = waveformGenerator->generateWaveform(electrodeIndex, 10); // change num based on display length. I set to 10s default
 
     double timeIncrement = 0.01;
-        for (int i = 0; i < waveform.size(); ++i) {
-            series->append(i * timeIncrement, waveform[i]);
-        }
+    for (int i = 0; i < waveform.size(); ++i) {
+        series->append(i * timeIncrement, waveform[i]);
+    }
+
+    auto freqAmpPairs = waveformGenerator->getFrequencyAmplitudePairsForElectrode(electrodeIndex);
+    double dominantFrequency = waveformGenerator->calculateDominantFrequency(freqAmpPairs);
+
+    if (treatmentSession) {
+        treatmentSession->logFrequency(dominantFrequency);
+    }
+
 
     QChart *chart = new QChart();
     chart->legend()->hide();
@@ -30,3 +37,4 @@ QChartView* SineWaveChart::displayChart(int electrodeIndex) {
 
     return chartView;
 }
+
