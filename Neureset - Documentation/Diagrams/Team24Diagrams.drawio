@@ -1,6 +1,6 @@
-<mxfile host="Electron" modified="2024-04-21T15:06:47.043Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.0.4 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="K9QHmfAjVKdZqN6ROXUl" version="24.0.4" type="device" pages="4">
+<mxfile host="Electron" modified="2024-04-21T16:23:12.844Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.0.4 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="-GNzLOApoWe8TaHyQYeM" version="24.0.4" type="device" pages="5">
   <diagram name="stateDiagram#1" id="piOosJePttCMSbfONAx7">
-    <mxGraphModel dx="1674" dy="844" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+    <mxGraphModel dx="1434" dy="844" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -729,6 +729,181 @@
         </mxCell>
         <mxCell id="EmDO9UxQ7RnhX1_DGtHK-36" value="Alt" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;dashed=1;dashPattern=12 12;shadow=0;textShadow=0;labelBackgroundColor=none;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
           <mxGeometry x="-2090" y="910" width="850" height="140" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+  <diagram id="2X0fzqk92ejVFUm0dwdi" name="safetyScenario-eegSiteFailure">
+    <mxGraphModel dx="5028" dy="1017" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="3300" pageHeight="4681" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-1" value="User" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};rounded=1;strokeWidth=2;labelBackgroundColor=none;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="-1250" y="280" width="100" height="840" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-2" style="edgeStyle=elbowEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;elbow=vertical;curved=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-2014.2777777777776" y="520.0044444444445" as="sourcePoint" />
+            <mxPoint x="-1200" y="520" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-3" style="edgeStyle=elbowEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;elbow=vertical;curved=0;" edge="1" parent="1" source="uZMbvtdCDbEqFBy8iGQ1-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-2020.0026315789473" y="559.9973684210527" as="sourcePoint" />
+            <mxPoint x="-1470" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-4" value="UI/Main Window" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};rounded=1;strokeWidth=2;labelBackgroundColor=none;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="-2065" y="280" width="100" height="840" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-5" style="edgeStyle=elbowEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;elbow=vertical;curved=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-1470.9499999999996" y="599.9973684210527" as="sourcePoint" />
+            <mxPoint x="-1780.0026315789476" y="599.9973684210527" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-6" style="edgeStyle=elbowEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;elbow=vertical;curved=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-1470.0000000000005" y="780.25" as="sourcePoint" />
+            <mxPoint x="-2014.25" y="780.25" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-7" style="edgeStyle=elbowEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;elbow=vertical;curved=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-1470.0000000000005" y="949.9953846153845" as="sourcePoint" />
+            <mxPoint x="-2014.5384615384614" y="949.9953846153845" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-8" value="Handler" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};rounded=1;strokeWidth=2;labelBackgroundColor=none;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="-1520" y="280" width="100" height="840" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-9" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;Team : 24&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-1698" y="88" width="97" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-10" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;Sequence Diagram : Saftey Scenario&amp;nbsp;&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-1809" y="118" width="319" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-11" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;EEG Site Failure&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-1729" y="146" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-12" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;COMP 3004 Final Project&lt;/font&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-2247" y="65" width="222" height="34" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-13" value="Device is running a session" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="-1835" y="340" width="410" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-14" style="edgeStyle=elbowEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;elbow=vertical;curved=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-1780" y="479.67" as="sourcePoint" />
+            <mxPoint x="-2014" y="479.67" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-15" style="edgeStyle=elbowEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;elbow=vertical;curved=0;" edge="1" parent="1" target="uZMbvtdCDbEqFBy8iGQ1-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-1777.9699999999996" y="679.9973684210527" as="sourcePoint" />
+            <mxPoint x="-2010" y="680" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-16" value="EEG Interface" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;html=1;container=0;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};rounded=1;strokeWidth=2;labelBackgroundColor=none;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="-1830" y="280" width="100" height="840" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-17" value="" style="curved=1;endArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-1780.0012903225804" y="400" as="sourcePoint" />
+            <mxPoint x="-1780.0012903225804" y="420" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-1755.84" y="400" />
+              <mxPoint x="-1755.84" y="420" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-18" value="monitoring eeg site signals" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-1771" y="408" width="170" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-19" value="[EEG site fails]" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-1690" y="450" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-20" value="report site failure" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-1890" y="480" width="110" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-21" value="inform user that an EEG site has failed" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-2010" y="520" width="230" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-22" value="inform handler of site failure" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-2010" y="560" width="170" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-23" value="attempt to recalibrate failed site" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-1660" y="600" width="190" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-24" value="[Recalibration sucessful]" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-1705" y="640" width="150" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-25" value="notify the mainwindow of success" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-1980" y="680" width="200" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-26" style="edgeStyle=elbowEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;elbow=vertical;curved=0;" edge="1" parent="1" source="uZMbvtdCDbEqFBy8iGQ1-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-2009.9977777777776" y="720.2544444444445" as="sourcePoint" />
+            <mxPoint x="-1200" y="720" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-27" value="inform user that EEG site signals&amp;nbsp;&lt;div&gt;are reestablished&amp;nbsp;&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-2020" y="720" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-28" value="resume normal operation of device" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-1680" y="780" width="210" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-29" value="[Recalibration failed]" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-1705" y="830" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-30" style="edgeStyle=elbowEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;elbow=vertical;curved=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-1779.9999999999998" y="860.3466666666668" as="sourcePoint" />
+            <mxPoint x="-2013.4166666666665" y="860.3466666666668" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-31" value="notify mainwindow of failure" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-1980" y="860" width="170" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-32" style="edgeStyle=elbowEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;elbow=vertical;curved=0;" edge="1" parent="1" source="uZMbvtdCDbEqFBy8iGQ1-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="-2010" y="900" as="sourcePoint" />
+            <mxPoint x="-1200" y="900" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-33" value="inform user that EEG site signals&lt;div&gt;&amp;nbsp;were not restored&lt;/div&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-2020" y="900" width="200" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-34" value="terminate session" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-1590" y="950" width="120" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-35" value="[All EEG sites are operational]" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-1729" y="1010" width="180" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-36" value="" style="curved=1;endArrow=classic;html=1;rounded=0;" edge="1" parent="1" source="uZMbvtdCDbEqFBy8iGQ1-4" target="uZMbvtdCDbEqFBy8iGQ1-4">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="-2010" y="1040" as="sourcePoint" />
+            <mxPoint x="-2010.0012903225804" y="1060" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="-1985.84" y="1040" />
+              <mxPoint x="-1985.84" y="1060" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-37" value="continue session normally&amp;nbsp;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="-2020" y="1060" width="160" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-38" value="Alt" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;dashed=1;dashPattern=12 12;shadow=0;textShadow=0;labelBackgroundColor=none;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="-2110" y="440" width="1010" height="660" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-39" value="Alt" style="shape=umlFrame;whiteSpace=wrap;html=1;pointerEvents=0;dashed=1;dashPattern=12 12;shadow=0;textShadow=0;labelBackgroundColor=none;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" vertex="1" parent="1">
+          <mxGeometry x="-2065" y="640" width="915" height="340" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-40" value="" style="line;strokeWidth=1;rotatable=0;dashed=1;labelPosition=right;align=left;verticalAlign=middle;spacingTop=0;spacingLeft=6;points=[];portConstraint=eastwest;strokeColor=#6f0000;dashPattern=12 12;" vertex="1" parent="1">
+          <mxGeometry x="-2060" y="820" width="910" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="uZMbvtdCDbEqFBy8iGQ1-41" value="" style="line;strokeWidth=1;rotatable=0;dashed=1;labelPosition=right;align=left;verticalAlign=middle;spacingTop=0;spacingLeft=6;points=[];portConstraint=eastwest;strokeColor=#6f0000;dashPattern=12 12;" vertex="1" parent="1">
+          <mxGeometry x="-2110" y="1000" width="1010" height="10" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
