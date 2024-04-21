@@ -568,6 +568,7 @@ void MainWindow::resetButtonPressed() {
     QProgressBar *progressBar = ui->mainDisplay->findChild<QWidget *>("widget")
                                     ->findChild<QProgressBar *>("progressBar");
     progressBar->setValue(0);
+    chartUpdateTimer->stop();
     elapsedTime = 141;
     pauseButtonPressed();
 }
