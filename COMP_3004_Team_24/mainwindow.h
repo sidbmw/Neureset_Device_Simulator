@@ -34,7 +34,7 @@ public:
     ~MainWindow();
 
     void createWaveChart();
-    void displaySineWaveChart(); 
+    void displaySineWaveChart();
 
 private:
     Ui::MainWindow *ui;
@@ -52,7 +52,9 @@ private:
     QTimer *labelTimer;
     QTimer *contactCheckTimer;
     QTimer *batteryTimer;
+    QTimer *logUpdateTimer;
     int contactLostTimer;
+    TreatmentSession *treatmentSession;
 
     QMenu *menu;
     QAction *newSessionAction;
@@ -94,7 +96,7 @@ private slots:
     void displayNewDateTime();
     void updateEEGChart();
     void clearEEGChart();
-    void connectPC();
+    //void connectPC();
 
 public slots:
     void menuButtonPressed();
@@ -104,7 +106,8 @@ public slots:
     // void checkContactStatus();
     // void contactLostTimeout();
     void togglePowerSource();
-    void on_contactOnButton_clicked(); 
+    void on_contactOnButton_clicked();
+    void updateDisplay();
 };
 #endif // MAINWINDOW_H
 
