@@ -47,8 +47,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(batteryTimer, SIGNAL(timeout()), this, SLOT(updateBatteryDisplay()));
     connect(ui->powerSourceButton, SIGNAL(clicked()), this, SLOT(togglePowerSource()));
 
-    connect(ui->connectPCButton, SIGNAL(clicked()), this, SLOT(connectPC()));
-
     ui->dateAndTimeDisplay->hide();
     ui->lowBatteryMsg->hide();
 
@@ -335,6 +333,7 @@ void MainWindow::displayMessage(const QString &output)
 
 void MainWindow::newSession()
 {
+
     qDebug() << "[MainWindow::newSession] New session button pressed.";
 
     sessionEndTime = QDateTime(); // reset session end time
@@ -448,8 +447,7 @@ void MainWindow::newSession()
                     ui->treatmentIndicator->setStyleSheet("background-color:green");
                     QTimer::singleShot(300, this, [=]()
                                        { ui->treatmentIndicator->setStyleSheet("background-color:none"); });
-                }
-            });
+                } });
 
     // Connect buttons to slots
     connect(ui->play, &QPushButton::clicked, this, &MainWindow::playButtonPressed);
@@ -649,25 +647,10 @@ void MainWindow::sessionLog()
     qDebug() << "[MainWindow::sessionLog] Session log displayed with session count: " << list.size();
 }
 
-void MainWindow::connectPC()
-{
-    if (pcOn && control->getSystemOn())
-    {
-        ui->computerDisplay->setPlainText("enter data here");
-        pcOn = false;
-    }
-    else
-    {
-        ui->computerDisplay->setPlainText("");
-        pcOn = true;
-    }
-}
-
 void MainWindow::PCOutput()
 {
     QString filename = sessionLogFilePath;
     QFile file(filename);
-    qDebug() << "[MainWindow::PCOutPut] File path and text file initialized.";
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
@@ -905,5 +888,4 @@ void MainWindow::clearEEGChart()
 void MainWindow::on_contactOnButton_clicked()
 {
     makeContact(); // Call makeContact when contactOnButton is clicked
-    qDebug() << "[MainWindow::on_contactOnButton] Contact made.";
 }
