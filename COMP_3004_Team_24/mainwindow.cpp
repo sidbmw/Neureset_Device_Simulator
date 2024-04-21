@@ -905,4 +905,5 @@ void MainWindow::clearEEGChart()
 void MainWindow::on_contactOnButton_clicked()
 {
     makeContact(); // Call makeContact when contactOnButton is clicked
+    qDebug() << "[MainWindow::on_contactOnButton] Contact made.";
 }
