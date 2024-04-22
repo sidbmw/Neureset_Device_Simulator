@@ -40,6 +40,8 @@ Installation Requirements:
 	Please install QtChart using the following command:
 														sudo apt install libqt5charts5-dev
 
+To run the simulation, first build it if required by clicking on the hammer button, then click on either of the play buttons to start the application.
+
 Note: Please make sure that your VM uses enough CPU cores (at least more than 1) to avoid possible crashes.
 
 Github Repo: https://github.com/sidbmw/COMP_3004_Project
