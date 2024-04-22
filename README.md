@@ -14,25 +14,22 @@
 	
 - SessionData.cpp
 - device_settings.cpp
-- eeg_interface.cpp
 - handler.cpp
 - main.cpp
 - mainwindow.cpp
 - session_log.cpp
-- treatment_session.cpp
-- visual_feedback.cpp
+- waveform_generator.cpp
+- sinewavechart.cpp
 
 ### Header Files: 
 	
 - SessionData.h
 - device_settings.h
-- eeg_interface.h
 - handler.h
-- main.h
 - mainwindow.h
 - session_log.h
-- treatment_session.h
-- visual_feedback.h
+- sinewavechart.h
+- waveform_generator.h
 
 ### Other Folders & Files:
 
