@@ -46,4 +46,5 @@ Installation Requirements:
 Note: Please make sure that your VM uses enough CPU cores (at least more than 1) to avoid possible crashes.
 
 Github Repo: https://github.com/sidbmw/COMP_3004_Project
+
 Youtube Video: '''https://www.youtube.com/watch?v=0Fq_QKQma1M'''
