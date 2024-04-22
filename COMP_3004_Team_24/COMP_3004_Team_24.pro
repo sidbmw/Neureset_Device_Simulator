@@ -16,12 +16,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     device_settings.cpp \
-    eeg_interface.cpp \
     session_log.cpp \
-    treatment_session.cpp \
-    visual_feedback.cpp \
     waveform_generator.cpp \
-    eegsignalsimulator.cpp \
     sinewavechart.cpp
 
 HEADERS += \
@@ -29,10 +25,7 @@ HEADERS += \
     device_settings.h \
     handler.h \
     mainwindow.h \
-    eeg_interface.h \
     session_log.h \
-    treatment_session.h \
-    eegsignalsimulator.h \
     sinewavechart.h \
     waveform_generator.h
 

@@ -4,21 +4,24 @@
 #include <iostream>
 #include <thread>
 
+// Constructor
 DeviceSettings::DeviceSettings() {}
 
+// Set the date
 void DeviceSettings::setDate(int year, int month, int day) {
     this->year = year;
     this->month = month;
     this->day = day;
 }
 
+// Set the time
 void DeviceSettings::setTime(int hour, int minute, int second) {
     this->hour = hour;
     this->minute = minute;
     this->second = second;
 }
-// Implement connection management for simulating connection loss and
-// re-establishment during therapy sessions
+
+// Simulate connection loss and re-establishment
 void DeviceSettings::simulateConnectionLossAndReestablishment() {
     // Simulate connection loss
     std::cout << "Connection lost. Pausing therapy session...\n";

@@ -23,10 +23,11 @@
 
 #include "sinewavechart.h"
 #include "ui_mainwindow.h"
-#include "visual_feedback.h"
+
 
 int MainWindow::elapsedTime = 141;
 
+// Constructor for MainWindow
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
@@ -94,6 +95,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
 }
 
+// Destructor for MainWindow
 MainWindow::~MainWindow() {
     cleaningTimer();  // Utilize cleaningTimer for cleanup
 
@@ -104,6 +106,7 @@ MainWindow::~MainWindow() {
     delete scene;
 }
 
+// Handles the power button press event
 void MainWindow::powerButtonPressed() {
     qDebug() << "[MainWindow::powerButtonPressed] Power button pressed.";
     if (control->getSystemOn()) {
@@ -131,6 +134,7 @@ void MainWindow::powerButtonPressed() {
     }
 }
 
+// Handles the menu button press event
 void MainWindow::menuButtonPressed() {
     qDebug() << "[MainWindow::menuButtonPressed] Menu button pressed.";
 
@@ -187,6 +191,7 @@ void MainWindow::menuButtonPressed() {
     }
 }
 
+// Handles the up selector button press event
 void MainWindow::upSelectorPressed() {
     qDebug() << "[MainWindow::upSelectorPressed] Up selector button pressed.";
     if (control->getMenuOn()) {
@@ -227,6 +232,7 @@ void MainWindow::upSelectorPressed() {
     }
 }
 
+// Handles the down selector button press event
 void MainWindow::downSelectorPressed() {
     qDebug()
         << "[MainWindow::downSelectorPressed] Down selector button pressed.";
@@ -268,6 +274,7 @@ void MainWindow::downSelectorPressed() {
     }
 }
 
+// Handles the OK button press event
 void MainWindow::okButtonPressed() {
     qDebug() << "[MainWindow::okButtonPressed] OK button pressed.";
     if (control->getMenuOn()) {
@@ -288,6 +295,7 @@ void MainWindow::okButtonPressed() {
     }
 }
 
+// Displays a message on the main display
 void MainWindow::displayMessage(const QString &output) {
     QFrame *parentFrame = ui->mainDisplay;
     clearFrame(parentFrame);
@@ -323,6 +331,7 @@ void MainWindow::displayMessage(const QString &output) {
     });
 }
 
+// Initiates a new session
 void MainWindow::newSession() {
     qDebug() << "[MainWindow::newSession] New session button pressed.";
 
@@ -487,6 +496,7 @@ void MainWindow::newSession() {
     }
 }
 
+// Updates the EEG chart with new data
 void MainWindow::updateEEGChart() {
     qDebug() << "[MainWindow::updateEEGChart] Updating EEG chart.";
     if (!chartView || !chartView->chart()) {
@@ -525,6 +535,7 @@ void MainWindow::updateEEGChart() {
     currentElectrode = (currentElectrode + 1) % 7;
 }
 
+// Handles the play button press event
 void MainWindow::playButtonPressed() {
     qDebug() << "[MainWindow::playButtonPressed] Play button pressed.";
     // Start or resume the timer
@@ -543,6 +554,7 @@ void MainWindow::playButtonPressed() {
     }
 }
 
+// Handles the pause button press event
 void MainWindow::pauseButtonPressed() {
     qDebug() << "[MainWindow::pauseButtonPressed] Pause button pressed.";
     // Pause the timer
@@ -559,6 +571,7 @@ void MainWindow::pauseButtonPressed() {
     }
 }
 
+// Resets the session to its initial state
 void MainWindow::resetButtonPressed() {
     qDebug() << "[MainWindow::resetButtonPressed] Reset button pressed.";
     QLabel *label =
@@ -573,6 +586,7 @@ void MainWindow::resetButtonPressed() {
     pauseButtonPressed();
 }
 
+// Initiates contact with the device
 void MainWindow::makeContact() {
     qDebug() << "[MainWindow::makeContact] Contact on button pressed.";
     control->setIsConnected(true);
@@ -580,12 +594,14 @@ void MainWindow::makeContact() {
         true);  // Show the sineWaveChart when contact is made
 }
 
+// Removes contact with the device
 void MainWindow::removeContact() {
     qDebug() << "[MainWindow::removeContact] Contact off button pressed.";
     control->setIsConnected(false);
     ui->sineWaveChart->setVisible(false);
 }
 
+// Displays the session log
 void MainWindow::sessionLog() {
     qDebug() << "[MainWindow::sessionLog] Entering sessionLog";
 
@@ -636,6 +652,7 @@ void MainWindow::sessionLog() {
         << list.size();
 }
 
+// Outputs session data to the PC
 void MainWindow::PCOutput() {
     QString filename = sessionLogFilePath;
     QFile file(filename);
@@ -653,6 +670,7 @@ void MainWindow::PCOutput() {
     ui->computerDisplay->setPlainText(fileContent);
 }
 
+// Sets the date and time settings
 void MainWindow::dateTimeSetting() {
     qDebug() << "[MainWindow::dateTimeSetting] Date and Time Setting button "
                 "pressed.";
@@ -695,6 +713,7 @@ void MainWindow::dateTimeSetting() {
     connect(updateButton, SIGNAL(clicked()), this, SLOT(displayNewDateTime()));
 }
 
+// Updates the display with the new date and time
 void MainWindow::displayNewDateTime() {
     qDebug() << "[MainWindow::displayNewDateTime] Update Date And Time button "
                 "pressed.";
@@ -719,6 +738,7 @@ void MainWindow::displayNewDateTime() {
     });
 }
 
+// Updates the timer display with the current date and time
 void MainWindow::updateTimer() {
     currentDateAndTime = currentDateAndTime.addSecs(1);
     ui->dateAndTimeDisplay->setText(
@@ -728,6 +748,7 @@ void MainWindow::updateTimer() {
     ui->dateAndTimeDisplay->update();
 }
 
+// Updates the battery display based on the current battery level
 void MainWindow::updateBatteryDisplay() {
     int currentValue = batteryProgressBar->value();
 
@@ -767,6 +788,7 @@ void MainWindow::updateBatteryDisplay() {
     }
 }
 
+// Toggles the power source between battery and external power
 void MainWindow::togglePowerSource() {
     qDebug() << "[MainWindow::togglePowerSource] Power source button pressed.";
     if (control->isConnectedToPowerSource()) {
@@ -780,8 +802,10 @@ void MainWindow::togglePowerSource() {
     }
 }
 
+// Clears the low battery message
 void MainWindow::clearLowBatteryMessage() { lowBatteryMsg->clear(); }
 
+// Cleans up timers and resets indicators
 void MainWindow::cleaningTimer() {
     if (chartUpdateTimer != nullptr) {
         chartUpdateTimer->stop();
@@ -810,12 +834,14 @@ void MainWindow::cleaningTimer() {
     cleaningIndicators();
 }
 
+// Resets the UI indicators to their default state
 void MainWindow::cleaningIndicators() {
     ui->contactIndicator->setStyleSheet("background-color:none");
     ui->contactLostIndicator->setStyleSheet("background-color:none");
     ui->treatmentIndicator->setStyleSheet("background-color:none");
 }
 
+// Clears all widgets from a given frame
 void MainWindow::clearFrame(QFrame *frame) {
     cleaningTimer();
     QLayout *layout = frame->layout();
@@ -832,6 +858,7 @@ void MainWindow::clearFrame(QFrame *frame) {
     }
 }
 
+// Clears the EEG chart display
 void MainWindow::clearEEGChart() {
     if (chartView) {
         // Safely delete the chart if it exists
@@ -844,6 +871,7 @@ void MainWindow::clearEEGChart() {
     }
 }
 
+// Initiates contact when the contactOnButton is clicked
 void MainWindow::on_contactOnButton_clicked() {
     makeContact();  // Call makeContact when contactOnButton is clicked
 }

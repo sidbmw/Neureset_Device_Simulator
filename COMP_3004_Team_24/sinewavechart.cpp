@@ -1,8 +1,10 @@
 #include "sinewavechart.h"
 
+// Constructor
 SineWaveChart::SineWaveChart(WaveformGenerator *generator)
     : waveformGenerator(generator) {}
 
+// Display chart for a given electrode index
 QChartView *SineWaveChart::displayChart(int electrodeIndex) {
     if (!waveformGenerator) {
         return nullptr;
