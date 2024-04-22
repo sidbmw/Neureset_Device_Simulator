@@ -4,12 +4,14 @@
 #include <fstream>
 #include <iostream>
 
+// Constructor
 WaveformGenerator::WaveformGenerator() {
     // Initialize waveforms for 7 electrodes with different frequency
     // combinations
     initWaveforms();
 }
 
+// Initialize waveforms
 void WaveformGenerator::initWaveforms() {
     // Example initialization, real implementation would vary
     waveforms = {
@@ -23,6 +25,7 @@ void WaveformGenerator::initWaveforms() {
     };
 }
 
+// Generate waveform for a given electrode and time
 std::vector<double> WaveformGenerator::generateWaveform(int electrode,
                                                         double time) {
     std::vector<double> waveform;
@@ -41,6 +44,7 @@ std::vector<double> WaveformGenerator::generateWaveform(int electrode,
     return waveform;
 }
 
+// Print waveform data to log file
 void WaveformGenerator::printToLogFile(const std::string &filename,
                                        int sessionCount) {
     // Open the file in append mode
@@ -70,6 +74,7 @@ void WaveformGenerator::printToLogFile(const std::string &filename,
     logFile.close();
 }
 
+// Calculate dominant frequency for a given electrode
 double WaveformGenerator::calculateDominantFrequency(int electrode) {
     double numerator = 0.0;
     double denominator = 0.0;

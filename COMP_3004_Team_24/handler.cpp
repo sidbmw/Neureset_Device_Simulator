@@ -14,15 +14,19 @@ Handler::Handler(bool system_on, QDate date, QTime time) {
 
 // Returns the session log status
 bool Handler ::getSessionLogOn() { return sessionLogOn; }
+
 // Sets the session log status
 void Handler::setSessionLogOn(bool b) { this->sessionLogOn = b; }
+
 // Sets the pause button status
 void Handler::setPauseButton(bool b) { this->pauseButton = b; }
+
 // Returns the pause button status
 bool Handler::getPauseButton() { return pauseButton; }
 
 // Sets the connection status
 void Handler::setIsConnected(bool b) { this->isConnected = b; }
+
 // Returns the connection status
 bool Handler::getIsConnected() { return this->isConnected; }
 
@@ -31,6 +35,7 @@ int Handler::getTotalTimeOfTimer() { return totalTimeOfTimer; }
 
 // Sets the new session status
 void Handler::setInNewSession(bool n) { inNewSession = n; }
+
 // Returns the new session status
 bool Handler::getInNewSession() { return inNewSession; }
 
@@ -58,6 +63,7 @@ int Handler::menuPosDown() {
     }
     return this->menuPos;
 }
+
 // Moves the menu position up
 int Handler::menuPosUp() {
     if (this->menuPos == 1) {
