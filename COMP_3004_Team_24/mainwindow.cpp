@@ -23,7 +23,7 @@
 
 #include "sinewavechart.h"
 #include "ui_mainwindow.h"
-#include "visual_feedback.h"
+
 
 int MainWindow::elapsedTime = 141;
 

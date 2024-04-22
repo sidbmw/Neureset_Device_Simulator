@@ -14,12 +14,9 @@
 #include <QWidget>
 #include <QtCharts>
 
-#include "eeg_interface.h"
 #include "handler.h"
 #include "session_log.h"
 #include "sinewavechart.h"
-#include "treatment_session.h"
-#include "visual_feedback.h"
 #include "waveform_generator.h"
 
 QT_BEGIN_NAMESPACE
